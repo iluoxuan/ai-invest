@@ -34,23 +34,29 @@ create table `user_invest_account`
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_general_ci COMMENT ='用户投资账户';
 
-
-CREATE TABLE `stocks`
+create table tbl_stock_kline
 (
-    `stock_id`    bigint AUTO_INCREMENT PRIMARY KEY COMMENT '股票ID',
-    `stock_code`  varchar(20)  NOT NULL COMMENT '股票代码',
-    `stock_name`  varchar(255) NOT NULL COMMENT '股票名称',
-    `exchange`    varchar(50)  NOT NULL COMMENT '交易所',
-    `industry`    varchar(255) COMMENT '所属行业',
-    `market_cap`  decimal(20, 2) COMMENT '市值',
-    `open_price`  decimal(15, 2) COMMENT '开盘价',
-    `close_price` decimal(15, 2) COMMENT '收盘价',
-    `high_price`  decimal(15, 2) COMMENT '最高价',
-    `low_price`   decimal(15, 2) COMMENT '最低价',
-    `volume`      bigint COMMENT '成交量',
-    `update_time` datetime default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT '修改时间'
+    `id`             bigint auto_increment comment '自增主键',
+    `stock_code`     varchar(20)  not null comment '股票代码',
+    `stock_name`     varchar(128) not null comment '股票名称',
+    `trading_date`   date         not null comment '交易日期（yyyy-MM-dd）',
+    `opening_price`  decimal(15, 2) comment '开盘价格（单位：元）',
+    `closing_price`  decimal(15, 2) comment '收盘价格（单位：元）',
+    `peak_price`     decimal(15, 2) comment '当天最高价格（单位：元）',
+    `bottom_price`   decimal(15, 2) comment '当天最底价格（单位：元）',
+    `change_rate`    decimal(8, 2) comment '涨跌幅%',
+    `change_amount`  decimal(8, 2) comment '涨跌额（单位：元）',
+    `trading_volume` int(11) comment '成交量（单位：手）',
+    `trading_amount` decimal(16, 2) comment '成交额（单位：元）',
+    `amplitude_rate` decimal(8, 2) comment '振幅%',
+    `turnover_rate`  decimal(8, 2) comment '换手率%',
+    `create_time`    datetime     not null comment '创建时间',
+    `update_time`    datetime default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT '修改时间',
+    PRIMARY KEY (id),
+    key `stock_code` (`stock_code`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_general_ci
-    COMMENT = '股票信息表';
+    COMMENT = '股票K线数据';
+
 
