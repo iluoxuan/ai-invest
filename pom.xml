@@ -3,6 +3,11 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.swak</groupId>
+        <artifactId>swak-bom</artifactId>
+        <version>1.0.1-SNAPSHOT</version>
+    </parent>
 
     <groupId>com.swak.ai.invest</groupId>
     <artifactId>ai-invest</artifactId>
@@ -17,6 +22,24 @@
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <weixin-java-open>4.6.0</weixin-java-open>
+
     </properties>
+
+
+    <dependencyManagement>
+
+        <dependencies>
+
+            <dependency>
+                <groupId>com.swak.ai.invest</groupId>
+                <artifactId>ai-invest-dao</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+        </dependencies>
+
+    </dependencyManagement>
 
 </project>
