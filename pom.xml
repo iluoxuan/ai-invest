@@ -16,6 +16,8 @@
     <modules>
         <module>ai-invest-service</module>
         <module>ai-invest-dao</module>
+        <module>ai-invest-data</module>
+        <module>tushare-java-sdk</module>
     </modules>
 
     <properties>

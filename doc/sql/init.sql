@@ -49,7 +49,8 @@ CREATE TABLE `stock`
     `close_price` decimal(15, 2) comment '收盘价',
     `high_price`  decimal(15, 2) comment '最高价',
     `low_price`   decimal(15, 2) comment '最低价',
-    `volume`      bigint comment '成交量',
+    `create_time`      datetime                    not null comment '创建时间',
+
     `update_time` datetime default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP comment '修改时间',
     PRIMARY KEY (stock_id),
     key `stock_code` (`stock_code`)
