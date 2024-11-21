@@ -37,28 +37,6 @@ create table `user_invest_account`
   COLLATE = utf8mb4_general_ci COMMENT ='用户投资账户';
 
 
-CREATE TABLE `stock`
-(
-    `stock_id`    bigint auto_increment comment '股票ID',
-    `stock_code`  varchar(20)  not null comment '股票代码',
-    `stock_name`  varchar(128) not null comment '股票名称',
-    `exchange`    varchar(50)  not null comment '交易所',
-    `industry`    varchar(255) comment '所属行业',
-    `market_cap`  decimal(20, 2) comment '市值',
-    `open_price`  decimal(15, 2) comment '开盘价',
-    `close_price` decimal(15, 2) comment '收盘价',
-    `high_price`  decimal(15, 2) comment '最高价',
-    `low_price`   decimal(15, 2) comment '最低价',
-    `create_time`      datetime                    not null comment '创建时间',
-
-    `update_time` datetime default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP comment '修改时间',
-    PRIMARY KEY (stock_id),
-    key `stock_code` (`stock_code`)
-) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_general_ci
-    COMMENT = '股票信息表';
-
 create table tbl_stock_kline
 (
     `id`             bigint auto_increment comment '自增主键',
@@ -83,3 +61,32 @@ create table tbl_stock_kline
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_general_ci
     COMMENT = '股票K线数据';
+
+
+CREATE TABLE `stock`
+(
+    `id`           BIGINT AUTO_INCREMENT COMMENT '自增主键',
+    `ts_code`      VARCHAR(16)  NOT NULL COMMENT '股票的TS代码，用于唯一标识一只股票',
+    `symbol`       VARCHAR(16)  NOT NULL COMMENT '股票代码，通常由数字组成',
+    `name`         VARCHAR(64)  NOT NULL COMMENT '股票名称，用于标识股票的中文名',
+    `area`         VARCHAR(64)  NOT NULL DEFAULT '' COMMENT '地域信息，如省份或城市',
+    `industry`     VARCHAR(64)  NOT NULL DEFAULT '' COMMENT '所属行业，用于分类股票',
+    `full_name`    VARCHAR(125) NOT NULL DEFAULT '' COMMENT '股票的完整名称，可能包括公司名称等详细信息',
+    `en_name`      VARCHAR(125) NOT NULL DEFAULT '' COMMENT '英文全称，国际投资者参考',
+    `cn_spell`     VARCHAR(16) NOT NULL DEFAULT '' COMMENT '股票的拼音缩写，便于快速搜索',
+    `market`       VARCHAR(255) NOT NULL DEFAULT '' COMMENT '市场类型，如主板、创业板等',
+    `exchange`     VARCHAR(16)  NOT NULL DEFAULT '' COMMENT '交易所代码，如SZSE表示深圳证券交易所',
+    `curr_type`    VARCHAR(10) NOT NULL DEFAULT '' COMMENT '交易货币，如CNY表示人民币',
+    `list_status`  VARCHAR(12)  NOT NULL DEFAULT '' COMMENT '上市状态，L表示已上市，D表示已退市，P表示暂停上市',
+    `list_date`    DATE COMMENT '上市日期，格式为YYYY-MM-DD',
+    `de_list_date` DATE COMMENT '退市日期，如果有，格式为YYYY-MM-DD',
+    `is_hs`        CHAR(1)      NOT NULL DEFAULT '' COMMENT '是否沪深港通标的，N表示不是，H表示沪股通，S表示深股通',
+    `act_name`     VARCHAR(255) NOT NULL DEFAULT '' COMMENT '实际控制人名称，即拥有实际控制权的个人或企业名称',
+    `act_ent_type` VARCHAR(255) NOT NULL DEFAULT '' COMMENT '实际控制人的企业性质，如国有企业、民营企业等',
+    `create_time`  DATETIME     NOT NULL COMMENT '创建时间',
+    `update_time`  DATETIME              DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `uk_tsCode` (`ts_code`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT = '股票信息表';

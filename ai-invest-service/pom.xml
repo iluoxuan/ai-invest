@@ -49,6 +49,10 @@
             <groupId>com.swak</groupId>
             <artifactId>swak-common</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.swak.ai.invest</groupId>
+            <artifactId>tushare-java-sdk</artifactId>
+        </dependency>
 
     </dependencies>
 </project>

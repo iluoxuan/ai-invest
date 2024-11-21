@@ -7,7 +7,7 @@ spring:
   application:
     name: ai-invest
   datasource:
-    url: jdbc:mysql://localhost:3306/swak_demo
+    url: jdbc:mysql://localhost:3306/ai-invest
     username: root
     password: 123456
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -27,15 +27,15 @@ knife4j:
   enable: true
   cors: true
   openapi:
-    title: "swak分层"
+    title: "ai-invest"
     concat: "ljq"
     version: "1.0.0"
     group:
       admin:
         groupName: "管理后台"
         api-rule-resources:
-          - "com.swak.demo.web.controller"
-    url: "http://localhost:8080/doc.html"
+          - "com.swak.ai.invest.web.controller"
+    url: "http://localhost:8081/doc.html"
 
 swak:
   log-trace:

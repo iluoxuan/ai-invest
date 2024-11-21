@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.swak.ai.invest.dao.mapper.StockMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.swak.ai.invest.dao.domain.StockDo">
+        <id column="id" property="id" />
+        <result column="ts_code" property="tsCode" />
+        <result column="symbol" property="symbol" />
+        <result column="name" property="name" />
+        <result column="area" property="area" />
+        <result column="industry" property="industry" />
+        <result column="full_name" property="fullName" />
+        <result column="en_name" property="enName" />
+        <result column="cn_spell" property="cnSpell" />
+        <result column="market" property="market" />
+        <result column="exchange" property="exchange" />
+        <result column="curr_type" property="currType" />
+        <result column="list_status" property="listStatus" />
+        <result column="list_date" property="listDate" />
+        <result column="de_list_date" property="deListDate" />
+        <result column="is_hs" property="isHs" />
+        <result column="act_name" property="actName" />
+        <result column="act_ent_type" property="actEntType" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, ts_code, symbol, `name`, area, industry, full_name, en_name, cn_spell, market, `exchange`, curr_type, list_status, list_date, de_list_date, is_hs, act_name, act_ent_type, create_time, update_time
+    </sql>
+
+</mapper>

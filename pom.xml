@@ -39,6 +39,11 @@
                 <artifactId>ai-invest-dao</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.swak.ai.invest</groupId>
+                <artifactId>tushare-java-sdk</artifactId>
+                <version>${project.version}</version>
+            </dependency>
 
         </dependencies>
 
