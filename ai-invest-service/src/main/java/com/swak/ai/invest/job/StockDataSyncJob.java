@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.function.Consumer;
 
 import static cn.hutool.core.date.DatePattern.PURE_DATE_PATTERN;
 
@@ -38,22 +39,36 @@ public class StockDataSyncJob {
             return;
         }
 
-        stocks.forEach(stock -> {
+        batchSave(stocks, stock -> {
+
+            StockDo stockDo = BeanTools.copy(stock, StockDo.class);
+            stockDo.setCreateTime(new Date());
+            stockDo.setListDate(DateTools.parseWithEmpty(stock.getListDate(), PURE_DATE_PATTERN));
+            stockDo.setDeListDate(DateTools.parseWithEmpty(stock.getDeListDate(), PURE_DATE_PATTERN));
+            stockDo.setCnSpell(stock.getCnspell());
+            stockMapper.insert(stockDo);
+        });
+
+
+    }
+
+
+    private <T> void batchSave(List<T> list, Consumer<T> consumer) {
+        if (CollectionUtil.isEmpty(list)) {
+            return;
+        }
+
+        list.forEach(item -> {
 
             try {
 
-                StockDo stockDo = BeanTools.copy(stock, StockDo.class);
-                stockDo.setCreateTime(new Date());
-                stockDo.setListDate(DateTools.parseWithEmpty(stock.getListDate(), PURE_DATE_PATTERN));
-                stockDo.setDeListDate(DateTools.parseWithEmpty(stock.getDeListDate(), PURE_DATE_PATTERN));
-                stockDo.setCnSpell(stock.getCnspell());
-                stockMapper.insert(stockDo);
+                consumer.accept(item);
             } catch (Exception e) {
-
-                Logs.error("syncStockBasicList", e, stock);
+                Logs.error("batchSave", e, item);
             }
 
         });
 
     }
+
 }
