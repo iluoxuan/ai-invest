@@ -1,8 +1,10 @@
 package com.swak.ai.invest.dao.mapper;
 
-import com.swak.ai.invest.dao.domain.StockDo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.swak.ai.invest.dao.domain.StockDo;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
 
 /**
  * <p>
@@ -15,4 +17,7 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface StockMapper extends BaseMapper<StockDo> {
 
+    default List<StockDo> selectAll() {
+        return this.selectList(null);
+    }
 }
