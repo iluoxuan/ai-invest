@@ -21,5 +21,7 @@ public enum ApiNameEnum {
     //周线行情
     weekly,
 
+    monthly,
+
     ;
 }

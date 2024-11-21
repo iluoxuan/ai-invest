@@ -6,7 +6,7 @@ import lombok.Data;
  * 股票基本信息类
  */
 @Data
-public class StockInfo {
+public class Stock {
 
     // 股票的TS代码，用于唯一标识一只股票
     private String tsCode;

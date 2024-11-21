@@ -8,7 +8,7 @@ import java.math.BigDecimal;
  * 日线行情
  */
 @Data
-public class DailyLine {
+public class TradeLine {
 
     /**
      * 股票代码，例如 "600000.SH"。

@@ -3,7 +3,10 @@ package com.swak.tushar.test;
 import com.alibaba.fastjson2.JSON;
 import com.swak.tushar.SwakTusharAutoConfig;
 import com.swak.tushar.entity.api.ApiNameEnum;
-import com.swak.tushar.entity.basic.StockInfo;
+import com.swak.tushar.entity.basic.Stock;
+import com.swak.tushar.entity.basic.StockCompany;
+import com.swak.tushar.entity.trade.TradeLine;
+import com.swak.tushar.entity.trade.TradeReq;
 import com.swak.tushar.execute.DefaultApiExecute;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
@@ -26,9 +29,26 @@ public class ApiExecuteTest {
     @Test
     public void testBasicData() {
 
-        List<StockInfo> stockInfo = defaultApiExecute.execute(ApiNameEnum.stock_basic, null, StockInfo.class);
+        List<Stock> stock = defaultApiExecute.execute(ApiNameEnum.stock_basic, null, Stock.class);
 
-        log.info("stockInfo: {}", JSON.toJSONString(stockInfo));
+        log.info("stockInfo: {}", JSON.toJSONString(stock));
 
+    }
+
+    @Test
+    public void testStockCompany() {
+
+        List<StockCompany> stockCompanies = defaultApiExecute.execute(ApiNameEnum.stock_company, null, StockCompany.class);
+
+        log.info("stockCompanyInfo: {}", JSON.toJSONString(stockCompanies));
+    }
+
+    @Test
+    public void testTradeLine(){
+
+        TradeReq tradeReq = new TradeReq();
+        tradeReq.setTs_code("873576.BJ");
+        List<TradeLine> tradeLines = defaultApiExecute.execute(ApiNameEnum.daily, tradeReq, TradeLine.class);
+        log.info("tradeLines: {}", JSON.toJSONString(tradeLines));
     }
 }
