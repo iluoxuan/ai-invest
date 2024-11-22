@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.swak.ai.invest.dao.mapper.StockDailyBasicMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.swak.ai.invest.dao.domain.StockDailyBasicDo">
+        <id column="id" property="id" />
+        <result column="ts_code" property="tsCode" />
+        <result column="trade_date" property="tradeDate" />
+        <result column="open" property="open" />
+        <result column="high" property="high" />
+        <result column="low" property="low" />
+        <result column="close" property="close" />
+        <result column="pre_close" property="preClose" />
+        <result column="change" property="change" />
+        <result column="pct_chg" property="pctChg" />
+        <result column="vol" property="vol" />
+        <result column="amount" property="amount" />
+        <result column="turnover_rate" property="turnoverRate" />
+        <result column="turnover_rate_f" property="turnoverRateF" />
+        <result column="volume_ratio" property="volumeRatio" />
+        <result column="pe" property="pe" />
+        <result column="pe_ttm" property="peTtm" />
+        <result column="pb" property="pb" />
+        <result column="ps" property="ps" />
+        <result column="ps_ttm" property="psTtm" />
+        <result column="dv_ratio" property="dvRatio" />
+        <result column="dv_ttm" property="dvTtm" />
+        <result column="total_share" property="totalShare" />
+        <result column="float_share" property="floatShare" />
+        <result column="free_share" property="freeShare" />
+        <result column="total_mv" property="totalMv" />
+        <result column="circ_mv" property="circMv" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, ts_code, trade_date, `open`, high, low, `close`, pre_close, `change`, pct_chg, vol, amount, turnover_rate, turnover_rate_f, volume_ratio, pe, pe_ttm, pb, ps, ps_ttm, dv_ratio, dv_ttm, total_share, float_share, free_share, total_mv, circ_mv, create_time, update_time
+    </sql>
+
+</mapper>

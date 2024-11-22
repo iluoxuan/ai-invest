@@ -2,8 +2,10 @@ package com.swak.ai.invest.job;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.thread.ThreadUtil;
+import com.swak.ai.invest.dao.domain.StockDailyBasicDo;
 import com.swak.ai.invest.dao.domain.StockDailyLineDo;
 import com.swak.ai.invest.dao.domain.StockDo;
+import com.swak.ai.invest.dao.mapper.StockDailyBasicMapper;
 import com.swak.ai.invest.dao.mapper.StockDailyLineMapper;
 import com.swak.ai.invest.dao.mapper.StockMapper;
 import com.swak.lib.common.log.Logs;
@@ -12,6 +14,7 @@ import com.swak.lib.common.tools.DateTools;
 import com.swak.tushar.api.BasicDataApi;
 import com.swak.tushar.api.TradeDataApi;
 import com.swak.tushar.entity.basic.Stock;
+import com.swak.tushar.entity.trade.StockDailyBasic;
 import com.swak.tushar.entity.trade.StockTradeLine;
 import com.swak.tushar.entity.trade.TradeReq;
 import lombok.RequiredArgsConstructor;
@@ -41,6 +44,8 @@ public class StockDataSyncJob {
     private final TradeDataApi tradeDataApi;
 
     private final StockDailyLineMapper stockDailyLineMapper;
+
+    private final StockDailyBasicMapper stockDailyBasicMapper;
 
     public void syncStockBasicList() {
 
@@ -76,6 +81,18 @@ public class StockDataSyncJob {
                     stockDailyLineMapper.insert(dailyLineDo);
 
                 });
+
+                // 每日指标
+                List<StockDailyBasic> dailyBasics = tradeDataApi.stockDailyBasic(req);
+                batchSave(dailyBasics, stockDailyBasic -> {
+
+                    StockDailyBasicDo dailyBasic = BeanTools.copy(stockDailyBasic, StockDailyBasicDo.class);
+
+                    dailyBasic.setCreateTime(new Date());
+                    dailyBasic.setUpdateTime(new Date());
+                    stockDailyBasicMapper.insert(dailyBasic);
+                });
+
             } catch (Exception e) {
                 Logs.error("syncDaily", e, stockDo.getTsCode());
             }
