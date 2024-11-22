@@ -5,7 +5,7 @@ import com.swak.tushar.SwakTusharAutoConfig;
 import com.swak.tushar.entity.api.ApiNameEnum;
 import com.swak.tushar.entity.basic.Stock;
 import com.swak.tushar.entity.basic.StockCompany;
-import com.swak.tushar.entity.trade.TradeLine;
+import com.swak.tushar.entity.trade.StockTradeLine;
 import com.swak.tushar.entity.trade.TradeReq;
 import com.swak.tushar.execute.DefaultApiExecute;
 import lombok.extern.slf4j.Slf4j;
@@ -48,7 +48,7 @@ public class ApiExecuteTest {
 
         TradeReq tradeReq = new TradeReq();
         tradeReq.setTs_code("873576.BJ");
-        List<TradeLine> tradeLines = defaultApiExecute.execute(ApiNameEnum.daily, tradeReq, TradeLine.class);
-        log.info("tradeLines: {}", JSON.toJSONString(tradeLines));
+        List<StockTradeLine> stockTradeLines = defaultApiExecute.execute(ApiNameEnum.daily, tradeReq, StockTradeLine.class);
+        log.info("tradeLines: {}", JSON.toJSONString(stockTradeLines));
     }
 }

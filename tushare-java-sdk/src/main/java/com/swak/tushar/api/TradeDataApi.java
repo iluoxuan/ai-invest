@@ -1,6 +1,7 @@
 package com.swak.tushar.api;
 
-import com.swak.tushar.entity.trade.TradeLine;
+import com.swak.tushar.entity.trade.StockDailyBasic;
+import com.swak.tushar.entity.trade.StockTradeLine;
 import com.swak.tushar.entity.trade.TradeReq;
 
 import java.util.List;
@@ -15,16 +16,21 @@ public interface TradeDataApi {
     /**
      * 日线行情
      */
-    List<TradeLine> daily(TradeReq req);
+    List<StockTradeLine> daily(TradeReq req);
 
     /**
      * 周线行情
      */
-    List<TradeLine> weekly(TradeReq req);
+    List<StockTradeLine> weekly(TradeReq req);
 
     /**
      * 月线行情
      */
-    List<TradeLine> monthly(TradeReq req);
+    List<StockTradeLine> monthly(TradeReq req);
+
+    /**
+     * 每日指标
+     */
+    List<StockDailyBasic> stockDailyBasic(TradeReq req);
 }
 

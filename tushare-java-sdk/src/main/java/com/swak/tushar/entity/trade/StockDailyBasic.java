@@ -1,4 +1,4 @@
-package com.swak.tushar.entity.basic;
+package com.swak.tushar.entity.trade;
 
 import lombok.Data;
 

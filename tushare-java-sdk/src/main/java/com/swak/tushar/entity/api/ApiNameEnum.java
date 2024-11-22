@@ -23,5 +23,7 @@ public enum ApiNameEnum {
 
     monthly,
 
+    daily_basic,
+
     ;
 }

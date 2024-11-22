@@ -133,3 +133,41 @@ CREATE TABLE `stock_monthly_line`
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_general_ci COMMENT = '股票月线行情表';
+
+CREATE TABLE `stock_daily_basic`
+(
+    `id`              BIGINT UNSIGNED AUTO_INCREMENT COMMENT '主键',
+    `ts_code`         VARCHAR(16)    NOT NULL COMMENT '股票代码',
+    `trade_date`      DATE           NOT NULL COMMENT '交易日期',
+    `open`            DECIMAL(18, 2) NOT NULL COMMENT '开盘价',
+    `high`            DECIMAL(18, 2) NOT NULL COMMENT '最高价',
+    `low`             DECIMAL(18, 2) NOT NULL COMMENT '最低价',
+    `close`           DECIMAL(18, 2) NOT NULL COMMENT '收盘价',
+    `pre_close`       DECIMAL(18, 2) COMMENT '昨收价【除权价，前复权】',
+    `change`          DECIMAL(18, 2) COMMENT '涨跌额',
+    `pct_chg`         DECIMAL(18, 2) COMMENT '涨跌幅 【基于除权后的昨收计算的涨跌幅：（今收-除权昨收）/除权昨收 】',
+    `vol`             DECIMAL(18, 2) COMMENT '成交量 （手）',
+    `amount`          DECIMAL(18, 2) COMMENT '成交额 （千元）',
+    `turnover_rate`   DECIMAL(18, 2) COMMENT '换手率（%）',
+    `turnover_rate_f` DECIMAL(18, 2) COMMENT '换手率（自由流通股）',
+    `volume_ratio`    DECIMAL(18, 2) COMMENT '量比',
+    `pe`              DECIMAL(18, 2) COMMENT '市盈率（总市值/净利润， 亏损的PE为空）',
+    `pe_ttm`          DECIMAL(18, 2) COMMENT '市盈率（TTM，亏损的PE为空）',
+    `pb`              DECIMAL(18, 2) COMMENT '市净率（总市值/净资产）',
+    `ps`              DECIMAL(18, 2) COMMENT '市销率',
+    `ps_ttm`          DECIMAL(18, 2) COMMENT '市销率（TTM）',
+    `dv_ratio`        DECIMAL(18, 2) COMMENT '股息率 （%）',
+    `dv_ttm`          DECIMAL(18, 2) COMMENT '股息率（TTM）（%）',
+    `total_share`     DECIMAL(18, 2) COMMENT '总股本 （万股）',
+    `float_share`     DECIMAL(18, 2) COMMENT '流通股本 （万股）',
+    `free_share`      DECIMAL(18, 2) COMMENT '自由流通股本 （万）',
+    `total_mv`        DECIMAL(18, 2) COMMENT '总市值 （万元）',
+    `circ_mv`         DECIMAL(18, 2) COMMENT '流通市值（万元）',
+    `create_time`     DATETIME       NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `update_time`     DATETIME       NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+    PRIMARY KEY (`id`),
+    KEY `idx_ts_code` (`ts_code`),
+    KEY `idx_trade_date` (`trade_date`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT = '股票每日指标';

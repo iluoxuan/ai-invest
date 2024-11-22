@@ -25,8 +25,12 @@ public class StockBuyPlanResult {
     // 亏损比例
     private BigDecimal lossRatio;
 
+    // pe
     private BigDecimal pe;
 
+
+    // 总市值
+    private BigDecimal totalMv;
 
 
 }

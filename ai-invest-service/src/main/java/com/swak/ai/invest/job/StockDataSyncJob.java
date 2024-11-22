@@ -12,7 +12,7 @@ import com.swak.lib.common.tools.DateTools;
 import com.swak.tushar.api.BasicDataApi;
 import com.swak.tushar.api.TradeDataApi;
 import com.swak.tushar.entity.basic.Stock;
-import com.swak.tushar.entity.trade.TradeLine;
+import com.swak.tushar.entity.trade.StockTradeLine;
 import com.swak.tushar.entity.trade.TradeReq;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -67,10 +67,10 @@ public class StockDataSyncJob {
             try {
 
                 req.setTs_code(stockDo.getTsCode());
-                List<TradeLine> dailyTrades = tradeDataApi.daily(req);
-                batchSave(dailyTrades, tradeLine -> {
+                List<StockTradeLine> dailyTrades = tradeDataApi.daily(req);
+                batchSave(dailyTrades, stockTradeLine -> {
 
-                    StockDailyLineDo dailyLineDo = BeanTools.copy(tradeLine, StockDailyLineDo.class);
+                    StockDailyLineDo dailyLineDo = BeanTools.copy(stockTradeLine, StockDailyLineDo.class);
                     dailyLineDo.setCreateTime(new Date());
                     dailyLineDo.setUpdateTime(new Date());
                     stockDailyLineMapper.insert(dailyLineDo);
