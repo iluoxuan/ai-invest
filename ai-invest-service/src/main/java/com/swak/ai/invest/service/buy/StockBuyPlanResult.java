@@ -1,36 +1,24 @@
 package com.swak.ai.invest.service.buy;
 
+import com.swak.ai.invest.dao.domain.StockDo;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
+ * 买入计划结果
+ *
  * @author: ljq
  * @date: 2024/11/22
  */
 @Data
 public class StockBuyPlanResult {
 
-    private String tsCode;
+    private StockDo stock;
 
-    // 总成本
-    private BigDecimal totalCost;
+    // 计划买入金额
+    private BigDecimal planBuyAmount;
 
-    // 平均成本
-    private BigDecimal averageCost;
-
-    // 亏损金额
-    private BigDecimal lossAmount;
-
-    // 亏损比例
-    private BigDecimal lossRatio;
-
-    // pe
-    private BigDecimal pe;
-
-
-    // 总市值
-    private BigDecimal totalMv;
-
-
+    private List<StockBuyPlanUnit> buyPlanUnits;
 }

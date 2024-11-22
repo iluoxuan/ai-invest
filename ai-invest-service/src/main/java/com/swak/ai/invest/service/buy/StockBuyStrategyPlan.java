@@ -8,10 +8,10 @@ package com.swak.ai.invest.service.buy;
  */
 public interface StockBuyStrategyPlan {
 
-    void buyPlan();
+    StockBuyPlanResult buyPlan();
 
     /**
      * 计划名称
      */
-    String name();
+    StockBuyPlanName name();
 }
