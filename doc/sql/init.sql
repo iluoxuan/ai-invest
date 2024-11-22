@@ -55,6 +55,27 @@ create table `account_stock_position`
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_general_ci COMMENT ='账户持仓';
 
+create table `stock_buy_plan`
+(
+    `id`               BIGINT UNSIGNED AUTO_INCREMENT COMMENT '自增主键',
+    `account_id`       varchar(64) NOT NULL comment '账户ID',
+    `ts_code`          VARCHAR(16) NOT NULL COMMENT '股票的TS代码',
+    `quantity`         INT         NOT NULL DEFAULT 0 COMMENT '持仓数量',
+    `plan_type`        INT         NOT NULL DEFAULT 1 COMMENT '计划类型：1：leftBuy 2: rightBuy ',
+    `plan_amount`      DECIMAL(18, 2) COMMENT '计划买入金额',
+    `used_amount`      DECIMAL(18, 2) COMMENT '已用资金',
+    `available_amount` DECIMAL(18, 2) comment '可用资金',
+    `pct_chg`          DECIMAL(18, 2) COMMENT '涨跌幅',
+    `change`           DECIMAL(18, 2) COMMENT '涨跌额',
+    `sort`             INT         NOT NULL DEFAULT 0 COMMENT '排序号',
+    `create_time`      DATETIME    NOT NULL COMMENT '创建时间',
+    `update_time`      DATETIME             DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+    PRIMARY KEY (`id`),
+    KEY `idx_account` (`account_id`, `ts_code`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT ='股票买入计划';
+
 CREATE TABLE `stock`
 (
     `id`           BIGINT UNSIGNED AUTO_INCREMENT COMMENT '自增主键',

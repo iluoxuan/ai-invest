@@ -1,6 +1,5 @@
 package com.swak.ai.invest.service.buy;
 
-import com.swak.ai.invest.dao.domain.StockDo;
 import lombok.Data;
 
 /**
@@ -10,8 +9,7 @@ import lombok.Data;
 @Data
 public class StockBuyContext {
 
-    private StockDo stock;
+    private String tsCode;
 
-
-
+    private String accountId;
 }

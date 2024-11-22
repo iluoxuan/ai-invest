@@ -8,7 +8,7 @@ package com.swak.ai.invest.service.buy;
  */
 public interface StockBuyStrategyPlan {
 
-    StockBuyPlanResult buyPlan();
+    StockBuyPlanResult buyPlan(StockBuyContext context);
 
     /**
      * 计划名称

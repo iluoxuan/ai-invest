@@ -1,7 +1,8 @@
 package com.swak.ai.invest.dao.mapper;
 
-import com.swak.ai.invest.dao.domain.AccountStockPositionDo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.swak.ai.invest.dao.domain.AccountStockPositionDo;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -15,4 +16,11 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface AccountStockPositionMapper extends BaseMapper<AccountStockPositionDo> {
 
+    default AccountStockPositionDo getBy(String accountId, String tsCode) {
+        return selectOne(
+                Wrappers.lambdaQuery(AccountStockPositionDo.class)
+                        .eq(AccountStockPositionDo::getAccountId, accountId)
+                        .eq(AccountStockPositionDo::getTsCode, tsCode)
+        );
+    }
 }
