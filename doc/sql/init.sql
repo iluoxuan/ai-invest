@@ -36,6 +36,24 @@ create table `user_invest_account`
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_general_ci COMMENT ='用户投资账户';
 
+create table `account_stock_position`
+(
+    `id`               BIGINT UNSIGNED AUTO_INCREMENT COMMENT '自增主键',
+    `account_id`       varchar(64) NOT NULL comment '账户ID',
+    `ts_code`          VARCHAR(16) NOT NULL COMMENT '股票的TS代码',
+    `quantity`         INT         NOT NULL DEFAULT 0 COMMENT '持仓数量',
+    `plan_amount`      DECIMAL(18, 2) COMMENT '计划买入金额',
+    `used_amount`      DECIMAL(18, 2) COMMENT '已用资金',
+    `available_amount` DECIMAL(18, 2) comment '可用资金',
+    `pct_chg`          DECIMAL(18, 2) COMMENT '涨跌幅',
+    `change`           DECIMAL(18, 2) COMMENT '涨跌额',
+    `create_time`      DATETIME    NOT NULL COMMENT '创建时间',
+    `update_time`      DATETIME             DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `uk_account` (`account_id`, `ts_code`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT ='账户持仓';
 
 CREATE TABLE `stock`
 (
@@ -102,7 +120,7 @@ CREATE TABLE `stock_weekly_line`
     `vol`         DECIMAL(18, 2) COMMENT '成交量 （手）',
     `amount`      DECIMAL(18, 2) COMMENT '成交额 （千元）',
     `create_time` DATETIME       NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    `update_time` DATETIME       NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+    `update_time` DATETIME                DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
     PRIMARY KEY (`id`),
     KEY `idx_ts_code` (`ts_code`),
     KEY `idx_trade_date` (`trade_date`)
@@ -126,7 +144,7 @@ CREATE TABLE `stock_monthly_line`
     `vol`         DECIMAL(18, 2) COMMENT '成交量 （手）',
     `amount`      DECIMAL(18, 2) COMMENT '成交额 （千元）',
     `create_time` DATETIME       NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    `update_time` DATETIME       NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+    `update_time` DATETIME                DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
     PRIMARY KEY (`id`),
     KEY `idx_ts_code` (`ts_code`),
     KEY `idx_trade_date` (`trade_date`)
@@ -164,7 +182,7 @@ CREATE TABLE `stock_daily_basic`
     `total_mv`        DECIMAL(18, 2) COMMENT '总市值 （万元）',
     `circ_mv`         DECIMAL(18, 2) COMMENT '流通市值（万元）',
     `create_time`     DATETIME       NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    `update_time`     DATETIME       NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+    `update_time`     DATETIME                DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
     PRIMARY KEY (`id`),
     KEY `idx_ts_code` (`ts_code`),
     KEY `idx_trade_date` (`trade_date`)
