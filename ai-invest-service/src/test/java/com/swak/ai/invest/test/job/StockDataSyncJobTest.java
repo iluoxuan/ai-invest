@@ -24,4 +24,10 @@ public class StockDataSyncJobTest {
 
         stockDataSyncJob.syncStockBasicList();
     }
+
+
+    @Test
+    public void testSyncDaily() {
+        stockDataSyncJob.syncDaily();
+    }
 }

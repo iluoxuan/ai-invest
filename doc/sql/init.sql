@@ -67,7 +67,7 @@ CREATE TABLE `stock`
 
 CREATE TABLE `stock_daily_line`
 (
-    `id`          BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY COMMENT '主键',
+    `id`          BIGINT UNSIGNED AUTO_INCREMENT COMMENT '主键',
     `ts_code`     VARCHAR(16)    NOT NULL COMMENT '股票代码',
     `trade_date`  DATE           NOT NULL COMMENT '交易日期',
     `open`        DECIMAL(18, 2) NOT NULL COMMENT '开盘价',
@@ -81,15 +81,15 @@ CREATE TABLE `stock_daily_line`
     `amount`      DECIMAL(18, 2) COMMENT '成交额 （千元）',
     `create_time` DATETIME       NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `update_time` DATETIME       NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
-    KEY `idx_ts_code` (`ts_code`),
-    KEY `idx_trade_date` (`trade_date`)
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `uk_tsCode` (`ts_code`, `trade_date`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_general_ci COMMENT = '股票日线行情表';
 
 CREATE TABLE `stock_weekly_line`
 (
-    `id`          BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY COMMENT '主键',
+    `id`          BIGINT UNSIGNED AUTO_INCREMENT COMMENT '主键',
     `ts_code`     VARCHAR(16)    NOT NULL COMMENT '股票代码',
     `trade_date`  DATE           NOT NULL COMMENT '交易日期',
     `open`        DECIMAL(18, 2) NOT NULL COMMENT '开盘价',
@@ -103,6 +103,7 @@ CREATE TABLE `stock_weekly_line`
     `amount`      DECIMAL(18, 2) COMMENT '成交额 （千元）',
     `create_time` DATETIME       NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `update_time` DATETIME       NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+    PRIMARY KEY (`id`),
     KEY `idx_ts_code` (`ts_code`),
     KEY `idx_trade_date` (`trade_date`)
 ) ENGINE = InnoDB
@@ -112,7 +113,7 @@ CREATE TABLE `stock_weekly_line`
 
 CREATE TABLE `stock_monthly_line`
 (
-    `id`          BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY COMMENT '主键',
+    `id`          BIGINT UNSIGNED PRIMARY KEY COMMENT '主键',
     `ts_code`     VARCHAR(16)    NOT NULL COMMENT '股票代码',
     `trade_date`  DATE           NOT NULL COMMENT '交易日期',
     `open`        DECIMAL(18, 2) NOT NULL COMMENT '开盘价',
@@ -126,6 +127,7 @@ CREATE TABLE `stock_monthly_line`
     `amount`      DECIMAL(18, 2) COMMENT '成交额 （千元）',
     `create_time` DATETIME       NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `update_time` DATETIME       NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+    PRIMARY KEY (`id`),
     KEY `idx_ts_code` (`ts_code`),
     KEY `idx_trade_date` (`trade_date`)
 ) ENGINE = InnoDB

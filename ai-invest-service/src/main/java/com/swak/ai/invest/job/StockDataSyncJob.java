@@ -2,7 +2,9 @@ package com.swak.ai.invest.job;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.thread.ThreadUtil;
+import com.swak.ai.invest.dao.domain.StockDailyLineDo;
 import com.swak.ai.invest.dao.domain.StockDo;
+import com.swak.ai.invest.dao.mapper.StockDailyLineMapper;
 import com.swak.ai.invest.dao.mapper.StockMapper;
 import com.swak.lib.common.log.Logs;
 import com.swak.lib.common.tools.BeanTools;
@@ -38,6 +40,8 @@ public class StockDataSyncJob {
 
     private final TradeDataApi tradeDataApi;
 
+    private final StockDailyLineMapper stockDailyLineMapper;
+
     public void syncStockBasicList() {
 
 
@@ -66,7 +70,10 @@ public class StockDataSyncJob {
                 List<TradeLine> dailyTrades = tradeDataApi.daily(req);
                 batchSave(dailyTrades, tradeLine -> {
 
-
+                    StockDailyLineDo dailyLineDo = BeanTools.copy(tradeLine, StockDailyLineDo.class);
+                    dailyLineDo.setCreateTime(new Date());
+                    dailyLineDo.setUpdateTime(new Date());
+                    stockDailyLineMapper.insert(dailyLineDo);
 
                 });
             } catch (Exception e) {
