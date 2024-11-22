@@ -37,35 +37,9 @@ create table `user_invest_account`
   COLLATE = utf8mb4_general_ci COMMENT ='用户投资账户';
 
 
-create table tbl_stock_kline
-(
-    `id`             bigint auto_increment comment '自增主键',
-    `stock_code`     varchar(20)  not null comment '股票代码',
-    `stock_name`     varchar(128) not null comment '股票名称',
-    `trading_date`   date         not null comment '交易日期（yyyy-MM-dd）',
-    `opening_price`  decimal(15, 2) comment '开盘价格（单位：元）',
-    `closing_price`  decimal(15, 2) comment '收盘价格（单位：元）',
-    `peak_price`     decimal(15, 2) comment '当天最高价格（单位：元）',
-    `bottom_price`   decimal(15, 2) comment '当天最底价格（单位：元）',
-    `change_rate`    decimal(8, 2) comment '涨跌幅%',
-    `change_amount`  decimal(8, 2) comment '涨跌额（单位：元）',
-    `trading_volume` int(11) comment '成交量（单位：手）',
-    `trading_amount` decimal(16, 2) comment '成交额（单位：元）',
-    `amplitude_rate` decimal(8, 2) comment '振幅%',
-    `turnover_rate`  decimal(8, 2) comment '换手率%',
-    `create_time`    datetime     not null comment '创建时间',
-    `update_time`    datetime default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT '修改时间',
-    PRIMARY KEY (id),
-    key `stock_code` (`stock_code`)
-) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_general_ci
-    COMMENT = '股票K线数据';
-
-
 CREATE TABLE `stock`
 (
-    `id`           BIGINT AUTO_INCREMENT COMMENT '自增主键',
+    `id`           BIGINT UNSIGNED AUTO_INCREMENT COMMENT '自增主键',
     `ts_code`      VARCHAR(16)  NOT NULL COMMENT '股票的TS代码，用于唯一标识一只股票',
     `symbol`       VARCHAR(16)  NOT NULL COMMENT '股票代码，通常由数字组成',
     `name`         VARCHAR(64)  NOT NULL COMMENT '股票名称，用于标识股票的中文名',
@@ -73,10 +47,10 @@ CREATE TABLE `stock`
     `industry`     VARCHAR(64)  NOT NULL DEFAULT '' COMMENT '所属行业，用于分类股票',
     `full_name`    VARCHAR(125) NOT NULL DEFAULT '' COMMENT '股票的完整名称，可能包括公司名称等详细信息',
     `en_name`      VARCHAR(125) NOT NULL DEFAULT '' COMMENT '英文全称，国际投资者参考',
-    `cn_spell`     VARCHAR(16) NOT NULL DEFAULT '' COMMENT '股票的拼音缩写，便于快速搜索',
+    `cn_spell`     VARCHAR(16)  NOT NULL DEFAULT '' COMMENT '股票的拼音缩写，便于快速搜索',
     `market`       VARCHAR(255) NOT NULL DEFAULT '' COMMENT '市场类型，如主板、创业板等',
     `exchange`     VARCHAR(16)  NOT NULL DEFAULT '' COMMENT '交易所代码，如SZSE表示深圳证券交易所',
-    `curr_type`    VARCHAR(10) NOT NULL DEFAULT '' COMMENT '交易货币，如CNY表示人民币',
+    `curr_type`    VARCHAR(10)  NOT NULL DEFAULT '' COMMENT '交易货币，如CNY表示人民币',
     `list_status`  VARCHAR(12)  NOT NULL DEFAULT '' COMMENT '上市状态，L表示已上市，D表示已退市，P表示暂停上市',
     `list_date`    DATE COMMENT '上市日期，格式为YYYY-MM-DD',
     `de_list_date` DATE COMMENT '退市日期，如果有，格式为YYYY-MM-DD',
@@ -90,3 +64,70 @@ CREATE TABLE `stock`
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_general_ci COMMENT = '股票信息表';
+
+CREATE TABLE `stock_daily_line`
+(
+    `id`          BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY COMMENT '主键',
+    `ts_code`     VARCHAR(16)    NOT NULL COMMENT '股票代码',
+    `trade_date`  DATE           NOT NULL COMMENT '交易日期',
+    `open`        DECIMAL(18, 2) NOT NULL COMMENT '开盘价',
+    `high`        DECIMAL(18, 2) NOT NULL COMMENT '最高价',
+    `low`         DECIMAL(18, 2) NOT NULL COMMENT '最低价',
+    `close`       DECIMAL(18, 2) NOT NULL COMMENT '收盘价',
+    `pre_close`   DECIMAL(18, 2) COMMENT '昨收价【除权价，前复权】',
+    `change`      DECIMAL(18, 2) COMMENT '涨跌额',
+    `pct_chg`     DECIMAL(18, 2) COMMENT '涨跌幅 【基于除权后的昨收计算的涨跌幅：（今收-除权昨收）/除权昨收 】',
+    `vol`         DECIMAL(18, 2) COMMENT '成交量 （手）',
+    `amount`      DECIMAL(18, 2) COMMENT '成交额 （千元）',
+    `create_time` DATETIME       NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `update_time` DATETIME       NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+    KEY `idx_ts_code` (`ts_code`),
+    KEY `idx_trade_date` (`trade_date`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT = '股票日线行情表';
+
+CREATE TABLE `stock_weekly_line`
+(
+    `id`          BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY COMMENT '主键',
+    `ts_code`     VARCHAR(16)    NOT NULL COMMENT '股票代码',
+    `trade_date`  DATE           NOT NULL COMMENT '交易日期',
+    `open`        DECIMAL(18, 2) NOT NULL COMMENT '开盘价',
+    `high`        DECIMAL(18, 2) NOT NULL COMMENT '最高价',
+    `low`         DECIMAL(18, 2) NOT NULL COMMENT '最低价',
+    `close`       DECIMAL(18, 2) NOT NULL COMMENT '收盘价',
+    `pre_close`   DECIMAL(18, 2) COMMENT '昨收价【除权价，前复权】',
+    `change`      DECIMAL(18, 2) COMMENT '涨跌额',
+    `pct_chg`     DECIMAL(18, 2) COMMENT '涨跌幅 【基于除权后的昨收计算的涨跌幅：（今收-除权昨收）/除权昨收 】',
+    `vol`         DECIMAL(18, 2) COMMENT '成交量 （手）',
+    `amount`      DECIMAL(18, 2) COMMENT '成交额 （千元）',
+    `create_time` DATETIME       NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `update_time` DATETIME       NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+    KEY `idx_ts_code` (`ts_code`),
+    KEY `idx_trade_date` (`trade_date`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT = '股票周线行情表';
+
+
+CREATE TABLE `stock_monthly_line`
+(
+    `id`          BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY COMMENT '主键',
+    `ts_code`     VARCHAR(16)    NOT NULL COMMENT '股票代码',
+    `trade_date`  DATE           NOT NULL COMMENT '交易日期',
+    `open`        DECIMAL(18, 2) NOT NULL COMMENT '开盘价',
+    `high`        DECIMAL(18, 2) NOT NULL COMMENT '最高价',
+    `low`         DECIMAL(18, 2) NOT NULL COMMENT '最低价',
+    `close`       DECIMAL(18, 2) NOT NULL COMMENT '收盘价',
+    `pre_close`   DECIMAL(18, 2) COMMENT '昨收价【除权价，前复权】',
+    `change`      DECIMAL(18, 2) COMMENT '涨跌额',
+    `pct_chg`     DECIMAL(18, 2) COMMENT '涨跌幅 【基于除权后的昨收计算的涨跌幅：（今收-除权昨收）/除权昨收 】',
+    `vol`         DECIMAL(18, 2) COMMENT '成交量 （手）',
+    `amount`      DECIMAL(18, 2) COMMENT '成交额 （千元）',
+    `create_time` DATETIME       NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `update_time` DATETIME       NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+    KEY `idx_ts_code` (`ts_code`),
+    KEY `idx_trade_date` (`trade_date`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT = '股票月线行情表';
