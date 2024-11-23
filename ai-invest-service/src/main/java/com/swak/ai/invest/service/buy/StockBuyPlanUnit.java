@@ -17,8 +17,8 @@ public class StockBuyPlanUnit {
     // 亏损金额
     private BigDecimal totalLossAmount;
 
-    // 平均成本
-    private BigDecimal averageCost;
+    // 当前每股平均成本
+    private BigDecimal averagePrice;
 
     // 买入金额
     private BigDecimal buyAmount;

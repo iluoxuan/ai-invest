@@ -6,12 +6,12 @@ import com.swak.ai.invest.dao.mapper.AccountStockPositionMapper;
 import com.swak.ai.invest.entity.InvestConstants;
 import com.swak.ai.invest.service.data.StockQuote;
 import com.swak.ai.invest.service.data.StockQuoteDataService;
+import com.swak.lib.common.number.BigNumber;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.Date;
 import java.util.Objects;
 
@@ -51,46 +51,45 @@ public class StockLeftFixedBuyStrategy implements StockBuyStrategyPlan {
 
         // 预计最低可能的股价
         BigDecimal planMinPrice = getPlanMinPrice(context.getTsCode());
-
+        // 当前股价
+        BigNumber currentPrice = BigNumber.of(stockQuote.getCurrentPrice());
         // 计算加仓次数
-        BigDecimal maxBuyCnt = NumberUtil.sub(stockQuote.getCurrentPrice(), planMinPrice)
-                .divide(stockQuote.getCurrentPrice().multiply(context.getFallRate()));
+        int maxBuyCnt = currentPrice.sub(planMinPrice).divScale2(currentPrice.mul(context.getFallRate())).intValue();
 
-        BigDecimal minShares = NumberUtil.toBigDecimal(100);
+        int minShares = 100;
 
-        // 初始化变量
-        BigDecimal currentPrice = stockQuote.getCurrentPrice();
-        BigDecimal totalCost = BigDecimal.ZERO;
-        BigDecimal totalShares = BigDecimal.ZERO;
-        for (int i = 1; i <= maxBuyCnt.intValue(); i++) {
+
+        BigNumber totalCost = BigNumber.ZERO;
+        int totalShares = 0;
+        for (int i = 1; i <= maxBuyCnt; i++) {
 
             StockBuyPlanUnit planUnit = new StockBuyPlanUnit();
-
-            // 计算当前加仓后的总成本和总持股数
-            totalCost = totalCost.add(currentPrice.multiply(minShares)).setScale(2, RoundingMode.HALF_UP);
-            totalShares = totalShares.add(minShares);
-
-            // 计算当前持仓平均成本
-            BigDecimal averageCost = totalCost.divide(totalShares, 2, RoundingMode.HALF_UP);
-
-            // 计算当前持仓亏损
-            BigDecimal currentLoss = currentPrice.subtract(averageCost)
-                    .multiply(totalShares).setScale(2, RoundingMode.HALF_UP);
-
-            // 计算当前PE值
-            BigDecimal peValue = currentPrice.multiply(totalShares).divide(totalCost, 2, RoundingMode.HALF_UP);
-
-            // 更新当前股价
-            if (i < maxBuyCnt.intValue()) {
-                currentPrice = currentPrice.multiply(BigDecimal.ONE.subtract(context.getFallRate()))
-                        .setScale(2, RoundingMode.HALF_UP);
+            // 第一次的时候就按当前股价买计算
+            if (i > 1) {
+                currentPrice = currentPrice.mul(BigNumber.ONE.sub(context.getFallRate())).round2HalfUp();
             }
 
-            planUnit.setPe(peValue);
-            planUnit.setBuyPrice(currentPrice);
-            planUnit.setTotalLossAmount(currentLoss);
-            planUnit.setTotalBuyAmount(totalCost);
-            planUnit.setBuyShares(minShares.intValue());
+            // 计算加前面的总成本
+            totalCost = totalCost.add(currentPrice.mul(minShares)).round2HalfUp();
+            // 总股数
+            totalShares = totalShares + minShares;
+
+            // 计算当前持仓平均成本
+            BigNumber averageCost = totalCost.divScale2(totalShares);
+
+            // 计算当前持仓总亏损
+            BigNumber currentLoss = currentPrice.sub(averageCost).mul(totalShares).round2HalfUp();
+
+            // 计算当前PE值
+            BigNumber peValue = currentPrice.mul(totalShares).divScale2(totalCost);
+
+
+            planUnit.setAveragePrice(averageCost.getValue());
+            planUnit.setPe(peValue.getValue());
+            planUnit.setBuyPrice(currentPrice.getValue());
+            planUnit.setTotalLossAmount(currentLoss.getValue());
+            planUnit.setTotalBuyAmount(totalCost.getValue());
+            planUnit.setBuyShares(minShares);
             planResult.getBuyPlanUnits().add(planUnit);
         }
 
