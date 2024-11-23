@@ -42,6 +42,22 @@ swak:
     headers:
       - token
       - marketCode
+  http-client:
+    connect-timeout: 3000
+    socket-timeout: 6000
+    config:
+      xueqiu:
+        url: "https://stock.xueqiu.com"
+        connect-timeout: 3000
+        socket-timeout: 60000
+        connection-request-timeout: 3000
+      api2:
+        url: http://example.com/api2
+        default-max-per-route: 30
+        max-total: 150
+        connection-request-timeout: 1500
+        connect-timeout: 1500
+        socket-timeout: 15000
 
 jetcache:
   statIntervalMinutes: 15
@@ -51,3 +67,4 @@ jetcache:
       type: caffeine #other choose：caffeine
       keyConvertor: fastjson2 #other choose：fastjson/jackson
       limit: 10000
+

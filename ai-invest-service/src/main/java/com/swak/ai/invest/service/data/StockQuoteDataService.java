@@ -1,9 +1,14 @@
 package com.swak.ai.invest.service.data;
 
 import cn.hutool.core.util.NumberUtil;
-import com.alicp.jetcache.anno.CacheType;
-import com.alicp.jetcache.anno.Cached;
+import cn.hutool.core.util.StrUtil;
+import com.alibaba.fastjson2.JSONPath;
+import com.swak.ai.invest.entity.HttpReqPath;
+import com.swak.lib.common.httpclient.SwakHttpClient;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 /**
  * 实时股价数据
@@ -14,18 +19,32 @@ import org.springframework.stereotype.Service;
  * @author: ljq
  * @date: 2024/11/23
  */
+@Slf4j
 @Service
 public class StockQuoteDataService {
 
-    @Cached(name = "stockQuote", key = "#tsCode", expire = 60, cacheType = CacheType.LOCAL)
-    public StockQuote getStockQuote(String tsCode) {
+    //@Cached(name = "stockQuote", key = "#tsCode", expire = 60, cacheType = CacheType.LOCAL)
+    public Optional<StockQuote> getStockQuote(String tsCode) {
 
-        // 爬取对于的实时股价 TODO
-        StockQuote stockQuote = new StockQuote();
-        stockQuote.setTsCode(tsCode);
-        stockQuote.setCurrentPrice(NumberUtil.toBigDecimal(85.45));
-        stockQuote.setPe(NumberUtil.toBigDecimal(16));
-        return stockQuote;
+        try {
+            String result = SwakHttpClient.create(HttpReqNameEnum.xueqiu)
+                    .path(HttpReqPath.xueqiuQuote).addParam("symbol", tsCode).addParam("extend", "detail")
+                    .get();
+            if (StrUtil.isBlank(result)) {
+                return Optional.empty();
+            }
+            StockQuote stockQuote = new StockQuote();
+            stockQuote.setTsCode(tsCode);
+            String currentPrice = JSONPath.of("$.quote.current").eval(result).toString();
+            stockQuote.setCurrentPrice(NumberUtil.toBigDecimal(currentPrice));
+            String pe = JSONPath.of("$.quote.pe_ttm").eval(result).toString();
+            stockQuote.setPe(NumberUtil.toBigDecimal(pe));
+            return Optional.of(stockQuote);
+
+        } catch (Exception e) {
+            log.error("getStockQuote tsCode={}", tsCode, e);
+        }
+        return Optional.empty();
     }
 
 }

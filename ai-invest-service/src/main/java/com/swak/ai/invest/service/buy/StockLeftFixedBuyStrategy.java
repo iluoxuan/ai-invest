@@ -1,5 +1,6 @@
 package com.swak.ai.invest.service.buy;
 
+import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.NumberUtil;
 import com.swak.ai.invest.dao.domain.AccountStockPositionDo;
 import com.swak.ai.invest.dao.mapper.AccountStockPositionMapper;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * 左侧固定比例加仓策略
@@ -51,7 +53,9 @@ public class StockLeftFixedBuyStrategy implements StockBuyStrategyPlan {
             accountStockPositionMapper.insert(stockPosition);
         }
 
-        StockQuote stockQuote = stockQuoteDataService.getStockQuote(context.getTsCode());
+        Optional<StockQuote> stockQuoteOpt = stockQuoteDataService.getStockQuote(context.getTsCode());
+        Assert.isTrue(stockQuoteOpt.isPresent(), "实时股票信息获取失败");
+        StockQuote stockQuote = stockQuoteOpt.get();
 
         // 预计最低可能的股价
         BigDecimal planMinPrice = getPlanMinPrice(context.getTsCode());
