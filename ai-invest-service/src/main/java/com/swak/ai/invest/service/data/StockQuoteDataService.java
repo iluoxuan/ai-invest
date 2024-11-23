@@ -1,6 +1,7 @@
 package com.swak.ai.invest.service.data;
 
 import cn.hutool.core.util.NumberUtil;
+import com.alicp.jetcache.anno.Cached;
 import org.springframework.stereotype.Service;
 
 /**
@@ -15,7 +16,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class StockQuoteDataService {
 
-    //@Cached(name = "stockQuote", key = "#tsCode", expire = 60)
+    @Cached(name = "stockQuote", key = "#tsCode", expire = 60)
     public StockQuote getStockQuote(String tsCode) {
 
         // 爬取对于的实时股价 TODO
