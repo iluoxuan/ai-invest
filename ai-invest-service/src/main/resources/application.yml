@@ -32,7 +32,7 @@ knife4j:
     version: "1.0.0"
     group:
       admin:
-        groupName: "管理后台"
+        groupName: "C端业务"
         api-rule-resources:
           - "com.swak.ai.invest.web.controller"
     url: "http://localhost:8081/doc.html"

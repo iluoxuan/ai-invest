@@ -1,4 +1,4 @@
-package com.swak.ai.invest.web;
+package com.swak.ai.invest.web.controller;
 
 /**
  * @author: ljq
