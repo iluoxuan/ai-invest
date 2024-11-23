@@ -1,6 +1,5 @@
-package com.swak.ai.invest.service.buy;
+package com.swak.ai.invest.entity.buy;
 
-import com.swak.lib.common.number.BigNumber;
 import lombok.Data;
 
 import java.math.BigDecimal;

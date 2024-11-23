@@ -1,4 +1,4 @@
-package com.swak.ai.invest.service.buy;
+package com.swak.ai.invest.entity.buy;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

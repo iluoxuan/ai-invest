@@ -1,4 +1,4 @@
-package com.swak.ai.invest.service.buy;
+package com.swak.ai.invest.entity.buy;
 
 import lombok.Data;
 

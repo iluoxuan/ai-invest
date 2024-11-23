@@ -1,5 +1,9 @@
 package com.swak.ai.invest.service.buy;
 
+import com.swak.ai.invest.entity.buy.StockBuyContext;
+import com.swak.ai.invest.entity.buy.StockBuyPlanName;
+import com.swak.ai.invest.entity.buy.StockBuyPlanResult;
+
 /**
  * 股票加仓计划策略
  *

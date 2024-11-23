@@ -1,6 +1,9 @@
 package com.swak.ai.invest.service.buy;
 
 import com.swak.ai.invest.context.UserContext;
+import com.swak.ai.invest.entity.buy.StockBuyContext;
+import com.swak.ai.invest.entity.buy.StockBuyPlanReq;
+import com.swak.ai.invest.entity.buy.StockBuyPlanResult;
 import com.swak.lib.client.exception.SwakBizException;
 import com.swak.lib.common.tools.BeanTools;
 import lombok.RequiredArgsConstructor;

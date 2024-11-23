@@ -2,8 +2,8 @@ package com.swak.ai.invest.web.controller;
 
 import com.swak.ai.invest.context.UserContext;
 import com.swak.ai.invest.service.buy.StockBuyPlanManager;
-import com.swak.ai.invest.service.buy.StockBuyPlanReq;
-import com.swak.ai.invest.service.buy.StockBuyPlanResult;
+import com.swak.ai.invest.entity.buy.StockBuyPlanReq;
+import com.swak.ai.invest.entity.buy.StockBuyPlanResult;
 import com.swak.lib.client.entity.ApiRes;
 import com.swak.lib.common.annotion.LogTrace;
 import io.swagger.annotations.Api;
