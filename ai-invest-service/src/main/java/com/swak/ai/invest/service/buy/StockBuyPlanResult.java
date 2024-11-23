@@ -1,6 +1,5 @@
 package com.swak.ai.invest.service.buy;
 
-import com.swak.ai.invest.dao.domain.StockDo;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -16,10 +15,10 @@ import java.util.List;
 @Data
 public class StockBuyPlanResult {
 
-    private StockDo stock;
-
     // 计划买入金额
     private BigDecimal planBuyAmount;
 
     private List<StockBuyPlanUnit> buyPlanUnits = new ArrayList<>();
+
+    private int buyCnt;
 }

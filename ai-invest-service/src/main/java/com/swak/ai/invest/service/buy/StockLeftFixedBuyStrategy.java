@@ -58,10 +58,12 @@ public class StockLeftFixedBuyStrategy implements StockBuyStrategyPlan {
 
         int minShares = 100;
 
-        BigNumber fallRate = BigNumber.of(context.getFallRate());
+        BigNumber fallRate = BigNumber.ZERO;
         BigNumber totalCost = BigNumber.ZERO;
         BigDecimal currentPe = stockQuote.getPe();
         int totalShares = 0;
+        planResult.setBuyCnt(maxBuyCnt);
+
         for (int i = 1; i <= maxBuyCnt; i++) {
 
             StockBuyPlanUnit planUnit = new StockBuyPlanUnit();
@@ -84,13 +86,11 @@ public class StockLeftFixedBuyStrategy implements StockBuyStrategyPlan {
             totalCost = totalCost.add(linePrice.mul(minShares)).round2HalfUp();
             // 总股数
             totalShares = totalShares + minShares;
-
             // 计算当前持仓平均成本
             BigNumber averageCost = totalCost.divScale2(totalShares);
 
             // 计算当前持仓总亏损
             BigNumber currentLoss = currentPrice.sub(averageCost).mul(totalShares).round2HalfUp();
-
             planUnit.setAveragePrice(averageCost.getValue());
             planUnit.setPe(linePe);
             planUnit.setBuyPrice(linePrice.getValue());
@@ -100,7 +100,6 @@ public class StockLeftFixedBuyStrategy implements StockBuyStrategyPlan {
             planUnit.setFallRate(fallRate.getValue());
             planResult.getBuyPlanUnits().add(planUnit);
         }
-
         return planResult;
     }
 

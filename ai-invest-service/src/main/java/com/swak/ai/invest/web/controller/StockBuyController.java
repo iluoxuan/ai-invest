@@ -1,5 +1,6 @@
 package com.swak.ai.invest.web.controller;
 
+import com.swak.ai.invest.context.UserContext;
 import com.swak.ai.invest.service.buy.StockBuyPlanManager;
 import com.swak.ai.invest.service.buy.StockBuyPlanReq;
 import com.swak.ai.invest.service.buy.StockBuyPlanResult;
@@ -31,6 +32,9 @@ public class StockBuyController {
     @ApiOperation("左侧加仓")
     @PostMapping("/leftBuy")
     public ApiRes<StockBuyPlanResult> leftBuy(@Valid @RequestBody StockBuyPlanReq req) {
+
+        // 测试
+        UserContext.getInstance().setAccountId("123456");
 
         return ApiRes.success(stockBuyPlanManager.buyPlan(req));
     }

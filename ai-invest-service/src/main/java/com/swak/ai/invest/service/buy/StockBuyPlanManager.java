@@ -1,5 +1,6 @@
 package com.swak.ai.invest.service.buy;
 
+import com.swak.ai.invest.context.UserContext;
 import com.swak.lib.client.exception.SwakBizException;
 import com.swak.lib.common.tools.BeanTools;
 import lombok.RequiredArgsConstructor;
@@ -15,15 +16,17 @@ import java.util.List;
 @Service
 public class StockBuyPlanManager {
 
-    private List<StockBuyStrategyPlan> stockBuyStrategyPlanList;
+    private final List<StockBuyStrategyPlan> stockBuyStrategyPlanList;
 
     public StockBuyPlanResult buyPlan(StockBuyPlanReq req) {
+
+
+        StockBuyContext context = BeanTools.copy(req, StockBuyContext.class);
+        context.setAccountId(UserContext.getInstance().getAccountId());
 
         for (StockBuyStrategyPlan plan : stockBuyStrategyPlanList) {
 
             if (plan.name().equals(req.getPlanName())) {
-
-                StockBuyContext context = BeanTools.copy(req, StockBuyContext.class);
                 return plan.buyPlan(context);
             }
         }
