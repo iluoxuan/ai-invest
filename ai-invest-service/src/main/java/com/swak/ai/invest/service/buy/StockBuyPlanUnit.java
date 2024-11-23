@@ -1,5 +1,6 @@
 package com.swak.ai.invest.service.buy;
 
+import com.swak.lib.common.number.BigNumber;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -24,7 +25,7 @@ public class StockBuyPlanUnit {
     private BigDecimal buyAmount;
 
     // 涨跌幅
-    private BigDecimal pctChg;
+    private BigDecimal fallRate;
 
     // pe
     private BigDecimal pe;

@@ -19,5 +19,7 @@ public class StockQuote {
     // 涨跌幅
     private BigDecimal chg;
 
+    private BigDecimal pe;
+
 
 }

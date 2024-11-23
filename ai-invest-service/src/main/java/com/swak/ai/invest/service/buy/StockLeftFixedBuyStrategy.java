@@ -58,19 +58,30 @@ public class StockLeftFixedBuyStrategy implements StockBuyStrategyPlan {
 
         int minShares = 100;
 
-
+        BigNumber fallRate = BigNumber.of(context.getFallRate());
         BigNumber totalCost = BigNumber.ZERO;
+        BigDecimal currentPe = stockQuote.getPe();
         int totalShares = 0;
         for (int i = 1; i <= maxBuyCnt; i++) {
 
             StockBuyPlanUnit planUnit = new StockBuyPlanUnit();
+
+            BigNumber linePrice = currentPrice;
+            BigDecimal linePe = currentPe;
+
             // 第一次的时候就按当前股价买计算
             if (i > 1) {
-                currentPrice = currentPrice.mul(BigNumber.ONE.sub(context.getFallRate())).round2HalfUp();
+                fallRate = fallRate.add(context.getFallRate());
+                // 计算当前PE
+                StockCalculator calculator = new StockCalculator(currentPe, currentPrice, fallRate);
+                calculator = calculator.calculator();
+                // 新的pe
+                linePrice = calculator.getPrice();
+                linePe = calculator.getPe();
             }
 
             // 计算加前面的总成本
-            totalCost = totalCost.add(currentPrice.mul(minShares)).round2HalfUp();
+            totalCost = totalCost.add(linePrice.mul(minShares)).round2HalfUp();
             // 总股数
             totalShares = totalShares + minShares;
 
@@ -80,16 +91,13 @@ public class StockLeftFixedBuyStrategy implements StockBuyStrategyPlan {
             // 计算当前持仓总亏损
             BigNumber currentLoss = currentPrice.sub(averageCost).mul(totalShares).round2HalfUp();
 
-            // 计算当前PE值
-            BigNumber peValue = currentPrice.mul(totalShares).divScale2(totalCost);
-
-
             planUnit.setAveragePrice(averageCost.getValue());
-            planUnit.setPe(peValue.getValue());
-            planUnit.setBuyPrice(currentPrice.getValue());
+            planUnit.setPe(linePe);
+            planUnit.setBuyPrice(linePrice.getValue());
             planUnit.setTotalLossAmount(currentLoss.getValue());
             planUnit.setTotalBuyAmount(totalCost.getValue());
             planUnit.setBuyShares(minShares);
+            planUnit.setFallRate(fallRate.getValue());
             planResult.getBuyPlanUnits().add(planUnit);
         }
 

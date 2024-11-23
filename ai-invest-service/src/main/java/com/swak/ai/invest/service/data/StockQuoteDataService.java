@@ -21,7 +21,8 @@ public class StockQuoteDataService {
         // 爬取对于的实时股价 TODO
         StockQuote stockQuote = new StockQuote();
         stockQuote.setTsCode(tsCode);
-        stockQuote.setCurrentPrice(NumberUtil.toBigDecimal(80));
+        stockQuote.setCurrentPrice(NumberUtil.toBigDecimal(85.45));
+        stockQuote.setPe(NumberUtil.toBigDecimal(16));
         return stockQuote;
     }
 
