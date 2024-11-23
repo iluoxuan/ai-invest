@@ -42,3 +42,12 @@ swak:
     headers:
       - token
       - marketCode
+
+jetcache:
+  statIntervalMinutes: 15
+  areaInCacheName: false
+  local:
+    default:
+      type: caffeine #other choose：caffeine
+      keyConvertor: fastjson2 #other choose：fastjson/jackson
+      limit: 10000

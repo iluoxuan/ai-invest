@@ -53,6 +53,10 @@
             <groupId>com.swak.ai.invest</groupId>
             <artifactId>tushare-java-sdk</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.alicp.jetcache</groupId>
+            <artifactId>jetcache-autoconfigure</artifactId>
+        </dependency>
 
     </dependencies>
 </project>

@@ -12,4 +12,9 @@ public class StockBuyContext {
     private String tsCode;
 
     private String accountId;
+
+
+    // 每次跌幅比例
+    double fallRate = 0.01;
+
 }

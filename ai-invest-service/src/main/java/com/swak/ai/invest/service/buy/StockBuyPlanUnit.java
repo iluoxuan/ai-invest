@@ -20,7 +20,7 @@ public class StockBuyPlanUnit {
     // 平均成本
     private BigDecimal averageCost;
 
-    // 预计买入金额
+    // 买入金额
     private BigDecimal buyAmount;
 
     // 涨跌幅
@@ -29,9 +29,14 @@ public class StockBuyPlanUnit {
     // pe
     private BigDecimal pe;
 
+    // 每股买入价格
+    private BigDecimal buyPrice;
 
-    // 总市值
+    // 当前公司总市值
     private BigDecimal totalMv;
+
+    // 买入股数
+    private int buyShares;
 
 
 }

@@ -11,14 +11,14 @@ import java.util.Date;
 import java.util.Objects;
 
 /**
- * 左侧加仓策略
+ * 左侧固定比例加仓策略
  *
  * @author: ljq
  * @date: 2024/11/22
  */
 @RequiredArgsConstructor
 @Service
-public class StockLeftBuyStrategy implements StockBuyStrategyPlan {
+public class StockLeftFixedBuyStrategy implements StockBuyStrategyPlan {
 
 
     private final AccountStockPositionMapper accountStockPositionMapper;
@@ -39,7 +39,8 @@ public class StockLeftBuyStrategy implements StockBuyStrategyPlan {
             accountStockPositionMapper.insert(stockPosition);
         }
 
-        // 计算加仓计划
+
+
 
 
         return null;
