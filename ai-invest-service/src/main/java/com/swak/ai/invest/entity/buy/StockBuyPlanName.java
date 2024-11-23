@@ -10,5 +10,7 @@ public enum StockBuyPlanName {
 
     rightBuy,
 
+    aiLeftBuy,
+
     ;
 }
