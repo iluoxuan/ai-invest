@@ -2,6 +2,7 @@ package com.swak.ai.invest.service.buy;
 
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.NumberUtil;
+import com.swak.ai.inverst.common.entity.stock.StockQuote;
 import com.swak.ai.invest.dao.domain.AccountStockPositionDo;
 import com.swak.ai.invest.dao.mapper.AccountStockPositionMapper;
 import com.swak.ai.invest.entity.InvestConstants;
@@ -9,7 +10,6 @@ import com.swak.ai.invest.entity.buy.StockBuyContext;
 import com.swak.ai.invest.entity.buy.StockBuyPlanName;
 import com.swak.ai.invest.entity.buy.StockBuyPlanResult;
 import com.swak.ai.invest.entity.buy.StockBuyPlanUnit;
-import com.swak.ai.invest.service.data.StockQuote;
 import com.swak.ai.invest.service.data.StockQuoteDataService;
 import com.swak.lib.common.number.BigNumber;
 import lombok.RequiredArgsConstructor;

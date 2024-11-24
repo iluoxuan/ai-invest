@@ -4,6 +4,7 @@ import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson2.JSONPath;
 import com.swak.ai.inverst.common.constants.HttpReqConstants;
+import com.swak.ai.inverst.common.entity.stock.StockQuote;
 import com.swak.lib.common.httpclient.SwakHttpClient;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
