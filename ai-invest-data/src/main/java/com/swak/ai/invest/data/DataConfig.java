@@ -1,5 +1,6 @@
 package com.swak.ai.invest.data;
 
+import com.alicp.jetcache.anno.config.EnableMethodCache;
 import com.swak.ai.invest.data.config.SpiderProperties;
 import lombok.RequiredArgsConstructor;
 import org.openqa.selenium.WebDriver;
@@ -16,6 +17,7 @@ import java.util.Collections;
  * @author: ljq
  * @date: 2024/11/24
  */
+@EnableMethodCache(basePackages = "com.swak.ai.invest.data")
 @ComponentScan
 @RequiredArgsConstructor
 @EnableConfigurationProperties(SpiderProperties.class)
