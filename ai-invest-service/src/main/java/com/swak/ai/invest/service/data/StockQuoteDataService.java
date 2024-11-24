@@ -3,7 +3,7 @@ package com.swak.ai.invest.service.data;
 import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson2.JSONPath;
-import com.swak.ai.invest.entity.HttpReqPath;
+import com.swak.ai.inverst.common.constants.HttpReqConstants;
 import com.swak.lib.common.httpclient.SwakHttpClient;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -28,7 +28,7 @@ public class StockQuoteDataService {
 
         try {
             String result = SwakHttpClient.create(HttpReqNameEnum.xueqiu)
-                    .path(HttpReqPath.xueqiuQuote).addParam("symbol", tsCode).addParam("extend", "detail")
+                    .path(HttpReqConstants.Path.xueqiuQuote).addParam("symbol", tsCode).addParam("extend", "detail")
                     .get();
             if (StrUtil.isBlank(result)) {
                 return Optional.empty();

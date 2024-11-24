@@ -23,13 +23,27 @@
             <artifactId>ai-invest-dao</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
+            <groupId>com.swak.ai.invest</groupId>
+            <artifactId>ai-invest-common</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.swak</groupId>
+            <artifactId>swak-common</artifactId>
+        </dependency>
+
+        <dependency>
+            <!-- jsoup HTML parser library @ https://jsoup.org/ -->
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>1.18.1</version>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>4.1.0</version> <!-- 请使用最新版本 -->
         </dependency>
+
     </dependencies>
 
 </project>
