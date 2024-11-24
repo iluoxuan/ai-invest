@@ -41,7 +41,12 @@
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
-            <version>4.1.0</version> <!-- 请使用最新版本 -->
+            <version>4.4.0</version> <!-- 请使用最新版本 -->
+        </dependency>
+
+        <dependency>
+            <groupId>com.alicp.jetcache</groupId>
+            <artifactId>jetcache-autoconfigure</artifactId>
         </dependency>
 
     </dependencies>

@@ -8,6 +8,6 @@ import com.swak.ai.inverst.common.entity.stock.StockQuote;
  */
 public interface StockQuoteSpider {
 
-    StockQuote spider(String tsCode);
+    StockQuote spider(String tsCode) throws Exception;
 
 }

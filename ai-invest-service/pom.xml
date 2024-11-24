@@ -28,6 +28,10 @@
             <groupId>com.swak.ai.invest</groupId>
             <artifactId>ai-invest-common</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.swak.ai.invest</groupId>
+            <artifactId>ai-invest-data</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>com.github.binarywang</groupId>
@@ -58,6 +62,7 @@
             <groupId>com.alicp.jetcache</groupId>
             <artifactId>jetcache-autoconfigure</artifactId>
         </dependency>
+
 
     </dependencies>
 </project>
