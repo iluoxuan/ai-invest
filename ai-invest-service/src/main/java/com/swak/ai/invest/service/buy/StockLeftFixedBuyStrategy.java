@@ -53,7 +53,7 @@ public class StockLeftFixedBuyStrategy implements StockBuyStrategyPlan {
         }
 
         StockQuote stockQuote = defaultStockQuoteSpider.spider(context.getTsCode());
-        Assert.isTrue(stockQuote.isEmpty(), "实时股票信息获取失败");
+        Assert.isFalse(stockQuote.isEmpty(), "实时股票信息获取失败");
 
         // 预计最低可能的股价
         BigDecimal planMinPrice = getPlanMinPrice(context.getTsCode());
