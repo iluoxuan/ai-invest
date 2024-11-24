@@ -7,4 +7,6 @@ package com.swak.ai.invest.data.config;
 public interface SpiderUrl {
 
     String xueQiuDomain = "https://stock.xueqiu.com";
+
+    String quotePath = "/v5/stock/quote.json";
 }

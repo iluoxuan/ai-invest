@@ -27,7 +27,6 @@ public class XueQuiSpiderManager implements StockQuoteSpider {
 
     private final XueQiuPcTokenHandler xueQiuPcTokenHandler;
 
-    private String path = "/v5/stock/quote.json";
 
     @Cached(name = "data:xueQiu:quote", key = "#tsCode", expire = 60, cacheType = CacheType.LOCAL)
     @Override
@@ -38,7 +37,7 @@ public class XueQuiSpiderManager implements StockQuoteSpider {
         String symbol = XueQiuTools.symbol(tsCode);
 
         // 抓取实时数据
-        String url = UriComponentsBuilder.fromHttpUrl(SpiderUrl.xueQiuDomain).path(path)
+        String url = UriComponentsBuilder.fromHttpUrl(SpiderUrl.xueQiuDomain).path(SpiderUrl.quotePath)
                 .queryParam("symbol", symbol)
                 .queryParam("extend", "detail").build().toUriString();
         String quoteJson = Jsoup.connect(url).cookies(xueQiuPcToken.getCookies())
