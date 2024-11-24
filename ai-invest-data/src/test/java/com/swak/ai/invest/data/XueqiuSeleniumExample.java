@@ -1,5 +1,7 @@
 package com.swak.ai.invest.data;
 
+import org.jsoup.Connection;
+import org.jsoup.Jsoup;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -7,12 +9,11 @@ import org.openqa.selenium.chrome.ChromeOptions;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 public class XueqiuSeleniumExample {
-
-
 
 
     public static void main(String[] args) throws IOException {
@@ -33,16 +34,22 @@ public class XueqiuSeleniumExample {
 
         try {
             // 访问目标 URL
-            driver.get("https://xueqiu.com/");
-            driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+            driver.get("https://xueqiu.com/hq");
             String currentUrl = driver.getCurrentUrl();
 
-            //  driver.get(currentUrl);
-
             Set<Cookie> cookies = driver.manage().getCookies();
-            driver.get(currentUrl);
 
-            cookies = driver.manage().getCookies();
+
+            Map<String, String> cookiesMap = new HashMap<>();
+            cookies.forEach(cookie -> {
+                cookiesMap.put(cookie.getName(), cookie.getValue());
+            });
+            String url = "https://stock.xueqiu.com/v5/stock/quote.json?symbol=09988&extend=detail";
+            Connection.Response response = Jsoup.connect(url).cookies(cookiesMap)
+                    .ignoreContentType(true) // 忽略内容类型，允许接收非 HTML 内容
+                    .method(Connection.Method.GET)
+                    .execute();
+            System.out.println(response.body());
 
 
             System.out.println(currentUrl);

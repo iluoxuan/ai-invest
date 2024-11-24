@@ -10,6 +10,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.Collections;
+
 /**
  * @author: ljq
  * @date: 2024/11/24
@@ -32,8 +34,14 @@ public class DataConfig {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--headless"); // 无头模式
         options.addArguments("--remote-allow-origins=*");
+        options.addArguments("no-sandbox");//很关键
         // 创建 ChromeOptions 对象
         options.addArguments("user-agent=" + USER_AGENT);
+
+        // 设置开发者模式
+        options.setExperimentalOption("excludeSwitches", Collections.singletonList("enable-automation"));
+        options.setExperimentalOption("useAutomationExtension", false);
+
         return new ChromeDriver(options);
     }
 

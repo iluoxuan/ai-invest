@@ -8,8 +8,6 @@ import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.openqa.selenium.WebDriver;
 import org.springframework.stereotype.Component;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -25,7 +23,7 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class XueQiuPcTokenHandler {
 
-    public static String xueQiuUrl = "https://xueqiu.com";
+    public static String xueQiuHqUrl = "https://xueqiu.com/hq";
 
     private final WebDriver webDriver;
 
@@ -33,25 +31,20 @@ public class XueQiuPcTokenHandler {
     @Cached(name = "data:getToken", key = "xueQiu", expire = 60, timeUnit = TimeUnit.MINUTES, cacheType = CacheType.LOCAL)
     public XueQiuPcToken getToken() throws Exception {
 
-        XueQiuPcToken xueQiuPcToken = new XueQiuPcToken();
+        try {
+            XueQiuPcToken xueQiuPcToken = new XueQiuPcToken();
 
-        webDriver.get(xueQiuUrl);
-        // 打开首页获取跳转的url
-        String currentUrl = webDriver.getCurrentUrl();
-        // 获取？ 后面的参数
-        MultiValueMap<String, String> queryParams = UriComponentsBuilder.fromHttpUrl(currentUrl)
-                .build()
-                .getQueryParams();
-        String md5Flag = queryParams.getFirst("md5__1038");
-        log.info("getToken md5__1038={}", md5Flag);
-        xueQiuPcToken.setMd5Flag(md5Flag);
+            Connection connection = Jsoup.connect(xueQiuHqUrl);
+            connection.get();
 
+            Map<String, String> cookies = connection.response().cookies();
 
-        Connection connection = Jsoup.connect(currentUrl);
-        connection.get();
-        Map<String, String> cookies = connection.response().cookies();
-        xueQiuPcToken.setCookies(cookies);
-        return xueQiuPcToken;
+            xueQiuPcToken.setCookies(cookies);
+
+            return xueQiuPcToken;
+        } finally {
+            webDriver.quit();
+        }
     }
 
 }
