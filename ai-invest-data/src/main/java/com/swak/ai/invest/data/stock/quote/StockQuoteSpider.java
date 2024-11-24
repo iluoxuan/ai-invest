@@ -1,4 +1,4 @@
-package com.swak.ai.invest.data.stock;
+package com.swak.ai.invest.data.stock.quote;
 
 import com.swak.ai.inverst.common.entity.stock.StockQuote;
 
