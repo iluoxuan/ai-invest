@@ -19,7 +19,6 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Objects;
-import java.util.Optional;
 
 /**
  * 左侧固定比例加仓策略
@@ -53,10 +52,8 @@ public class StockLeftFixedBuyStrategy implements StockBuyStrategyPlan {
             accountStockPositionMapper.insert(stockPosition);
         }
 
-        Optional<StockQuote> stockQuoteOpt = Optional.ofNullable(
-                defaultStockQuoteSpider.spider(context.getTsCode()));
-        Assert.isTrue(stockQuoteOpt.isPresent(), "实时股票信息获取失败");
-        StockQuote stockQuote = stockQuoteOpt.get();
+        StockQuote stockQuote = defaultStockQuoteSpider.spider(context.getTsCode());
+        Assert.isTrue(stockQuote.isEmpty(), "实时股票信息获取失败");
 
         // 预计最低可能的股价
         BigDecimal planMinPrice = getPlanMinPrice(context.getTsCode());

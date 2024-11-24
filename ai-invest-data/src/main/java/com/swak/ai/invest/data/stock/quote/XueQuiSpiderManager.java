@@ -43,8 +43,8 @@ public class XueQuiSpiderManager implements StockQuoteSpider {
                 .ignoreContentType(true)
                 .method(Connection.Method.GET)
                 .execute().body();
-        Object currentPrice = JSONPath.of("$.quote.current").eval(quoteJson);
-        Object pe = JSONPath.of("$.quote.pe_ttm").eval(quoteJson);
+        Object currentPrice = JSONPath.of("$.data.quote.current").eval(quoteJson);
+        Object pe = JSONPath.of("$.data.quote.pe_ttm").eval(quoteJson);
         Assert.notNull(currentPrice, "currentPrice is null");
         Assert.notNull(pe, "pe is null");
 

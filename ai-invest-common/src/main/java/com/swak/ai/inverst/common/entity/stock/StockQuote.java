@@ -1,5 +1,6 @@
 package com.swak.ai.inverst.common.entity.stock;
 
+import cn.hutool.core.util.ObjectUtil;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -20,6 +21,10 @@ public class StockQuote {
     private BigDecimal chg;
 
     private BigDecimal pe;
+
+    public boolean isEmpty() {
+        return ObjectUtil.hasEmpty(currentPrice, pe);
+    }
 
 
 }
