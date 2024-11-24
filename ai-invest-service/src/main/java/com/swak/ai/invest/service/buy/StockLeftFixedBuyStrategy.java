@@ -53,8 +53,8 @@ public class StockLeftFixedBuyStrategy implements StockBuyStrategyPlan {
             accountStockPositionMapper.insert(stockPosition);
         }
 
-        String symbol = StockTools.symbol(context.getTsCode());
-        Optional<StockQuote> stockQuoteOpt = Optional.ofNullable(defaultStockQuoteSpider.spider(symbol));
+        Optional<StockQuote> stockQuoteOpt = Optional.ofNullable(
+                defaultStockQuoteSpider.spider(context.getTsCode()));
         Assert.isTrue(stockQuoteOpt.isPresent(), "实时股票信息获取失败");
         StockQuote stockQuote = stockQuoteOpt.get();
 
