@@ -3,7 +3,6 @@ package com.swak.ai.invest.service.buy;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.NumberUtil;
 import com.swak.ai.inverst.common.entity.stock.StockQuote;
-import com.swak.ai.inverst.common.entity.stock.StockTools;
 import com.swak.ai.invest.dao.domain.AccountStockPositionDo;
 import com.swak.ai.invest.dao.mapper.AccountStockPositionMapper;
 import com.swak.ai.invest.data.stock.quote.DefaultStockQuoteSpider;

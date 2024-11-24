@@ -1,5 +1,6 @@
 package com.swak.ai.invest.data.stock.quote;
 
+import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.NumberUtil;
 import com.alibaba.fastjson2.JSONPath;
 import com.alicp.jetcache.anno.CacheType;
@@ -32,22 +33,26 @@ public class XueQuiSpiderManager implements StockQuoteSpider {
 
         XueQiuPcToken xueQiuPcToken = xueQiuPcTokenHandler.getToken();
 
+        String symbol = XueQiuTools.symbol(tsCode);
+
         // 抓取实时数据
         String url = UriComponentsBuilder.fromHttpUrl(SpiderUrl.xueQiuDomain).path(path)
-                .queryParam("symbol", tsCode)
+                .queryParam("symbol", symbol)
                 .queryParam("extend", "detail").build().toUriString();
         String quoteJson = Jsoup.connect(url).cookies(xueQiuPcToken.getCookies())
                 .ignoreContentType(true)
                 .method(Connection.Method.GET)
                 .execute().body();
-        String currentPrice = JSONPath.of("$.quote.current").eval(quoteJson).toString();
-        String pe = JSONPath.of("$.quote.pe_ttm").eval(quoteJson).toString();
+        Object currentPrice = JSONPath.of("$.quote.current").eval(quoteJson);
+        Object pe = JSONPath.of("$.quote.pe_ttm").eval(quoteJson);
+        Assert.notNull(currentPrice, "currentPrice is null");
+        Assert.notNull(pe, "pe is null");
 
         // 获取价格
         StockQuote stockQuote = new StockQuote();
         stockQuote.setTsCode(tsCode);
-        stockQuote.setCurrentPrice(NumberUtil.toBigDecimal(currentPrice));
-        stockQuote.setPe(NumberUtil.toBigDecimal(pe));
+        stockQuote.setCurrentPrice(NumberUtil.toBigDecimal(String.valueOf(currentPrice)));
+        stockQuote.setPe(NumberUtil.toBigDecimal(String.valueOf(pe)));
         return stockQuote;
     }
 }
