@@ -5,12 +5,12 @@ import cn.hutool.core.util.NumberUtil;
 import com.swak.ai.inverst.common.entity.stock.StockQuote;
 import com.swak.ai.invest.dao.domain.AccountStockPositionDo;
 import com.swak.ai.invest.dao.mapper.AccountStockPositionMapper;
+import com.swak.ai.invest.data.stock.quote.DefaultStockQuoteSpider;
 import com.swak.ai.invest.entity.InvestConstants;
 import com.swak.ai.invest.entity.buy.StockBuyContext;
 import com.swak.ai.invest.entity.buy.StockBuyPlanName;
 import com.swak.ai.invest.entity.buy.StockBuyPlanResult;
 import com.swak.ai.invest.entity.buy.StockBuyPlanUnit;
-import com.swak.ai.invest.service.data.StockQuoteDataService;
 import com.swak.lib.common.number.BigNumber;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,7 +35,7 @@ public class StockLeftFixedBuyStrategy implements StockBuyStrategyPlan {
 
     private final AccountStockPositionMapper accountStockPositionMapper;
 
-    private final StockQuoteDataService stockQuoteDataService;
+    private final DefaultStockQuoteSpider defaultStockQuoteSpider;
 
     @Override
     public StockBuyPlanResult buyPlan(StockBuyContext context) {
@@ -53,7 +53,7 @@ public class StockLeftFixedBuyStrategy implements StockBuyStrategyPlan {
             accountStockPositionMapper.insert(stockPosition);
         }
 
-        Optional<StockQuote> stockQuoteOpt = stockQuoteDataService.getStockQuote(context.getTsCode());
+        Optional<StockQuote> stockQuoteOpt = Optional.ofNullable(defaultStockQuoteSpider.spider(context.getTsCode()));
         Assert.isTrue(stockQuoteOpt.isPresent(), "实时股票信息获取失败");
         StockQuote stockQuote = stockQuoteOpt.get();
 

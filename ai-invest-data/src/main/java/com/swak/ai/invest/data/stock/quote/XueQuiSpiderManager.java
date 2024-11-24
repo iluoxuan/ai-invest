@@ -25,7 +25,7 @@ public class XueQuiSpiderManager implements StockQuoteSpider {
 
     private String path = "/v5/stock/quote.json";
 
-    @Cached(name = "xueQiu:quote", key = "#tsCode", expire = 60, cacheType = CacheType.LOCAL)
+    @Cached(name = "data:xueQiu:quote", key = "#tsCode", expire = 60, cacheType = CacheType.LOCAL)
     @Override
     public StockQuote spider(String tsCode) throws Exception {
 

@@ -30,7 +30,7 @@ public class XueQiuPcTokenHandler {
     private final WebDriver webDriver;
 
 
-    @Cached(name = "getToken", key = "xueQiu", expire = 60, timeUnit = TimeUnit.MINUTES, cacheType = CacheType.LOCAL)
+    @Cached(name = "data:getToken", key = "xueQiu", expire = 60, timeUnit = TimeUnit.MINUTES, cacheType = CacheType.LOCAL)
     public XueQiuPcToken getToken() throws Exception {
 
         XueQiuPcToken xueQiuPcToken = new XueQiuPcToken();
