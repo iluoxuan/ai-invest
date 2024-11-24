@@ -22,6 +22,15 @@ public class StockQuote {
 
     private BigDecimal pe;
 
+    // 52周最低
+    private BigDecimal low52w;
+
+    // 52周最高
+    private BigDecimal high52w;
+
+    // 涨跌幅
+    private BigDecimal percent;
+
     public boolean isEmpty() {
         return ObjectUtil.hasEmpty(currentPrice, pe);
     }

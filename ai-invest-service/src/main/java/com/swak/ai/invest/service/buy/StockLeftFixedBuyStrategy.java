@@ -56,7 +56,7 @@ public class StockLeftFixedBuyStrategy implements StockBuyStrategyPlan {
         Assert.isFalse(stockQuote.isEmpty(), "实时股票信息获取失败");
 
         // 预计最低可能的股价
-        BigDecimal planMinPrice = getPlanMinPrice(context.getTsCode());
+        BigDecimal planMinPrice = getPlanMinPrice(stockQuote);
         // 当前股价
         BigNumber currentPrice = BigNumber.of(stockQuote.getCurrentPrice());
         // 计算加仓次数
@@ -96,9 +96,11 @@ public class StockLeftFixedBuyStrategy implements StockBuyStrategyPlan {
         return planResult;
     }
 
-    private BigDecimal getPlanMinPrice(String tsCode) {
+    private BigDecimal getPlanMinPrice(StockQuote stockQuote) {
 
-        return NumberUtil.toBigDecimal(68);
+        // TODO 计算最低加仓位置 默认取52周最低
+
+        return stockQuote.getLow52w();
     }
 
     @Override

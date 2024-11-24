@@ -15,6 +15,8 @@ import org.jsoup.Jsoup;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.math.BigDecimal;
+
 /**
  * @author: ljq
  * @date: 2024/11/24
@@ -45,14 +47,24 @@ public class XueQuiSpiderManager implements StockQuoteSpider {
                 .execute().body();
         Object currentPrice = JSONPath.of("$.data.quote.current").eval(quoteJson);
         Object pe = JSONPath.of("$.data.quote.pe_ttm").eval(quoteJson);
+        Object high52w = JSONPath.of("$.data.quote.high52w").eval(quoteJson);
+        Object low52w = JSONPath.of("$.data.quote.low52w").eval(quoteJson);
+        Object percent = JSONPath.of("$.data.quote.percent").eval(quoteJson);
         Assert.notNull(currentPrice, "currentPrice is null");
         Assert.notNull(pe, "pe is null");
 
         // 获取价格
         StockQuote stockQuote = new StockQuote();
         stockQuote.setTsCode(tsCode);
-        stockQuote.setCurrentPrice(NumberUtil.toBigDecimal(String.valueOf(currentPrice)));
-        stockQuote.setPe(NumberUtil.toBigDecimal(String.valueOf(pe)));
+        stockQuote.setCurrentPrice(to(currentPrice));
+        stockQuote.setPe(to(pe));
+        stockQuote.setPercent(to(percent));
+        stockQuote.setLow52w(to(low52w));
+        stockQuote.setHigh52w(to(high52w));
         return stockQuote;
+    }
+
+    public BigDecimal to(Object value) {
+        return NumberUtil.toBigDecimal(String.valueOf(value));
     }
 }
