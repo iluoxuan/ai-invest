@@ -1,0 +1,61 @@
+{
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+
+
+		{
+			"path": "pages/user/welcome/step1",
+			"style": {
+				"navigationBarTitleText": "第一步"
+			}
+		},
+		{
+			"path": "pages/user/welcome/step2",
+			"style": {
+				"navigationBarTitleText": "第二步"
+			}
+		},
+		{
+			"path": "pages/user/welcome/step3",
+			"style": {
+				"navigationBarTitleText": "第三步"
+			}
+		},
+		{
+			"path": "pages/user/welcome/step4",
+			"style": {
+				"navigationBarTitleText": "第4步"
+			}
+		},
+		{
+			"path": "pages/user/init/home",
+			"style": {
+				"navigationBarTitleText": "账户"
+			}
+		},
+		{
+			"path": "pages/start/stepOne",
+			"style": {
+				"navigationBarTitleText": "第一步"
+			}
+		},
+		{
+			"path": "pages/start/stepTwo",
+			"style": {
+				"navigationBarTitleText": "第二部"
+			}
+		},
+		{
+			"path": "pages/start/start1",
+			"style": {
+				"navigationBarTitleText": "投资引导"
+			}
+		}
+	],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "uni-app",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F8F8F8"
+	},
+	"uniIdRouter": {}
+}
