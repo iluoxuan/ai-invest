@@ -49,6 +49,20 @@
 			"style": {
 				"navigationBarTitleText": "投资引导"
 			}
+		},
+		{
+			"path" : "pages/stock/add",
+			"style" : 
+			{
+				"navigationBarTitleText" : "加仓"
+			}
+		},
+		{
+			"path" : "pages/stock/addPlan",
+			"style" : 
+			{
+				"navigationBarTitleText" : "加仓计划"
+			}
 		}
 	],
 	"globalStyle": {
