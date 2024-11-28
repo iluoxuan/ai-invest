@@ -3,7 +3,7 @@
 
 		<!-- 搜索框 -->
 		<view class="search-box">
-			<input type="text" placeholder="搜索股票" />
+			<input type="text" placeholder="搜索股票" @blur="addPlan"/>
 		</view>
 
 		<view class="stock-add-tip">
@@ -76,6 +76,19 @@
 					}
 				]
 			};
+		},
+		methods: {
+		
+			addPlan() {
+				this.navigateToNextPage();
+		
+			},
+			navigateToNextPage() {
+				// 使用uni-app的页面跳转方法
+				uni.navigateTo({
+					url: '/pages/stock/addPlan' // 替换为目标页面的路径
+				});
+			}
 		}
 	};
 </script>

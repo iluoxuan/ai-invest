@@ -49,19 +49,19 @@
 
 		<view class="action">
 
-			<view class="action-add" @click="handleClick('加仓')">
+			<view class="action-add" @click="addStock('加仓')">
 				<view class="action-add-text">
 					加仓
 				</view>
 			</view>
 
-			<view class="action-add" @click="handleClick('市场')">
+			<view class="action-add" @click="market('市场')">
 				<view class="action-add-text">
 					市场
 				</view>
 			</view>
 
-			<view class="action-add" @click="handleClick('市场')">
+			<view class="action-add" @click="subStock('市场')">
 				<view class="action-add-text">
 					减仓
 				</view>
@@ -115,6 +115,20 @@
 					}
 				]
 			};
+		},
+
+		methods: {
+
+			addStock() {
+				this.navigateToNextPage();
+
+			},
+			navigateToNextPage() {
+				// 使用uni-app的页面跳转方法
+				uni.navigateTo({
+					url: '/pages/stock/add' // 替换为目标页面的路径
+				});
+			}
 		}
 	};
 </script>
@@ -202,7 +216,7 @@
 			margin-top: 50rpx;
 
 			.action-add {
-			    margin-left: 50rpx;
+				margin-left: 50rpx;
 				width: 24%;
 				height: 150rpx;
 				background-color: #fcebe3;
@@ -213,10 +227,10 @@
 				align-items: center;
 				/* 垂直居中 */
 				justify-content: center;
-				
+
 			}
-			
-			.action-add-text{
+
+			.action-add-text {
 				/* 水平居中 */
 				text-align: center;
 				box-sizing: border-box;
