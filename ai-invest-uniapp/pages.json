@@ -1,7 +1,5 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
-
-
 		{
 			"path": "pages/user/welcome/step1",
 			"style": {
@@ -45,23 +43,15 @@
 			}
 		},
 		{
-			"path": "pages/start/start1",
+			"path": "pages/stock/add",
 			"style": {
-				"navigationBarTitleText": "投资引导"
+				"navigationBarTitleText": "加仓"
 			}
 		},
 		{
-			"path" : "pages/stock/add",
-			"style" : 
-			{
-				"navigationBarTitleText" : "加仓"
-			}
-		},
-		{
-			"path" : "pages/stock/addPlan",
-			"style" : 
-			{
-				"navigationBarTitleText" : "加仓计划"
+			"path": "pages/stock/addPlan",
+			"style": {
+				"navigationBarTitleText": "加仓计划"
 			}
 		}
 	],

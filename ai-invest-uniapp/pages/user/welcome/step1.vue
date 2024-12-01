@@ -3,18 +3,16 @@
 
 		<view class="tip">
 
-			<view class="tip-text">
-				如果你是中长线投资者
-			</view>
-			<view class="tip-text">
-				投资持有周期至少在六个月以上
-			</view>
-			<view class="tip-text">
-				我们将帮助你更好的执行计划
-			</view>
-			<view class="tip-text">
-				请开始您家庭资产盘点
-			</view>
+			<text>
+				如果你是中长线投资者,投资持有周期至少在六个月以上
+				我们将帮助你更好的执行计划,请开始您家庭资产盘点
+			</text>
+
+		</view>
+
+		<view class="tip">
+			<!-- 使用 Typewriter 组件并传递文本和速度参数 -->
+			<Typewriter :text="msg" :speed="180" :showCursor="false" />
 		</view>
 
 		<view class="pandian" @click="handleClick('盘点')">
@@ -27,14 +25,20 @@
 </template>
 
 <script>
+	import Typewriter from '@/components/Typewriter.vue'; // 引入打字机组件
+
+
 	export default {
+		components: {
+			Typewriter
+		},
 		data() {
 			return {
-
+				msg: "如果你是中长线投资者,投资持有周期至少在六个月以上我们将帮助你更好的执行计划,请开始您家庭资产盘点"
 			}
 		},
 		methods: {
-			
+
 			handleClick(item) {
 				console.log(`点击了 ${item}`);
 				uni.navigateTo({
@@ -61,15 +65,21 @@
 	.tip {
 		/* 段落之间间距 */
 		text-align: left;
-		margin-top: 200rpx;
-		margin-bottom: 50rpx;
+		margin: 200rpx 50rpx 100rpx 100rpx;
+
+		::v-deep .typewriter-text {
+			font-size: 30rpx;
+			color: #dca476;
+			/* 设置文字颜色 */
+			line-height: 1.5;
+		}
 	}
 
-	.tip-text {
+	.tip text {
 		font-size: 30rpx;
 		color: #dca476;
 		/* 设置文字颜色 */
-		padding: 10rpx;
+		line-height: 1.5;
 
 	}
 

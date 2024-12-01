@@ -3,7 +3,7 @@
 
 		<!-- 搜索框 -->
 		<view class="search-box">
-			<input type="text" placeholder="搜索股票" @blur="addPlan"/>
+			<input type="text" placeholder="搜索股票" @blur="addPlan" />
 		</view>
 
 		<view class="stock-add-tip">
@@ -33,9 +33,11 @@
 </template>
 
 <script>
+
 	export default {
 		data() {
 			return {
+				msg: "这是一个来自其他页面的打字机效果示例！"
 				totalAssets: "1,075,244.75",
 				totalProfitLoss: "-553.51",
 				dailyReferencePL: "653.00",
@@ -78,10 +80,10 @@
 			};
 		},
 		methods: {
-		
+
 			addPlan() {
 				this.navigateToNextPage();
-		
+
 			},
 			navigateToNextPage() {
 				// 使用uni-app的页面跳转方法
