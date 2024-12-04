@@ -25,13 +25,13 @@ public class AccountService {
 
     public void init(AccountInitReq req) {
 
-        UserInvestAccountDo account = userInvestAccountMapper.getByUserId(UserContext.getUserId());
+        UserInvestAccountDo account = userInvestAccountMapper.getByUserId(UserContext.getInstance().getUserId());
         if(Objects.nonNull(account)){
             return;
         }
 
         account = BeanTools.copy(req, UserInvestAccountDo.class);
-        account.setUserId(UserContext.getUserId());
+        account.setUserId(UserContext.getInstance().getUserId());
         account.setAccountId(IdWorker.getIdStr());
         account.setAvailableAmount(req.getTotalAmount());
         account.setCreateTime(new Date());

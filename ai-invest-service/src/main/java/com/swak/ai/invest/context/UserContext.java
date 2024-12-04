@@ -22,15 +22,6 @@ public class UserContext {
     public static UserContext getInstance() {
         return context.get();
     }
-
-    public static String getUserId() {
-        return getInstance().getUserId();
-    }
-
-    public static String getAccountId() {
-        return getInstance().getAccountId();
-    }
-
     public static void remove() {
         context.remove();
     }
