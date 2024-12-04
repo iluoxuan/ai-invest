@@ -1,6 +1,5 @@
 package com.swak.ai.invest.web.controller;
 
-import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.swak.ai.invest.context.UserContext;
 import com.swak.ai.invest.entity.account.AccountInitReq;
 import com.swak.ai.invest.service.account.AccountService;
@@ -27,7 +26,7 @@ import javax.validation.Valid;
 @RestController
 public class AccountController {
 
-    private AccountService accountService;
+    private final AccountService accountService;
 
     @ApiOperation("初始化账户信息")
     @PostMapping("/init")
