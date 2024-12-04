@@ -22,13 +22,17 @@
 
 		</view>
 		<view class="uni-form-item">
-			<input class="uni-input" type="number" placeholder="" @blur="handleClick('step4')"/>
+			<input class="uni-input" type="number" placeholder="" @blur="handleClick('step4')" />
 		</view>
 
 	</view>
 </template>
 
 <script>
+	import {
+		initAccount
+	} from '@/api/invest.js';
+
 	export default {
 		data() {
 			return {
@@ -37,11 +41,23 @@
 		},
 		methods: {
 
-			handleClick(item) {
-				console.log(`点击了 ${item}`);
-				uni.navigateTo({
-					url: '/pages/user/init/home'
-				});
+			async handleClick(item) {
+
+				try {
+					// 调用初始化投资账户的API
+					const response = await initAccount({
+						planAmount: "100000",
+						totalAmount: "100000",
+						monthlyExpenses: "10000",
+						monthlyIncome: "10000"
+					});
+
+				} catch (error) {
+					uni.showToast({
+						title: '投资账户初始化失败，请重试',
+						icon: 'none'
+					});
+				}
 			}
 
 		}

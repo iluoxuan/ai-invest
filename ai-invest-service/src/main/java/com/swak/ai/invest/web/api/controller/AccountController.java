@@ -1,4 +1,4 @@
-package com.swak.ai.invest.web.controller;
+package com.swak.ai.invest.web.api.controller;
 
 import com.swak.ai.invest.context.UserContext;
 import com.swak.ai.invest.entity.account.AccountInitReq;
@@ -21,7 +21,7 @@ import javax.validation.Valid;
  */
 @LogTrace
 @Api(tags = "账户")
-@RequestMapping("/account")
+@RequestMapping("/api/account")
 @RequiredArgsConstructor
 @RestController
 public class AccountController {

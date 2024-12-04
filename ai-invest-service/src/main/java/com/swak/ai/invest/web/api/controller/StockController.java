@@ -1,9 +1,9 @@
-package com.swak.ai.invest.web.controller;
+package com.swak.ai.invest.web.api.controller;
 
 import com.swak.ai.invest.context.UserContext;
-import com.swak.ai.invest.service.buy.StockBuyPlanManager;
 import com.swak.ai.invest.entity.buy.StockBuyPlanReq;
 import com.swak.ai.invest.entity.buy.StockBuyPlanResult;
+import com.swak.ai.invest.service.buy.StockBuyPlanManager;
 import com.swak.lib.client.entity.ApiRes;
 import com.swak.lib.common.annotion.LogTrace;
 import io.swagger.annotations.Api;
@@ -22,10 +22,10 @@ import javax.validation.Valid;
  */
 @LogTrace
 @Api(tags = "股票仓位")
-@RequestMapping("/stock/position")
+@RequestMapping("/api/stock")
 @RequiredArgsConstructor
 @RestController
-public class StockBuyController {
+public class StockController {
 
     private final StockBuyPlanManager stockBuyPlanManager;
 

@@ -1,15 +1,25 @@
 "use strict";
 const common_vendor = require("../../../common/vendor.js");
+const api_invest = require("../../../api/invest.js");
 const _sfc_main = {
   data() {
     return {};
   },
   methods: {
-    handleClick(item) {
-      console.log(`点击了 ${item}`);
-      common_vendor.index.navigateTo({
-        url: "/pages/user/init/home"
-      });
+    async handleClick(item) {
+      try {
+        const response = await api_invest.initAccount({
+          planAmount: "100000",
+          totalAmount: "100000",
+          monthlyExpenses: "10000",
+          monthlyIncome: "10000"
+        });
+      } catch (error) {
+        common_vendor.index.showToast({
+          title: "投资账户初始化失败，请重试",
+          icon: "none"
+        });
+      }
     }
   }
 };
