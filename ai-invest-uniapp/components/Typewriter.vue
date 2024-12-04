@@ -1,10 +1,8 @@
 <!-- components/Typewriter.vue -->
 <template>
-	<view class="typewriter-container">
-		<text class="typewriter-text">{{ currentText }}</text>
-		<!-- 可选：添加光标效果 -->
-		<span v-if="showCursor" class="cursor"></span>
-	</view>
+
+	<text class="typewriter-text">{{ currentText }}</text>
+
 </template>
 
 <script setup>
@@ -13,6 +11,9 @@
 		watch,
 		onMounted,
 		onUnmounted
+	} from 'vue';
+	import {
+		defineEmits
 	} from 'vue';
 
 	// 定义 props
@@ -28,8 +29,15 @@
 		showCursor: {
 			type: Boolean,
 			default: true, // 是否显示光标
+		},
+		onComplete: {
+			type: Function, // 回调函数，当打字完成时调用
+			default: null, // 如果没有提供回调函数，则默认为 null
 		}
 	});
+
+    // 兼容微信小程序
+	const emit = defineEmits(['complete']); // 确保这里正确定义 emit
 
 	// 定义需要逐个字符打印的文本
 	const originalText = ref(props.text);
@@ -52,6 +60,14 @@
 		} else {
 			// 打印完毕后清除定时器
 			clearTimeout(timer);
+			// 发射 complete 事件
+			emit('complete'); // 触发 complete 事件
+			console.log("clearTimeout after");
+			if (props.onComplete) {
+				console.log("onComplete start");
+				props.onComplete();
+				console.log("onComplete end");
+			}
 		}
 	};
 
@@ -79,21 +95,6 @@
 </script>
 
 <style scoped>
-	/* 保留基本布局和动画样式 */
-	.typewriter-container {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-	}
-
-	.cursor {
-		margin-left: 2px;
-		background-color: black;
-		width: 2px;
-		height: 1em;
-		animation: blink 1s step-end infinite;
-	}
-
 	@keyframes blink {
 		50% {
 			opacity: 0;

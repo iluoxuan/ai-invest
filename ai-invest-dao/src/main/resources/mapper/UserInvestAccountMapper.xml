@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.swak.ai.invest.dao.mapper.UserInvestAccountMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.swak.ai.invest.dao.domain.UserInvestAccountDo">
+        <id column="account_id" property="accountId" />
+        <result column="user_id" property="userId" />
+        <result column="plan_amount" property="planAmount" />
+        <result column="total_amount" property="totalAmount" />
+        <result column="monthly_expenses" property="monthlyExpenses" />
+        <result column="monthly_income" property="monthlyIncome" />
+        <result column="actual_amount" property="actualAmount" />
+        <result column="used_amount" property="usedAmount" />
+        <result column="frozen_amount" property="frozenAmount" />
+        <result column="available_amount" property="availableAmount" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        account_id, user_id, plan_amount, total_amount, monthly_expenses, monthly_income, actual_amount, used_amount, frozen_amount, available_amount, create_time, update_time
+    </sql>
+
+</mapper>

@@ -21,7 +21,7 @@ public class MybatisGen extends MybatisPlusBaseGen {
         genInfo.setJdbcUrl(url);
         genInfo.setModelName("ai-invest-dao");
         genInfo.setPackageName("com.swak.ai.invest.dao");
-        genInfo.setGenTableName("account_stock_position");
+        genInfo.setGenTableName("user_invest_account");
         new MybatisGen().gen(genInfo);
 
     }

@@ -2,7 +2,7 @@
 <template>
 	<view>
 		<!-- 使用 Typewriter 组件 -->
-		<Typewriter :text="message" :speed="75" :showCursor="false" />
+		<Typewriter :text="message" :speed="75" :showCursor="false" @onComplete='handleOnComplete'/>
 	</view>
 </template>
 

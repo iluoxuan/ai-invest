@@ -37,7 +37,6 @@
 	export default {
 		data() {
 			return {
-				msg: "这是一个来自其他页面的打字机效果示例！"
 				totalAssets: "1,075,244.75",
 				totalProfitLoss: "-553.51",
 				dailyReferencePL: "653.00",

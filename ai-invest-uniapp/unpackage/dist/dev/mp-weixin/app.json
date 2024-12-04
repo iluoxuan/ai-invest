@@ -1,0 +1,20 @@
+{
+  "pages": [
+    "pages/user/welcome/step1",
+    "pages/user/welcome/step2",
+    "pages/user/welcome/step3",
+    "pages/user/welcome/step4",
+    "pages/user/init/home",
+    "pages/start/stepOne",
+    "pages/start/stepTwo",
+    "pages/stock/add",
+    "pages/stock/addPlan"
+  ],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "uni-app",
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "backgroundColor": "#F8F8F8"
+  },
+  "usingComponents": {}
+}

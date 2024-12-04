@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "第一步",
+  "usingComponents": {
+    "typewriter": "../../../components/Typewriter"
+  }
+}

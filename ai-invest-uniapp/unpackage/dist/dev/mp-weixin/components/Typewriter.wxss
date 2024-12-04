@@ -1,0 +1,6 @@
+
+@keyframes blink-1e44b6e9 {
+50% {
+			opacity: 0;
+}
+}
