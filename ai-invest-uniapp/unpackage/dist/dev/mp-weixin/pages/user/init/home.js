@@ -1,8 +1,12 @@
 "use strict";
 const common_vendor = require("../../../common/vendor.js");
+const config_env = require("../../../config/env.js");
+const url = `${config_env.env.INVEST_URL}/api/account/info`;
+console.log("url", url);
 const _sfc_main = {
   data() {
     return {
+      account: {},
       totalAssets: "1,075,244.75",
       totalProfitLoss: "-553.51",
       dailyReferencePL: "653.00",
@@ -45,7 +49,48 @@ const _sfc_main = {
       ]
     };
   },
+  onLoad() {
+    this.getAccountInfo();
+  },
   methods: {
+    // 定义一个包装函数，返回 Promise
+    requestWrapper(options) {
+      return new Promise((resolve, reject) => {
+        common_vendor.index.request({
+          ...options,
+          success: (res) => resolve([null, res]),
+          fail: (err) => resolve([err, null])
+        });
+      });
+    },
+    async getAccountInfo() {
+      var _a, _b;
+      try {
+        const [err, res] = await this.requestWrapper({
+          url,
+          method: "POST",
+          header: {
+            "content-type": "application/json"
+          },
+          data: {},
+          complete: (res2) => {
+            console.log("请求完成:", res2);
+          }
+        });
+        if (err) {
+          console.error("获取账户信息失败:", err);
+          throw new Error("获取账户信息失败");
+        }
+        if (!res.data || !res.data.success) {
+          console.error("API 调用不成功:", ((_a = res.data) == null ? void 0 : _a.msg) || "未知错误");
+          throw new Error(((_b = res.data) == null ? void 0 : _b.msg) || "未知错误");
+        }
+        this.account = res.data.data.account;
+      } catch (error) {
+        console.error("投资账户初始化发生错误:", error.message);
+        throw error;
+      }
+    },
     addStock() {
       this.navigateToNextPage();
     },
@@ -59,9 +104,9 @@ const _sfc_main = {
 };
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   return {
-    a: common_vendor.t($data.totalAssets),
-    b: common_vendor.t($data.totalProfitLoss),
-    c: common_vendor.t($data.dailyReferencePL),
+    a: common_vendor.t($data.account.totalAmount),
+    b: common_vendor.t($data.account.usedAmount),
+    c: common_vendor.t($data.account.planAmount),
     d: common_vendor.t($data.totalAssets),
     e: common_vendor.t($data.totalProfitLoss),
     f: common_vendor.t($data.dailyReferencePL),

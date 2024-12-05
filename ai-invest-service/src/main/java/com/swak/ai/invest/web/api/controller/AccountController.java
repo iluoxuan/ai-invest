@@ -1,6 +1,7 @@
 package com.swak.ai.invest.web.api.controller;
 
 import com.swak.ai.invest.context.UserContext;
+import com.swak.ai.invest.entity.account.AccountInfoRes;
 import com.swak.ai.invest.entity.account.AccountInitReq;
 import com.swak.ai.invest.service.account.AccountService;
 import com.swak.lib.client.entity.ApiRes;
@@ -36,5 +37,12 @@ public class AccountController {
 
         accountService.init(req);
         return ApiRes.success();
+    }
+
+    @ApiOperation("账户信息")
+    @PostMapping("/info")
+    public ApiRes<AccountInfoRes> info() {
+        UserContext.getInstance().setUserId("12334455556666677");
+        return ApiRes.success(accountService.info());
     }
 }

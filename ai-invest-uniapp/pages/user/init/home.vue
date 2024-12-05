@@ -4,15 +4,15 @@
 		<view class="summary-row">
 			<view class="item">
 				<text class="title">总资产</text>
-				<text class="amount">{{ totalAssets }}</text>
+				<text class="amount">{{ account.totalAmount }}</text>
 			</view>
 			<view class="item">
 				<text class="title">总市值</text>
-				<text class="amount">{{ totalProfitLoss }}</text>
+				<text class="amount">{{ account.usedAmount }}</text>
 			</view>
 			<view class="item">
 				<text class="title">总计划</text>
-				<text class="amount">{{ dailyReferencePL }}</text>
+				<text class="amount">{{ account.planAmount }}</text>
 			</view>
 		</view>
 
@@ -40,7 +40,7 @@
 				<text class="column-title">成本/现价</text>
 			</view>
 			<view class="row" v-for="(holding, index) in holdings" :key="index">
-				<text class="column-value">阿里巴巴{{ holding.marketValue }}</text>
+				<text class="column-value">{{ holding.marketValue }}</text>
 				<text class="column-value">{{ holding.profitLoss }}</text>
 				<text class="column-value">{{ holding.holdings }}</text>
 				<text class="column-value">{{ holding.costPrice }} / {{ holding.currentPrice }}</text>
@@ -72,9 +72,13 @@
 </template>
 
 <script>
+	import env from '@/config/env';
+	const url = `${env.INVEST_URL}/api/account/info`;
+	console.log("url", url)
 	export default {
 		data() {
 			return {
+				account: {},
 				totalAssets: "1,075,244.75",
 				totalProfitLoss: "-553.51",
 				dailyReferencePL: "653.00",
@@ -117,7 +121,56 @@
 			};
 		},
 
+		onLoad() {
+			this.getAccountInfo();
+		},
+
 		methods: {
+
+			// 定义一个包装函数，返回 Promise
+			requestWrapper(options) {
+				return new Promise((resolve, reject) => {
+					uni.request({
+						...options,
+						success: (res) => resolve([null, res]),
+						fail: (err) => resolve([err, null])
+					});
+				});
+			},
+
+			async getAccountInfo() {
+
+				try {
+					// 调用 uni.request 并等待其完成
+					const [err, res] = await this.requestWrapper({
+						url: url,
+						method: 'POST',
+						header: {
+							'content-type': 'application/json'
+						},
+						data: {},
+						complete: (res) => {
+							console.log('请求完成:', res); // 打印请求完成的信息
+						}
+					});
+
+					// 如果有错误，抛出异常
+					if (err) {
+						console.error('获取账户信息失败:', err);
+						throw new Error('获取账户信息失败');
+					}
+					// 检查 API 响应是否成功
+					if (!res.data || !res.data.success) {
+						console.error('API 调用不成功:', res.data?.msg || '未知错误');
+						throw new Error(res.data?.msg || '未知错误');
+					}
+					this.account = res.data.data.account;
+
+				} catch (error) {
+					console.error('投资账户初始化发生错误:', error.message);
+					throw error; // 重新抛出错误以便调用方处理
+				}
+			},
 
 			addStock() {
 				this.navigateToNextPage();

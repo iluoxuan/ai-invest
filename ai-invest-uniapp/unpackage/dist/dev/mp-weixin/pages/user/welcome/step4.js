@@ -1,6 +1,14 @@
 "use strict";
 const common_vendor = require("../../../common/vendor.js");
-const api_invest = require("../../../api/invest.js");
+const config_env = require("../../../config/env.js");
+const url = `${config_env.env.INVEST_URL}/api/account/init`;
+console.log("url", url);
+const reqData = {
+  planAmount: "100000",
+  totalAmount: "100000",
+  monthlyExpenses: "10000",
+  monthlyIncome: "10000"
+};
 const _sfc_main = {
   data() {
     return {};
@@ -8,17 +16,27 @@ const _sfc_main = {
   methods: {
     async handleClick(item) {
       try {
-        const response = await api_invest.initAccount({
-          planAmount: "100000",
-          totalAmount: "100000",
-          monthlyExpenses: "10000",
-          monthlyIncome: "10000"
+        const response = await common_vendor.index.request({
+          url,
+          method: "POST",
+          header: {
+            "content-type": "application/json"
+          },
+          data: reqData,
+          complete: (res) => {
+            console.log("请求完成:", res);
+            if (res.data.success) {
+              common_vendor.index.navigateTo({
+                url: "/pages/user/init/home"
+              });
+              return;
+            }
+            throw new Error(res.data.msg);
+          }
         });
       } catch (error) {
-        common_vendor.index.showToast({
-          title: "投资账户初始化失败，请重试",
-          icon: "none"
-        });
+        console.error("投资账户初始化发生错误:", error.message);
+        throw error;
       }
     }
   }

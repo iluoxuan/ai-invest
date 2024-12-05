@@ -3,7 +3,7 @@ import env from '@/config/env'; // 默认导入
 export function initAccount(data) {
 	const url = `${env.INVEST_URL}/api/account/init`; // 替换为实际的API URL
 
-	return uni.request({
+	uni.request({
 		url: url,
 		method: 'POST',
 		header: {

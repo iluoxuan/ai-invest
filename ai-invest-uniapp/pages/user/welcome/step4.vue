@@ -29,10 +29,16 @@
 </template>
 
 <script>
-	import {
-		initAccount
-	} from '@/api/invest.js';
+	import env from '@/config/env';
+	const url = `${env.INVEST_URL}/api/account/init`;
+	console.log("url", url)
 
+	const reqData = {
+		planAmount: "100000",
+		totalAmount: "100000",
+		monthlyExpenses: "10000",
+		monthlyIncome: "10000"
+	};
 	export default {
 		data() {
 			return {
@@ -44,20 +50,32 @@
 			async handleClick(item) {
 
 				try {
-					// 调用初始化投资账户的API
-					const response = await initAccount({
-						planAmount: "100000",
-						totalAmount: "100000",
-						monthlyExpenses: "10000",
-						monthlyIncome: "10000"
+
+					// 调用 uni.request 并等待其完成
+					const response = await uni.request({
+						url: url,
+						method: 'POST',
+						header: {
+							'content-type': 'application/json'
+						},
+						data: reqData,
+						complete: (res) => {
+							console.log('请求完成:', res); // 打印请求完成的信息
+							if (res.data.success) {
+								uni.navigateTo({
+									url: '/pages/user/init/home'
+								});
+								return;
+							}
+							throw new Error(res.data.msg);
+						}
 					});
 
 				} catch (error) {
-					uni.showToast({
-						title: '投资账户初始化失败，请重试',
-						icon: 'none'
-					});
+					console.error('投资账户初始化发生错误:', error.message);
+					throw error; // 重新抛出错误以便调用方处理
 				}
+
 			}
 
 		}
