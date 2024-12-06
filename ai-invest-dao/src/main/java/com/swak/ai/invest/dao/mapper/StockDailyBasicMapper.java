@@ -1,7 +1,8 @@
 package com.swak.ai.invest.dao.mapper;
 
-import com.swak.ai.invest.dao.domain.StockDailyBasicDo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.swak.ai.invest.dao.domain.StockDailyBasicDo;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -15,4 +16,9 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface StockDailyBasicMapper extends BaseMapper<StockDailyBasicDo> {
 
+    default StockDailyBasicDo getByTsCode(String tsCode) {
+        return selectOne(Wrappers.lambdaQuery(StockDailyBasicDo.class)
+                .eq(StockDailyBasicDo::getTsCode, tsCode)
+        );
+    }
 }

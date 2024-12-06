@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.swak.ai.invest.dao.domain.AccountStockPositionDo;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 /**
  * <p>
  * 账户持仓 Mapper 接口
@@ -17,10 +19,16 @@ import org.apache.ibatis.annotations.Mapper;
 public interface AccountStockPositionMapper extends BaseMapper<AccountStockPositionDo> {
 
     default AccountStockPositionDo getBy(String accountId, String tsCode) {
-        return selectOne(
-                Wrappers.lambdaQuery(AccountStockPositionDo.class)
-                        .eq(AccountStockPositionDo::getAccountId, accountId)
-                        .eq(AccountStockPositionDo::getTsCode, tsCode)
+        return selectOne(Wrappers.lambdaQuery(AccountStockPositionDo.class)
+                .eq(AccountStockPositionDo::getAccountId, accountId)
+                .eq(AccountStockPositionDo::getTsCode, tsCode)
+        );
+    }
+
+    default List<AccountStockPositionDo> getByAccountId(String accountId) {
+        return selectList(Wrappers.lambdaQuery(AccountStockPositionDo.class)
+                .eq(AccountStockPositionDo::getAccountId, accountId)
+                .orderByAsc(AccountStockPositionDo::getPlanAmount)
         );
     }
 }

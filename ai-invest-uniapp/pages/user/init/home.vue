@@ -1,45 +1,51 @@
 <template>
 	<view class="container">
 		<!-- 总资产、总盈亏、当日参考盈亏 -->
-		<view class="summary-row">
-			<view class="item">
-				<text class="title">总资产</text>
-				<text class="amount">{{ account.totalAmount }}</text>
+		<view class="account">
+			<view class="summary-row">
+				<view class="item">
+					<text class="title">总现金</text>
+					<text class="amount">{{ account.totalAmount }}</text>
+				</view>
+				<view class="item">
+					<text class="title">月支出</text>
+					<text class="amount">{{ account.monthlyExpenses }}</text>
+				</view>
+				<view class="item">
+					<text class="title">月收入</text>
+					<text class="amount">{{ account.monthlyIncome }}</text>
+				</view>
 			</view>
-			<view class="item">
-				<text class="title">总市值</text>
-				<text class="amount">{{ account.usedAmount }}</text>
+
+			<view class="summary-row">
+				<view class="item">
+					<text class="title">计划资金</text>
+					<text class="amount">{{ account.planAmount }}</text>
+				</view>
+				<view class="item">
+					<text class="title">计划可用</text>
+					<text class="amount">{{ account.availableAmount }}</text>
+				</view>
+				<view class="item">
+					<text class="title">投资时长</text>
+					<text class="amount">{{ dailyReferencePL }}</text>
+				</view>
 			</view>
-			<view class="item">
-				<text class="title">总计划</text>
-				<text class="amount">{{ account.planAmount }}</text>
-			</view>
+
 		</view>
 
-		<view class="summary-row">
-			<view class="item">
-				<text class="title">总盈亏</text>
-				<text class="amount">{{ totalAssets }}</text>
-			</view>
-			<view class="item">
-				<text class="title">可用</text>
-				<text class="amount">{{ totalProfitLoss }}</text>
-			</view>
-			<view class="item">
-				<text class="title">天数</text>
-				<text class="amount">{{ dailyReferencePL }}</text>
-			</view>
-		</view>
 
 		<!-- 持仓分时 -->
 		<view class="holdings">
 			<view class="header">
+				<text class="column-title">股票</text>
+				<text class="column-title">PE</text>
 				<text class="column-title">市值</text>
-				<text class="column-title">盈亏</text>
-				<text class="column-title">持仓</text>
+				<text class="column-title">涨幅/盈亏</text>
 				<text class="column-title">成本/现价</text>
 			</view>
 			<view class="row" v-for="(holding, index) in holdings" :key="index">
+				<text class="column-value">{{ holding.stock }}</text>
 				<text class="column-value">{{ holding.marketValue }}</text>
 				<text class="column-value">{{ holding.profitLoss }}</text>
 				<text class="column-value">{{ holding.holdings }}</text>
@@ -86,7 +92,8 @@
 				availableBalance: "42,262.10",
 				withdrawableBalance: "42,262.10",
 				holdings: [{
-						marketValue: "1,000,000.00",
+						stock: "阿里巴巴(1688)",
+						marketValue: "1万亿",
 						profitLoss: "0.00%",
 						holdings: "10000",
 						available: "0",
@@ -94,7 +101,8 @@
 						currentPrice: "100.000"
 					},
 					{
-						marketValue: "23,814.45",
+						stock: "美团(1688)",
+						marketValue: "1.1万亿",
 						profitLoss: "2.140%",
 						holdings: "300",
 						available: "300",
@@ -102,7 +110,8 @@
 						currentPrice: "HK$85.000"
 					},
 					{
-						marketValue: "6,379.20",
+						stock: "腾讯(1688)",
+						marketValue: "3.7万亿",
 						profitLoss: "0.250%",
 						holdings: "1600",
 						available: "1600",
@@ -110,7 +119,8 @@
 						currentPrice: "3.987"
 					},
 					{
-						marketValue: "2,739.00",
+						stock: "腾讯(1688)",
+						marketValue: "3.7万亿",
 						profitLoss: "1.410%",
 						holdings: "100",
 						available: "100",
@@ -192,6 +202,10 @@
 		flex-direction: column;
 		background-color: #fcfcfc;
 		height: 100vh;
+		
+		.account{
+			background-color: #ffffff;
+		}
 
 		.summary-row {
 			display: flex;
@@ -212,9 +226,8 @@
 				}
 
 				.amount {
-					font-weight: bold;
 					font-size: 30rpx;
-					color: #dca476;
+					color: #ea3538;
 				}
 			}
 		}

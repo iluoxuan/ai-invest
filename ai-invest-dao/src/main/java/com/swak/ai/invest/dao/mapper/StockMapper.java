@@ -1,6 +1,7 @@
 package com.swak.ai.invest.dao.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.swak.ai.invest.dao.domain.StockDo;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -19,5 +20,11 @@ public interface StockMapper extends BaseMapper<StockDo> {
 
     default List<StockDo> selectAll() {
         return this.selectList(null);
+    }
+
+    default StockDo getByTsCode(String tsCode) {
+        return selectOne(Wrappers.lambdaQuery(StockDo.class)
+                .eq(StockDo::getTsCode, tsCode)
+        );
     }
 }

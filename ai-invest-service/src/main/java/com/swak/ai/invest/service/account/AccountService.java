@@ -2,16 +2,24 @@ package com.swak.ai.invest.service.account;
 
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.swak.ai.invest.context.UserContext;
+import com.swak.ai.invest.dao.domain.AccountStockPositionDo;
+import com.swak.ai.invest.dao.domain.StockDailyBasicDo;
+import com.swak.ai.invest.dao.domain.StockDo;
 import com.swak.ai.invest.dao.domain.UserInvestAccountDo;
+import com.swak.ai.invest.dao.mapper.AccountStockPositionMapper;
+import com.swak.ai.invest.dao.mapper.StockDailyBasicMapper;
+import com.swak.ai.invest.dao.mapper.StockMapper;
 import com.swak.ai.invest.dao.mapper.UserInvestAccountMapper;
 import com.swak.ai.invest.entity.account.AccountInfoRes;
 import com.swak.ai.invest.entity.account.AccountInitReq;
+import com.swak.ai.invest.entity.account.AccountStockInfoRes;
 import com.swak.lib.common.tools.AssertTools;
 import com.swak.lib.common.tools.BeanTools;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -24,6 +32,9 @@ public class AccountService {
 
 
     private final UserInvestAccountMapper userInvestAccountMapper;
+    private final AccountStockPositionMapper accountStockPositionMapper;
+    private final StockDailyBasicMapper stockDailyBasicMapper;
+    private final StockMapper stockMapper;
 
     public void init(AccountInitReq req) {
 
@@ -48,6 +59,19 @@ public class AccountService {
 
         AccountInfoRes infoRes = new AccountInfoRes();
         infoRes.setAccount(account);
+        // 持仓数量最多不超过30个
+        List<AccountStockPositionDo> positionList = accountStockPositionMapper.getByAccountId(account.getAccountId());
+        infoRes.setStockList(BeanTools.copyList(positionList, position -> {
+
+            AccountStockInfoRes stockInfo = new AccountStockInfoRes();
+            stockInfo.setTsCode(position.getTsCode());
+            StockDailyBasicDo dailyBasic = stockDailyBasicMapper.getByTsCode(position.getTsCode());
+            // 加缓存
+            StockDo stock = stockMapper.getByTsCode(position.getTsCode());
+            stockInfo.setStockCnName(stock.getName());
+            return stockInfo;
+
+        }));
 
         return infoRes;
     }

@@ -16,5 +16,5 @@ public class AccountInfoRes {
 
     private UserInvestAccountDo account;
 
-    private List<AccountStockPositionDo> stockPosition;
+    private List<AccountStockInfoRes> stockList;
 }
