@@ -22,7 +22,16 @@ public class UserContext {
     public static UserContext getInstance() {
         return context.get();
     }
+
     public static void remove() {
         context.remove();
+    }
+
+    public static String userId() {
+        return getInstance().getUserId();
+    }
+
+    public static String accountId() {
+        return getInstance().getAccountId();
     }
 }
