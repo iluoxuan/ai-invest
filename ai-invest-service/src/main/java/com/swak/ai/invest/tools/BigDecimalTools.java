@@ -1,7 +1,10 @@
 package com.swak.ai.invest.tools;
 
+import com.swak.lib.common.tools.StringTools;
+
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
+import java.util.Objects;
 
 /**
  * @author: ljq
@@ -19,7 +22,14 @@ public class BigDecimalTools {
 
 
     public static String format(BigDecimal value) {
+        if (Objects.isNull(value)) {
+            return StringTools.EMPTY;
+        }
         DecimalFormat df = new DecimalFormat("#,##0.00");
         return df.format(value);
+    }
+
+    public static void main(String[] args) {
+        System.out.println(format(new BigDecimal("22123456789.123")));
     }
 }

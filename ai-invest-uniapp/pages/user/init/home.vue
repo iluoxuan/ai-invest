@@ -41,15 +41,15 @@
 				<text class="column-title">股票</text>
 				<text class="column-title">PE</text>
 				<text class="column-title">市值</text>
-				<text class="column-title">涨幅/盈亏</text>
-				<text class="column-title">成本/现价</text>
+				<text class="column-title">涨幅</text>
+				<text class="column-title">现价</text>
 			</view>
 			<view class="row" v-for="(holding, index) in holdings" :key="index">
-				<text class="column-value">{{ holding.stock }}</text>
-				<text class="column-value">{{ holding.marketValue }}</text>
-				<text class="column-value">{{ holding.profitLoss }}</text>
+				<text class="column-value"> {{ holding.stockCnName }}</text>
+				<text class="column-value">{{ holding.pe }}</text>
+				<text class="column-value">{{ holding.totalMv }}</text>
 				<text class="column-value">{{ holding.holdings }}</text>
-				<text class="column-value">{{ holding.costPrice }} / {{ holding.currentPrice }}</text>
+				<text class="column-value">{{ holding.price }}</text>
 			</view>
 		</view>
 
@@ -78,56 +78,14 @@
 </template>
 
 <script>
-	import env from '@/config/env';
+	import env from '@/config/env';	
 	const url = `${env.INVEST_URL}/api/account/info`;
 	console.log("url", url)
 	export default {
 		data() {
 			return {
 				account: {},
-				totalAssets: "1,075,244.75",
-				totalProfitLoss: "-553.51",
-				dailyReferencePL: "653.00",
-				marketValue: "1,032,932.65",
-				availableBalance: "42,262.10",
-				withdrawableBalance: "42,262.10",
-				holdings: [{
-						stock: "阿里巴巴(1688)",
-						marketValue: "1万亿",
-						profitLoss: "0.00%",
-						holdings: "10000",
-						available: "0",
-						costPrice: "100.000",
-						currentPrice: "100.000"
-					},
-					{
-						stock: "美团(1688)",
-						marketValue: "1.1万亿",
-						profitLoss: "2.140%",
-						holdings: "300",
-						available: "300",
-						costPrice: "HK$83.216",
-						currentPrice: "HK$85.000"
-					},
-					{
-						stock: "腾讯(1688)",
-						marketValue: "3.7万亿",
-						profitLoss: "0.250%",
-						holdings: "1600",
-						available: "1600",
-						costPrice: "3.977",
-						currentPrice: "3.987"
-					},
-					{
-						stock: "腾讯(1688)",
-						marketValue: "3.7万亿",
-						profitLoss: "1.410%",
-						holdings: "100",
-						available: "100",
-						costPrice: "27.010",
-						currentPrice: "27.390"
-					}
-				]
+				holdings: []
 			};
 		},
 
@@ -175,6 +133,7 @@
 						throw new Error(res.data?.msg || '未知错误');
 					}
 					this.account = res.data.data.account;
+					this.holdings = res.data.data.stockList;
 
 				} catch (error) {
 					console.error('投资账户初始化发生错误:', error.message);
