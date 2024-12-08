@@ -7,4 +7,6 @@ import java.math.BigDecimal;
  * @date: 2024/11/22
  */
 public class BigDecimalTools {
+
+    public final static BigDecimal TEN_THOUSAND = new BigDecimal(10000);
 }

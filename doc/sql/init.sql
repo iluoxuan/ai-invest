@@ -213,3 +213,22 @@ CREATE TABLE `stock_daily_basic`
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_general_ci COMMENT = '股票每日指标';
+
+CREATE TABLE `stock_realtime_quote`
+(
+    `id`              BIGINT UNSIGNED AUTO_INCREMENT COMMENT '主键',
+    `ts_code`         VARCHAR(16)    NOT NULL COMMENT '股票代码',
+    `trade_date`      DATE           NOT NULL COMMENT '交易日期',
+    `trade_time`      VARCHAR(16)   NOT NULL DEFAULT '' COMMENT '交易时间',
+    `open`            DECIMAL(18, 2) NOT NULL COMMENT '开盘价',
+    `high`            DECIMAL(18, 2) NOT NULL COMMENT '最高价',
+    `low`             DECIMAL(18, 2) NOT NULL COMMENT '最低价',
+    `close`           DECIMAL(18, 2) NOT NULL COMMENT '收盘价',
+    `create_time`     DATETIME       NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `update_time`     DATETIME                DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+    PRIMARY KEY (`id`),
+    KEY `idx_ts_code` (`ts_code`),
+    KEY `idx_trade_date` (`trade_date`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT = '股票实时行情';
