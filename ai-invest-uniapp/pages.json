@@ -43,7 +43,7 @@
 			}
 		},
 		{
-			"path": "pages/stock/add",
+			"path": "pages/stock/searchAdd",
 			"style": {
 				"navigationBarTitleText": "加仓"
 			}

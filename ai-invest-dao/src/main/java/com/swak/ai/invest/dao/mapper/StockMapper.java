@@ -1,6 +1,5 @@
 package com.swak.ai.invest.dao.mapper;
 
-import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.swak.ai.inverst.common.entity.stock.StockSearchReq;
@@ -33,9 +32,9 @@ public interface StockMapper extends BaseMapper<StockDo> {
 
     default List<StockDo> search(StockSearchReq req) {
         return selectList(Wrappers.lambdaQuery(StockDo.class)
-                .like(StrUtil.isNotBlank(req.getTsCode()), StockDo::getTsCode, req.getTsCode())
+                .like(StockDo::getTsCode, req.getKeyWord())
                 .or()
-                .like(StrUtil.isNotBlank(req.getCnSpell()), StockDo::getCnSpell, req.getCnSpell())
+                .like(StockDo::getCnSpell, req.getKeyWord())
                 .last(LimitSql.of(req.getLimit()).toStr())
         );
     }

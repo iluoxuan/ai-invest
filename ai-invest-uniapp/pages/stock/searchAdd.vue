@@ -3,7 +3,7 @@
 
 		<!-- 搜索框 -->
 		<view class="search-box">
-			<input type="text" placeholder="搜索股票" @blur="addPlan" />
+			<input type="text" placeholder="搜索" v-model="searchQuery" @blur="searchBuy" />
 		</view>
 
 		<view class="stock-add-tip">
@@ -17,15 +17,17 @@
 		<view class="holdings">
 			<view class="header">
 				<text class="column-title">股票</text>
-				<text class="column-title">市盈率</text>
-				<text class="column-title">现价</text>
+				<text class="column-title">PE</text>
 				<text class="column-title">市值</text>
+				<text class="column-title">涨幅</text>
+				<text class="column-title">现价</text>
 			</view>
-			<view class="row" v-for="(holding, index) in holdings" :key="index">
-				<text class="column-value">阿里巴巴{{ holding.marketValue }}</text>
-				<text class="column-value">{{ holding.profitLoss }}</text>
+			<view class="row" v-for="(holding, index) in holdings" :key="index" @click="addPlan(holding, index)">
+				<text class="column-value"> {{ holding.stockCnName }}</text>
+				<text class="column-value">{{ holding.pe }}</text>
+				<text class="column-value">{{ holding.totalMv }}</text>
 				<text class="column-value">{{ holding.holdings }}</text>
-				<text class="column-value">{{ holding.costPrice }} / {{ holding.currentPrice }}</text>
+				<text class="column-value">{{ holding.price }}</text>
 			</view>
 		</view>
 
@@ -33,56 +35,70 @@
 </template>
 
 <script>
+	import env from '@/config/env';
+	const url = `${env.INVEST_URL}/api/stock/search`;
+	console.log("url", url);
 
 	export default {
 		data() {
 			return {
-				totalAssets: "1,075,244.75",
-				totalProfitLoss: "-553.51",
-				dailyReferencePL: "653.00",
-				marketValue: "1,032,932.65",
-				availableBalance: "42,262.10",
-				withdrawableBalance: "42,262.10",
-				holdings: [{
-						marketValue: "1,000,000.00",
-						profitLoss: "0.00%",
-						holdings: "10000",
-						available: "0",
-						costPrice: "100.000",
-						currentPrice: "100.000"
-					},
-					{
-						marketValue: "23,814.45",
-						profitLoss: "2.140%",
-						holdings: "300",
-						available: "300",
-						costPrice: "HK$83.216",
-						currentPrice: "HK$85.000"
-					},
-					{
-						marketValue: "6,379.20",
-						profitLoss: "0.250%",
-						holdings: "1600",
-						available: "1600",
-						costPrice: "3.977",
-						currentPrice: "3.987"
-					},
-					{
-						marketValue: "2,739.00",
-						profitLoss: "1.410%",
-						holdings: "100",
-						available: "100",
-						costPrice: "27.010",
-						currentPrice: "27.390"
-					}
-				]
+				searchQuery: '', // 用于存储输入框的内容
+				holdings: []
 			};
 		},
 		methods: {
 
-			addPlan() {
-				this.navigateToNextPage();
+			// 定义一个包装函数，返回 Promise
+			requestWrapper(options) {
+				return new Promise((resolve, reject) => {
+					uni.request({
+						...options,
+						success: (res) => resolve([null, res]),
+						fail: (err) => resolve([err, null])
+					});
+				});
+			},
+			async searchBuy() {
 
+				// 调用搜索接口
+				try {
+					// 调用 uni.request 并等待其完成
+					let query = this.searchQuery;
+					console.log('用户输入的查询:', query);
+					const [err, res] = await this.requestWrapper({
+						url: url,
+						method: 'POST',
+						header: {
+							'content-type': 'application/json'
+						},
+						data: {'keyWord': query},
+						complete: (res) => {
+							console.log('请求完成:', res); // 打印请求完成的信息
+						}
+					});
+
+					// 如果有错误，抛出异常
+					if (err) {
+						console.error('搜索加仓:', err);
+						throw new Error('搜索股票失败');
+					}
+					// 检查 API 响应是否成功
+					if (!res.data || !res.data.success) {
+						console.error('API 调用不成功:', res.data?.msg || '未知错误');
+						throw new Error(res.data?.msg || '未知错误');
+					}
+					this.holdings = res.data.data;
+
+				} catch (error) {
+					console.error('搜索股票失败:', error.message);
+					throw error; // 重新抛出错误以便调用方处理
+				}
+
+			},
+			
+			addPlan(holding, index){
+				// 去加仓计划页面
+				this.navigateToNextPage();
 			},
 			navigateToNextPage() {
 				// 使用uni-app的页面跳转方法
@@ -109,7 +125,7 @@
 			margin-top: 10rpx;
 			margin-bottom: 10rpx;
 			border-bottom: 1px solid #fcebe3;
-			height: 65rpx;
+			height: 80rpx;
 			/* 只在下方添加一条线 */
 		}
 

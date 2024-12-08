@@ -148,7 +148,7 @@
 			navigateToNextPage() {
 				// 使用uni-app的页面跳转方法
 				uni.navigateTo({
-					url: '/pages/stock/add' // 替换为目标页面的路径
+					url: '/pages/stock/searchAdd' // 替换为目标页面的路径
 				});
 			},
 			buyPlan(holding, index){
