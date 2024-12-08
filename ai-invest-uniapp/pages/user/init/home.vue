@@ -28,7 +28,7 @@
 				</view>
 				<view class="item">
 					<text class="title">投资时长</text>
-					<text class="amount">{{ dailyReferencePL }}</text>
+					<text class="amount">{{ account.inverstDay }}</text>
 				</view>
 			</view>
 
@@ -44,7 +44,7 @@
 				<text class="column-title">涨幅</text>
 				<text class="column-title">现价</text>
 			</view>
-			<view class="row" v-for="(holding, index) in holdings" :key="index">
+			<view class="row" v-for="(holding, index) in holdings" :key="index" @click="buyPlan(holding, index)">
 				<text class="column-value"> {{ holding.stockCnName }}</text>
 				<text class="column-value">{{ holding.pe }}</text>
 				<text class="column-value">{{ holding.totalMv }}</text>
@@ -150,6 +150,13 @@
 				uni.navigateTo({
 					url: '/pages/stock/add' // 替换为目标页面的路径
 				});
+			},
+			buyPlan(holding, index){
+				console.log("buyPlan", JSON.stringify(holding), index);
+				uni.navigateTo({
+					url:'/pages/stock/addPlan'
+				})
+				
 			}
 		}
 	};

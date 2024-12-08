@@ -22,7 +22,10 @@
             <groupId>com.swak</groupId>
             <artifactId>swak-mybatis-plus</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>com.swak.ai.invest</groupId>
+            <artifactId>ai-invest-common</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

@@ -14,7 +14,7 @@ import java.util.Objects;
  * @date: 2024/12/6
  */
 @Data
-public class AccountStockInfoRes {
+public class StockBaseRes {
 
     private String tsCode;
 

@@ -8,6 +8,8 @@ public interface InvestConstants {
 
     int defaultPlanAmount = 10 * 10000;
 
+    int searchByStock = 5;
+
 
     interface urlPath {
 

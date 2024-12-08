@@ -1,8 +1,10 @@
 package com.swak.ai.invest.web.api.controller;
 
 import com.swak.ai.invest.context.UserContext;
+import com.swak.ai.invest.entity.account.StockBaseRes;
 import com.swak.ai.invest.entity.buy.StockBuyPlanReq;
 import com.swak.ai.invest.entity.buy.StockBuyPlanResult;
+import com.swak.ai.inverst.common.entity.stock.StockSearchReq;
 import com.swak.ai.invest.service.buy.StockBuyPlanManager;
 import com.swak.lib.client.entity.ApiRes;
 import com.swak.lib.common.annotion.LogTrace;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * @author: ljq
@@ -37,5 +40,11 @@ public class StockController {
         UserContext.getInstance().setAccountId("123456");
 
         return ApiRes.success(stockBuyPlanManager.buyPlan(req));
+    }
+
+    @ApiOperation("搜索加仓")
+    @PostMapping("/search")
+    public ApiRes<List<StockBaseRes>> search(@RequestBody StockSearchReq req) {
+        return ApiRes.success(stockBuyPlanManager.search(req));
     }
 }

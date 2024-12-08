@@ -1,20 +1,17 @@
 package com.swak.ai.invest.service.account;
 
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
-import com.swak.ai.inverst.common.entity.stock.StockQuote;
 import com.swak.ai.invest.context.UserContext;
 import com.swak.ai.invest.dao.domain.AccountStockPositionDo;
-import com.swak.ai.invest.dao.domain.StockDailyBasicDo;
 import com.swak.ai.invest.dao.domain.StockDo;
 import com.swak.ai.invest.dao.domain.UserInvestAccountDo;
 import com.swak.ai.invest.dao.mapper.AccountStockPositionMapper;
-import com.swak.ai.invest.dao.mapper.StockDailyBasicMapper;
 import com.swak.ai.invest.dao.mapper.StockMapper;
 import com.swak.ai.invest.dao.mapper.UserInvestAccountMapper;
-import com.swak.ai.invest.data.stock.quote.DefaultStockQuoteSpider;
 import com.swak.ai.invest.entity.account.AccountInfoRes;
 import com.swak.ai.invest.entity.account.AccountInitReq;
-import com.swak.ai.invest.entity.account.AccountStockInfoRes;
+import com.swak.ai.invest.entity.account.StockBaseRes;
+import com.swak.ai.invest.service.covert.StockCovertService;
 import com.swak.lib.common.tools.AssertTools;
 import com.swak.lib.common.tools.BeanTools;
 import lombok.RequiredArgsConstructor;
@@ -35,9 +32,8 @@ public class AccountService {
 
     private final UserInvestAccountMapper userInvestAccountMapper;
     private final AccountStockPositionMapper accountStockPositionMapper;
-    private final StockDailyBasicMapper stockDailyBasicMapper;
     private final StockMapper stockMapper;
-    private final DefaultStockQuoteSpider defaultStockQuoteSpider;
+    private final StockCovertService stockCovertService;
 
     public void init(AccountInitReq req) {
 
@@ -65,22 +61,10 @@ public class AccountService {
         // 持仓数量最多不超过30个
         List<AccountStockPositionDo> positionList = accountStockPositionMapper.getByAccountId(account.getAccountId());
         infoRes.setStockList(BeanTools.copyList(positionList, position -> {
-
-            AccountStockInfoRes stockInfo = new AccountStockInfoRes();
-            stockInfo.setTsCode(position.getTsCode());
-            StockDailyBasicDo dailyBasic = stockDailyBasicMapper.getByTsCode(position.getTsCode());
-            stockInfo.setTotalMv(dailyBasic.getTotalMv());
-
             // 加缓存
             StockDo stock = stockMapper.getByTsCode(position.getTsCode());
-            stockInfo.setStockCnName(stock.getName());
 
-            // 实时股价
-            StockQuote stockQuote = defaultStockQuoteSpider.spider(position.getTsCode());
-            if (Objects.nonNull(stockQuote)) {
-                stockInfo.setPe(stockQuote.getPe());
-                stockInfo.setPrice(stockQuote.getCurrentPrice());
-            }
+            StockBaseRes stockInfo = stockCovertService.covert(stock);
             return stockInfo;
 
         }));

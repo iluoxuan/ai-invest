@@ -16,7 +16,7 @@ public class AccountInfoRes {
 
     private AccountInvestInfoRes account;
 
-    private List<AccountStockInfoRes> stockList;
+    private List<StockBaseRes> stockList;
 
     public void setAccount(UserInvestAccountDo account) {
         this.account = new AccountInvestInfoRes();
