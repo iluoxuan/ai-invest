@@ -53,4 +53,8 @@ public class StockBuyPlanManager {
 
         return BeanTools.copyList(stockList, stockDo -> stockCovertService.covert(stockDo));
     }
+
+    public List<StockBaseRes> aiRecommend() {
+        return null;
+    }
 }
