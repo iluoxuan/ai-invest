@@ -2,7 +2,6 @@ package com.swak.ai.invest.entity.account;
 
 import cn.hutool.core.util.NumberUtil;
 import com.swak.ai.invest.tools.BigDecimalTools;
-import com.swak.lib.common.number.BigNumber;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -43,12 +42,17 @@ public class AccountStockInfoRes {
             return;
         }
 
-        if (NumberUtil.isGreater(totalMv, BigDecimalTools.TEN_THOUSAND)) {
-            BigNumber totalMvFix = BigNumber.of(totalMv).div(BigDecimalTools.TEN_THOUSAND, 4);
-            this.totalMv = totalMvFix.getValue().toPlainString() + "万亿";
+        if (NumberUtil.isGreater(totalMv, BigDecimalTools.TRILLION)) {
+            BigDecimal value = NumberUtil.div(totalMv, BigDecimalTools.TRILLION, 3);
+            this.totalMv = BigDecimalTools.format(value) + "万亿";
             return;
         }
-        this.totalMv = totalMv.toPlainString() + "亿";
+        if (NumberUtil.isGreater(totalMv, BigDecimalTools.BILLION)) {
+            BigDecimal value = NumberUtil.div(totalMv, BigDecimalTools.BILLION, 3);
+            this.totalMv = BigDecimalTools.format(value) + "亿";
+            return;
+        }
+        this.totalMv = "不足亿";
     }
 
 
