@@ -1,5 +1,6 @@
 package com.swak.ai.invest.web.api.controller;
 
+import com.swak.ai.invest.context.UserContext;
 import com.swak.ai.invest.entity.user.UserInfoRes;
 import com.swak.ai.invest.service.user.UserService;
 import com.swak.lib.client.entity.ApiRes;
@@ -31,6 +32,8 @@ public class UserController {
     @ApiOperation("用户信息")
     @PostMapping("/info")
     public ApiRes<UserInfoRes> info() {
+
+        UserContext.getInstance().setUserId("12334455556666677");
         return ApiRes.success(userService.info());
     }
 

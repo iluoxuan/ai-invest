@@ -3,7 +3,6 @@ package com.swak.tushar.entity.trade;
 import lombok.Data;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 
 /**
  * 每日指标
@@ -22,12 +21,21 @@ public class StockDailyBasic {
     /**
      * 交易日期
      */
-    private LocalDate tradeDate;
+    private String tradeDate;
 
     /**
      * 当日收盘价
      */
     private BigDecimal close;
+
+    /**
+     * 开盘价格
+     */
+    private BigDecimal open;
+
+    private BigDecimal high;
+
+    private BigDecimal low;
 
     /**
      * 换手率（%）

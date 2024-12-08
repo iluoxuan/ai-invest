@@ -1,6 +1,7 @@
 package com.swak.ai.invest.job;
 
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.date.DateTime;
 import cn.hutool.core.thread.ThreadUtil;
 import com.swak.ai.invest.dao.domain.StockDailyBasicDo;
 import com.swak.ai.invest.dao.domain.StockDailyLineDo;
@@ -8,6 +9,7 @@ import com.swak.ai.invest.dao.domain.StockDo;
 import com.swak.ai.invest.dao.mapper.StockDailyBasicMapper;
 import com.swak.ai.invest.dao.mapper.StockDailyLineMapper;
 import com.swak.ai.invest.dao.mapper.StockMapper;
+import com.swak.ai.invest.data.stock.daily.DefaultStockDailyBasicSpider;
 import com.swak.lib.common.log.Logs;
 import com.swak.lib.common.tools.BeanTools;
 import com.swak.lib.common.tools.DateTools;
@@ -23,9 +25,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
+import static cn.hutool.core.date.DatePattern.NORM_DATE_PATTERN;
 import static cn.hutool.core.date.DatePattern.PURE_DATE_PATTERN;
 
 /**
@@ -47,6 +51,8 @@ public class StockDataSyncJob {
 
     private final StockDailyBasicMapper stockDailyBasicMapper;
 
+    private final DefaultStockDailyBasicSpider stockDailyBasicSpider;
+
     public void syncStockBasicList() {
 
 
@@ -62,40 +68,74 @@ public class StockDataSyncJob {
         });
     }
 
+    public void syncDailyByTsCode(String tsCode) {
+
+        try {
+            TradeReq req = new TradeReq();
+            req.setTs_code(tsCode);
+
+            DateTime now = DateTime.now();
+            // 判断今天是否周末
+            if (DateTools.isWeekend(now)) {
+                now = DateTools.getPreviousFriday(now);
+            }
+            StockDailyLineDo exist = stockDailyLineMapper.getBy(tsCode, DateTools.parseWithEmpty(now.toDateStr(), NORM_DATE_PATTERN));
+            if (Objects.isNull(exist)) {
+                syncDailyLIne(tsCode, req);
+            }
+
+            StockDailyBasicDo dailyBasic = stockDailyBasicMapper.getByTsCode(tsCode);
+            if (Objects.nonNull(dailyBasic)) {
+                return;
+            }
+
+            // 通过雪球同步
+            StockDailyBasic stockDailyBasic = stockDailyBasicSpider.spider(tsCode);
+            if (Objects.nonNull(stockDailyBasic)) {
+                dailyBasic = BeanTools.copy(stockDailyBasic, StockDailyBasicDo.class);
+                Date tradeDate = DateTools.parseWithEmpty(stockDailyBasic.getTradeDate(), NORM_DATE_PATTERN);
+                dailyBasic.setTradeDate(tradeDate);
+                dailyBasic.setCreateTime(new Date());
+                dailyBasic.setUpdateTime(new Date());
+                stockDailyBasicMapper.insert(dailyBasic);
+            }
+
+        } catch (Exception e) {
+            Logs.error("syncDailyByTsCode", e, tsCode);
+        }
+    }
+
+    private void syncDailyLIne(String tsCode, TradeReq req) {
+        List<StockTradeLine> dailyTrades = tradeDataApi.daily(req);
+        batchSave(dailyTrades, stockTradeLine -> {
+            try {
+
+                // 判断是否已经同步
+                Date tradeDate = DateTools.parseWithEmpty(stockTradeLine.getTradeDate(), PURE_DATE_PATTERN);
+                StockDailyLineDo dailyLine = stockDailyLineMapper.getBy(tsCode, tradeDate);
+                if (Objects.nonNull(dailyLine)) {
+                    return;
+                }
+                StockDailyLineDo dailyLineDo = BeanTools.copy(stockTradeLine, StockDailyLineDo.class);
+                dailyLineDo.setTradeDate(tradeDate);
+                dailyLineDo.setCreateTime(new Date());
+                dailyLineDo.setUpdateTime(new Date());
+                stockDailyLineMapper.insert(dailyLineDo);
+            } catch (Exception e) {
+                log.error("syncDailyByTsCode batchSave tradeLine={} error", stockTradeLine, e);
+            }
+
+        });
+    }
+
     public void syncDaily() {
 
         List<StockDo> stocks = stockMapper.selectAll();
 
-        TradeReq req = new TradeReq();
+
         stocks.forEach(stockDo -> {
 
-            try {
-
-                req.setTs_code(stockDo.getTsCode());
-                List<StockTradeLine> dailyTrades = tradeDataApi.daily(req);
-                batchSave(dailyTrades, stockTradeLine -> {
-
-                    StockDailyLineDo dailyLineDo = BeanTools.copy(stockTradeLine, StockDailyLineDo.class);
-                    dailyLineDo.setCreateTime(new Date());
-                    dailyLineDo.setUpdateTime(new Date());
-                    stockDailyLineMapper.insert(dailyLineDo);
-
-                });
-
-                // 每日指标
-                List<StockDailyBasic> dailyBasics = tradeDataApi.stockDailyBasic(req);
-                batchSave(dailyBasics, stockDailyBasic -> {
-
-                    StockDailyBasicDo dailyBasic = BeanTools.copy(stockDailyBasic, StockDailyBasicDo.class);
-
-                    dailyBasic.setCreateTime(new Date());
-                    dailyBasic.setUpdateTime(new Date());
-                    stockDailyBasicMapper.insert(dailyBasic);
-                });
-
-            } catch (Exception e) {
-                Logs.error("syncDaily", e, stockDo.getTsCode());
-            }
+            syncDailyByTsCode(stockDo.getTsCode());
 
             ThreadUtil.sleep(30, TimeUnit.SECONDS);
 

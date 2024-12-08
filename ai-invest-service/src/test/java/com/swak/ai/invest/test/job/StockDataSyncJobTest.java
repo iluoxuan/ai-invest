@@ -30,4 +30,9 @@ public class StockDataSyncJobTest {
     public void testSyncDaily() {
         stockDataSyncJob.syncDaily();
     }
+
+    @Test
+    public void testSyncDailyByTsCode() {
+        stockDataSyncJob.syncDailyByTsCode("000001.SZ");
+    }
 }

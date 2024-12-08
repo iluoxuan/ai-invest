@@ -1,8 +1,11 @@
 package com.swak.ai.invest.dao.mapper;
 
-import com.swak.ai.invest.dao.domain.StockDailyLineDo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.swak.ai.invest.dao.domain.StockDailyLineDo;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.Date;
 
 /**
  * <p>
@@ -15,4 +18,9 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface StockDailyLineMapper extends BaseMapper<StockDailyLineDo> {
 
+    default StockDailyLineDo getBy(String tsCode, Date tradeDate) {
+        return this.selectOne(Wrappers.lambdaQuery(StockDailyLineDo.class)
+                .eq(StockDailyLineDo::getTsCode, tsCode)
+                .eq(StockDailyLineDo::getTradeDate, tradeDate));
+    }
 }
