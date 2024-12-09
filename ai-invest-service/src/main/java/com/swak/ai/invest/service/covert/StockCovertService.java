@@ -29,6 +29,7 @@ public class StockCovertService {
 
         StockBaseRes stockInfo = new StockBaseRes();
 
+        stockInfo.setTsCode(stock.getTsCode());
         StockDailyBasicDo dailyBasic = stockDailyBasicMapper.getByTsCode(stock.getTsCode());
         stockInfo.setTotalMv(dailyBasic.getTotalMv());
         stockInfo.setStockCnName(stock.getName());

@@ -1,7 +1,6 @@
 package com.swak.ai.invest.service.buy;
 
 import cn.hutool.core.lang.Assert;
-import cn.hutool.core.util.NumberUtil;
 import com.swak.ai.inverst.common.entity.stock.StockQuote;
 import com.swak.ai.invest.context.UserContext;
 import com.swak.ai.invest.dao.domain.AccountStockPositionDo;
@@ -9,7 +8,6 @@ import com.swak.ai.invest.dao.domain.UserInvestAccountDo;
 import com.swak.ai.invest.dao.mapper.AccountStockPositionMapper;
 import com.swak.ai.invest.dao.mapper.UserInvestAccountMapper;
 import com.swak.ai.invest.data.stock.quote.DefaultStockQuoteSpider;
-import com.swak.ai.invest.entity.InvestConstants;
 import com.swak.ai.invest.entity.buy.StockBuyContext;
 import com.swak.ai.invest.entity.buy.StockBuyPlanName;
 import com.swak.ai.invest.entity.buy.StockBuyPlanResult;
@@ -48,19 +46,23 @@ public class StockLeftFixedBuyStrategy implements StockBuyStrategyPlan {
 
         UserInvestAccountDo account = userInvestAccountMapper.getByUserId(UserContext.userId());
         AssertTools.notNull(account, "帐户还没初始化");
-
+        context.setAccountId(account.getAccountId());
 
         // 没跌1%的仓位 左侧加仓计划
         AccountStockPositionDo stockPosition = accountStockPositionMapper.getBy(context.getAccountId(), context.getTsCode());
         if (Objects.isNull(stockPosition)) {
+
+            stockPosition = new AccountStockPositionDo();
             // 初始化持仓账户
-            stockPosition.setAccountId(context.getAccountId());
+            stockPosition.setAccountId(account.getAccountId());
             stockPosition.setTsCode(context.getTsCode());
             stockPosition.setQuantity(0);
             stockPosition.setPlanAmount(stockBuyAmountService.buyAmountRule(account.getAvailableAmount()));
+            stockPosition.setAvailableAmount(account.getAvailableAmount());
             stockPosition.setCreateTime(new Date());
             accountStockPositionMapper.insert(stockPosition);
         }
+        planResult.setPosition(stockPosition);
 
         StockQuote stockQuote = defaultStockQuoteSpider.spider(context.getTsCode());
         Assert.isFalse(stockQuote.isEmpty(), "实时股票信息获取失败");
@@ -97,7 +99,7 @@ public class StockLeftFixedBuyStrategy implements StockBuyStrategyPlan {
 
             planUnit.setBuyAvgPrice(averageCost.getValue());
             planUnit.setPe(stockChange.getPe());
-            planUnit.setBuyPrice(stockChange.getPrice().getValue());
+            planUnit.setCurrentPrice(stockChange.getPrice().getValue());
             planUnit.setTotalLoss(currentLoss.getValue());
             planUnit.setTotalBuyAmount(totalCost.getValue());
             planUnit.setShares(minShares);

@@ -33,7 +33,9 @@ const _sfc_main = {
           header: {
             "content-type": "application/json"
           },
-          data: { "keyWord": query },
+          data: {
+            "keyWord": query
+          },
           complete: (res2) => {
             console.log("请求完成:", res2);
           }
@@ -53,11 +55,12 @@ const _sfc_main = {
       }
     },
     addPlan(holding, index) {
-      this.navigateToNextPage();
+      console.log("holding", JSON.stringify(holding));
+      this.navigateToNextPage(holding);
     },
-    navigateToNextPage() {
+    navigateToNextPage(holding) {
       common_vendor.index.navigateTo({
-        url: "/pages/stock/addPlan"
+        url: "/pages/stock/addPlan?tsCode=" + holding.tsCode
         // 替换为目标页面的路径
       });
     }

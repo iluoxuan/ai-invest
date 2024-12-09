@@ -30,7 +30,7 @@ public class StockBuyPlanUnit {
     private BigDecimal pe;
 
     // 每股买入价格
-    private BigDecimal buyPrice;
+    private BigDecimal currentPrice;
 
     // 当前公司总市值
     private BigDecimal currentTotalMv;

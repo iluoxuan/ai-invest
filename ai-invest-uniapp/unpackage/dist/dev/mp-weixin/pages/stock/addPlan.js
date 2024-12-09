@@ -1,51 +1,68 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
+const config_env = require("../../config/env.js");
+const url = `${config_env.env.INVEST_URL}/api/stock/leftBuy`;
+console.log("url", url);
 const _sfc_main = {
   data() {
     return {
-      totalAssets: "1,075,244.75",
-      totalProfitLoss: "-553.51",
-      dailyReferencePL: "653.00",
-      marketValue: "1,032,932.65",
-      availableBalance: "42,262.10",
-      withdrawableBalance: "42,262.10",
-      holdings: [
-        {
-          marketValue: "1,000,000.00",
-          profitLoss: "0.00%",
-          holdings: "10000",
-          available: "0",
-          costPrice: "100.000",
-          currentPrice: "100.000"
-        },
-        {
-          marketValue: "23,814.45",
-          profitLoss: "2.140%",
-          holdings: "300",
-          available: "300",
-          costPrice: "HK$83.216",
-          currentPrice: "HK$85.000"
-        },
-        {
-          marketValue: "6,379.20",
-          profitLoss: "0.250%",
-          holdings: "1600",
-          available: "1600",
-          costPrice: "3.977",
-          currentPrice: "3.987"
-        },
-        {
-          marketValue: "2,739.00",
-          profitLoss: "1.410%",
-          holdings: "100",
-          available: "100",
-          costPrice: "27.010",
-          currentPrice: "27.390"
-        }
-      ]
+      account: {},
+      position: {},
+      holdings: []
     };
   },
+  onLoad(options) {
+    console.log("options", JSON.stringify(options));
+    this.leftBuy(options.tsCode);
+  },
   methods: {
+    toPercentage(value) {
+      if (!value)
+        return "0%";
+      return (value * 100).toFixed(2) + "%";
+    },
+    // 定义一个包装函数，返回 Promise
+    requestWrapper(options) {
+      return new Promise((resolve, reject) => {
+        common_vendor.index.request({
+          ...options,
+          success: (res) => resolve([null, res]),
+          fail: (err) => resolve([err, null])
+        });
+      });
+    },
+    async leftBuy(tsCode) {
+      var _a, _b;
+      try {
+        const [err, res] = await this.requestWrapper({
+          url,
+          method: "POST",
+          header: {
+            "content-type": "application/json"
+          },
+          data: {
+            "tsCode": tsCode
+          },
+          complete: (res2) => {
+            console.log("请求完成:", res2);
+          }
+        });
+        if (err) {
+          console.error("请求失败:", err);
+          throw new Error("请求失败");
+        }
+        if (!res.data || !res.data.success) {
+          console.error("API 调用不成功:", ((_a = res.data) == null ? void 0 : _a.msg) || "未知错误");
+          throw new Error(((_b = res.data) == null ? void 0 : _b.msg) || "未知错误");
+        }
+        this.holdings = res.data.data.buyPlanUnits;
+        this.accout = res.data.data.account;
+        this.position = res.data.data.position;
+      } catch (error) {
+        console.error("请求失败:", error.message);
+        throw error;
+      }
+    },
     addStock() {
       this.navigateToNextPage();
     },
@@ -59,14 +76,17 @@ const _sfc_main = {
 };
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   return {
-    a: common_vendor.f($data.holdings, (holding, index, i0) => {
+    a: common_vendor.t($data.position.planAmount),
+    b: common_vendor.t($data.position.availableAmount),
+    c: common_vendor.f($data.holdings, (holding, index, i0) => {
       return {
-        a: common_vendor.t(holding.profitLoss),
-        b: common_vendor.t(holding.profitLoss),
-        c: common_vendor.t(holding.holdings),
-        d: common_vendor.t(holding.costPrice),
-        e: common_vendor.t(holding.holdings),
-        f: index
+        a: common_vendor.t($options.toPercentage(holding.fallRate)),
+        b: common_vendor.t(holding.currentPrice),
+        c: common_vendor.t(holding.buyAvgPrice),
+        d: common_vendor.t(holding.totalLoss),
+        e: common_vendor.t(holding.pe),
+        f: common_vendor.t(holding.currentTotalMv),
+        g: index
       };
     })
   };

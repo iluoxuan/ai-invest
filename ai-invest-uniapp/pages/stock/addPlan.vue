@@ -2,8 +2,8 @@
 	<view class="container">
 
 		<view class="account">
-			<view class="tip">您当前账户剩余资金10W</view>
-			<view class="tip">AI综合推荐计划加仓金额8W</view>
+			<view class="tip">您当前账户剩余资金{{ position.planAmount}}</view>
+			<view class="tip">AI推荐加仓金额{{ position.availableAmount }}</view>
 			<view class="value">
 				<input type="text" placeholder="输入计划加仓金额" />
 			</view>
@@ -55,19 +55,19 @@
 		<view class="holdings">
 			<view class="header">
 				<text class="column-title">跌幅</text>
-				<text class="column-title">总亏损</text>
 				<text class="column-title">股价</text>
+				<text class="column-title">均价</text>
+				<text class="column-title">总金额/亏损</text>
 				<text class="column-title">PE</text>
 				<text class="column-title">市值</text>
-				<text class="column-title">总加金额</text>
 			</view>
 			<view class="row" v-for="(holding, index) in holdings" :key="index">
-				<text class="column-value">-1%</text>
-				<text class="column-value">{{ holding.profitLoss }}</text>
-				<text class="column-value">{{ holding.profitLoss }}</text>
-				<text class="column-value">{{ holding.holdings }}</text>
-				<text class="column-value">{{ holding.costPrice }}</text>
-				<text class="column-value">{{ holding.holdings }}</text>
+				<text class="column-value">-{{ toPercentage(holding.fallRate) }}</text>
+				<text class="column-value">{{ holding.currentPrice }}</text>
+				<text class="column-value">{{ holding.buyAvgPrice }}</text>
+				<text class="column-value">{{ holding.totalLoss }}</text>
+				<text class="column-value">{{ holding.pe }}</text>
+				<text class="column-value">{{ holding.currentTotalMv }}</text>
 			</view>
 		</view>
 
@@ -75,55 +75,84 @@
 </template>
 
 <script>
+	import env from '@/config/env';
+	const url = `${env.INVEST_URL}/api/stock/leftBuy`;
+	console.log("url", url);
+
 	export default {
 		data() {
 			return {
-				totalAssets: "1,075,244.75",
-				totalProfitLoss: "-553.51",
-				dailyReferencePL: "653.00",
-				marketValue: "1,032,932.65",
-				availableBalance: "42,262.10",
-				withdrawableBalance: "42,262.10",
-				holdings: [{
-						marketValue: "1,000,000.00",
-						profitLoss: "0.00%",
-						holdings: "10000",
-						available: "0",
-						costPrice: "100.000",
-						currentPrice: "100.000"
-					},
-					{
-						marketValue: "23,814.45",
-						profitLoss: "2.140%",
-						holdings: "300",
-						available: "300",
-						costPrice: "HK$83.216",
-						currentPrice: "HK$85.000"
-					},
-					{
-						marketValue: "6,379.20",
-						profitLoss: "0.250%",
-						holdings: "1600",
-						available: "1600",
-						costPrice: "3.977",
-						currentPrice: "3.987"
-					},
-					{
-						marketValue: "2,739.00",
-						profitLoss: "1.410%",
-						holdings: "100",
-						available: "100",
-						costPrice: "27.010",
-						currentPrice: "27.390"
-					}
-				]
+				account: {},
+				position: {},
+				holdings: []
 			};
 		},
+
+		onLoad(options) {
+			console.log("options", JSON.stringify(options));
+			this.leftBuy(options.tsCode);
+		},
+
 		methods: {
-		
+
+			toPercentage(value) {
+				if (!value) return '0%';
+				return (value * 100).toFixed(2) + '%';
+			},
+
+			// 定义一个包装函数，返回 Promise
+			requestWrapper(options) {
+				return new Promise((resolve, reject) => {
+					uni.request({
+						...options,
+						success: (res) => resolve([null, res]),
+						fail: (err) => resolve([err, null])
+					});
+				});
+			},
+
+			async leftBuy(tsCode) {
+				// 调用搜索接口
+				try {
+
+					const [err, res] = await this.requestWrapper({
+						url: url,
+						method: 'POST',
+						header: {
+							'content-type': 'application/json'
+						},
+						data: {
+							'tsCode': tsCode
+						},
+						complete: (res) => {
+							console.log('请求完成:', res); // 打印请求完成的信息
+						}
+					});
+
+					// 如果有错误，抛出异常
+					if (err) {
+						console.error('请求失败:', err);
+						throw new Error('请求失败');
+					}
+					// 检查 API 响应是否成功
+					if (!res.data || !res.data.success) {
+						console.error('API 调用不成功:', res.data?.msg || '未知错误');
+						throw new Error(res.data?.msg || '未知错误');
+					}
+					this.holdings = res.data.data.buyPlanUnits;
+					this.accout = res.data.data.account;
+					this.position = res.data.data.position;
+
+				} catch (error) {
+					console.error('请求失败:', error.message);
+					throw error; // 重新抛出错误以便调用方处理
+				}
+
+			},
+
 			addStock() {
 				this.navigateToNextPage();
-		
+
 			},
 			navigateToNextPage() {
 				// 使用uni-app的页面跳转方法

@@ -1,6 +1,7 @@
 package com.swak.ai.invest.test.buy;
 
 import com.alibaba.fastjson2.JSON;
+import com.swak.ai.invest.context.UserContext;
 import com.swak.ai.invest.dao.domain.AccountStockPositionDo;
 import com.swak.ai.invest.dao.mapper.AccountStockPositionMapper;
 import com.swak.ai.invest.entity.buy.StockBuyContext;
@@ -64,6 +65,7 @@ public class StockBuyTest {
         context.setFallRate(0.01);
         context.setAccountId(accountId);
 
+        UserContext.getInstance().setUserId("12334455556666677");
         StockBuyPlanResult result = stockLeftFixedBuyStrategy.buyPlan(context);
 
         log.info("{}", JSON.toJSONString(result));

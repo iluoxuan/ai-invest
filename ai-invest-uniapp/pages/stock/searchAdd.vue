@@ -71,7 +71,9 @@
 						header: {
 							'content-type': 'application/json'
 						},
-						data: {'keyWord': query},
+						data: {
+							'keyWord': query
+						},
 						complete: (res) => {
 							console.log('请求完成:', res); // 打印请求完成的信息
 						}
@@ -95,15 +97,16 @@
 				}
 
 			},
-			
-			addPlan(holding, index){
+
+			addPlan(holding, index) {
 				// 去加仓计划页面
-				this.navigateToNextPage();
+				console.log("holding", JSON.stringify(holding))
+				this.navigateToNextPage(holding);
 			},
-			navigateToNextPage() {
+			navigateToNextPage(holding) {
 				// 使用uni-app的页面跳转方法
 				uni.navigateTo({
-					url: '/pages/stock/addPlan' // 替换为目标页面的路径
+					url: '/pages/stock/addPlan?tsCode=' + holding.tsCode // 替换为目标页面的路径
 				});
 			}
 		}
