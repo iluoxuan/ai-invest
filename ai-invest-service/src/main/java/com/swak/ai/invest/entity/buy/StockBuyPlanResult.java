@@ -1,5 +1,6 @@
 package com.swak.ai.invest.entity.buy;
 
+import com.swak.ai.invest.entity.account.AccountInvestInfoRes;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -15,8 +16,7 @@ import java.util.List;
 @Data
 public class StockBuyPlanResult {
 
-    // 计划买入金额
-    private BigDecimal planBuyAmount;
+    private AccountInvestInfoRes account;
 
     private List<StockBuyPlanUnit> buyPlanUnits = new ArrayList<>();
 

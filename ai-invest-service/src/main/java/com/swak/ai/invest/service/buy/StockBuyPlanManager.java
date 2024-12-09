@@ -57,4 +57,6 @@ public class StockBuyPlanManager {
     public List<StockBaseRes> aiRecommend() {
         return null;
     }
+
+
 }

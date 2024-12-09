@@ -3,8 +3,11 @@ package com.swak.ai.invest.service.buy;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.NumberUtil;
 import com.swak.ai.inverst.common.entity.stock.StockQuote;
+import com.swak.ai.invest.context.UserContext;
 import com.swak.ai.invest.dao.domain.AccountStockPositionDo;
+import com.swak.ai.invest.dao.domain.UserInvestAccountDo;
 import com.swak.ai.invest.dao.mapper.AccountStockPositionMapper;
+import com.swak.ai.invest.dao.mapper.UserInvestAccountMapper;
 import com.swak.ai.invest.data.stock.quote.DefaultStockQuoteSpider;
 import com.swak.ai.invest.entity.InvestConstants;
 import com.swak.ai.invest.entity.buy.StockBuyContext;
@@ -12,6 +15,7 @@ import com.swak.ai.invest.entity.buy.StockBuyPlanName;
 import com.swak.ai.invest.entity.buy.StockBuyPlanResult;
 import com.swak.ai.invest.entity.buy.StockBuyPlanUnit;
 import com.swak.lib.common.number.BigNumber;
+import com.swak.lib.common.tools.AssertTools;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -33,13 +37,19 @@ public class StockLeftFixedBuyStrategy implements StockBuyStrategyPlan {
 
 
     private final AccountStockPositionMapper accountStockPositionMapper;
-
     private final DefaultStockQuoteSpider defaultStockQuoteSpider;
+    private final UserInvestAccountMapper userInvestAccountMapper;
+    private final StockBuyAmountService stockBuyAmountService;
 
     @Override
     public StockBuyPlanResult buyPlan(StockBuyContext context) {
 
         StockBuyPlanResult planResult = new StockBuyPlanResult();
+
+        UserInvestAccountDo account = userInvestAccountMapper.getByUserId(UserContext.userId());
+        AssertTools.notNull(account, "帐户还没初始化");
+
+
         // 没跌1%的仓位 左侧加仓计划
         AccountStockPositionDo stockPosition = accountStockPositionMapper.getBy(context.getAccountId(), context.getTsCode());
         if (Objects.isNull(stockPosition)) {
@@ -47,7 +57,7 @@ public class StockLeftFixedBuyStrategy implements StockBuyStrategyPlan {
             stockPosition.setAccountId(context.getAccountId());
             stockPosition.setTsCode(context.getTsCode());
             stockPosition.setQuantity(0);
-            stockPosition.setPlanAmount(NumberUtil.toBigDecimal(InvestConstants.defaultPlanAmount));
+            stockPosition.setPlanAmount(stockBuyAmountService.buyAmountRule(account.getAvailableAmount()));
             stockPosition.setCreateTime(new Date());
             accountStockPositionMapper.insert(stockPosition);
         }
@@ -85,12 +95,12 @@ public class StockLeftFixedBuyStrategy implements StockBuyStrategyPlan {
             // 计算当前持仓总亏损
             BigNumber currentLoss = stockChange.getPrice().sub(averageCost).mul(totalShares).round2HalfUp();
 
-            planUnit.setAveragePrice(averageCost.getValue());
+            planUnit.setBuyAvgPrice(averageCost.getValue());
             planUnit.setPe(stockChange.getPe());
             planUnit.setBuyPrice(stockChange.getPrice().getValue());
-            planUnit.setTotalLossAmount(currentLoss.getValue());
+            planUnit.setTotalLoss(currentLoss.getValue());
             planUnit.setTotalBuyAmount(totalCost.getValue());
-            planUnit.setBuyShares(minShares);
+            planUnit.setShares(minShares);
             planResult.getBuyPlanUnits().add(planUnit);
         }
         return planResult;

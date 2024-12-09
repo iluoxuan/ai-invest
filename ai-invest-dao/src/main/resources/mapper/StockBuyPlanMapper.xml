@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.swak.ai.invest.dao.mapper.StockBuyPlanMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.swak.ai.invest.dao.domain.StockBuyPlanDo">
+        <id column="id" property="id" />
+        <result column="account_id" property="accountId" />
+        <result column="ts_code" property="tsCode" />
+        <result column="shares" property="shares" />
+        <result column="plan_type" property="planType" />
+        <result column="plan_amount" property="planAmount" />
+        <result column="used_amount" property="usedAmount" />
+        <result column="available_amount" property="availableAmount" />
+        <result column="pct_chg" property="pctChg" />
+        <result column="buy_avg_price" property="buyAvgPrice" />
+        <result column="current_price" property="currentPrice" />
+        <result column="current_pe" property="currentPe" />
+        <result column="total_loss" property="totalLoss" />
+        <result column="total_buy_amount" property="totalBuyAmount" />
+        <result column="current_total_mv" property="currentTotalMv" />
+        <result column="change" property="change" />
+        <result column="sort" property="sort" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, account_id, ts_code, shares, plan_type, plan_amount, used_amount, available_amount, pct_chg, buy_avg_price, current_price, current_pe, total_loss, total_buy_amount, current_total_mv, `change`, sort, create_time, update_time
+    </sql>
+
+</mapper>

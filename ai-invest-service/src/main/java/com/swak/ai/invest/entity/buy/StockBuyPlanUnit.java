@@ -15,10 +15,10 @@ public class StockBuyPlanUnit {
     private BigDecimal totalBuyAmount;
 
     // 亏损金额
-    private BigDecimal totalLossAmount;
+    private BigDecimal totalLoss;
 
     // 当前每股平均成本
-    private BigDecimal averagePrice;
+    private BigDecimal buyAvgPrice;
 
     // 买入金额
     private BigDecimal buyAmount;
@@ -33,10 +33,10 @@ public class StockBuyPlanUnit {
     private BigDecimal buyPrice;
 
     // 当前公司总市值
-    private BigDecimal totalMv;
+    private BigDecimal currentTotalMv;
 
     // 买入股数
-    private int buyShares;
+    private int shares;
 
 
 }
