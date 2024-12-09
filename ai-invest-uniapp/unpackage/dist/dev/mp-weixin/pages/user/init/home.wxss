@@ -29,6 +29,9 @@
   background-color: #fcfcfc;
   height: 100vh;
 }
+.container .account.data-v-8f6ab2a6 {
+  background-color: #ffffff;
+}
 .container .summary-row.data-v-8f6ab2a6 {
   display: flex;
   justify-content: space-around;
@@ -46,9 +49,8 @@
   font-size: 28rpx;
 }
 .container .summary-row .item .amount.data-v-8f6ab2a6 {
-  font-weight: bold;
   font-size: 30rpx;
-  color: #dca476;
+  color: #ea3538;
 }
 .container .holdings.data-v-8f6ab2a6 {
   margin-top: 20rpx;

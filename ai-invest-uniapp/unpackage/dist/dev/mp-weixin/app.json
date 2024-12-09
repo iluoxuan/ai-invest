@@ -7,7 +7,7 @@
     "pages/user/init/home",
     "pages/start/stepOne",
     "pages/start/stepTwo",
-    "pages/stock/add",
+    "pages/stock/searchAdd",
     "pages/stock/addPlan"
   ],
   "window": {

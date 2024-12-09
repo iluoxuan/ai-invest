@@ -23,13 +23,13 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
-.container.data-v-4022a64e {
+.container.data-v-2db44495 {
   display: flex;
   flex-direction: column;
   background-color: #fcfcfc;
   height: 100vh;
 }
-.container .search-box.data-v-4022a64e {
+.container .search-box.data-v-2db44495 {
   display: flex;
   align-items: center;
   border-radius: 1rpx;
@@ -37,23 +37,23 @@
   margin-top: 10rpx;
   margin-bottom: 10rpx;
   border-bottom: 1px solid #fcebe3;
-  height: 65rpx;
+  height: 80rpx;
   /* 只在下方添加一条线 */
 }
-.container .search-box input.data-v-4022a64e {
+.container .search-box input.data-v-2db44495 {
   flex: 1;
   border: none;
   outline: none;
   font-size: 28rpx;
   color: rgba(0, 0, 0, 0.6);
 }
-.container .stock-add-tip.data-v-4022a64e {
+.container .stock-add-tip.data-v-2db44495 {
   display: flex;
   flex-direction: row;
   margin-top: 50rpx;
   margin-bottom: 5rpx;
 }
-.container .stock-add-tip .stock-add-tip-text.data-v-4022a64e {
+.container .stock-add-tip .stock-add-tip-text.data-v-2db44495 {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -61,24 +61,24 @@
   color: #dca476;
   font-size: 25rpx;
 }
-.container .holdings.data-v-4022a64e {
+.container .holdings.data-v-2db44495 {
   margin-top: 10rpx;
   margin-bottom: 25rpx;
   background-color: #ffffff;
 }
-.container .holdings .header.data-v-4022a64e {
+.container .holdings .header.data-v-2db44495 {
   display: flex;
   justify-content: space-between;
   background-color: #fcebe3;
   padding: 10rpx 0;
 }
-.container .holdings .header .column-title.data-v-4022a64e {
+.container .holdings .header .column-title.data-v-2db44495 {
   flex: 1;
   text-align: center;
   font-size: 28rpx;
   color: rgba(0, 0, 0, 0.6);
 }
-.container .holdings .row.data-v-4022a64e {
+.container .holdings .row.data-v-2db44495 {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -87,13 +87,13 @@
   /* 使用 box-shadow 模拟细线 */
   /* 添加底部边框 */
 }
-.container .holdings .row .column-value.data-v-4022a64e {
+.container .holdings .row .column-value.data-v-2db44495 {
   flex: 1;
   text-align: center;
   font-size: 28rpx;
   color: #ea3538;
 }
-.container .holdings .row.data-v-4022a64e:last-child {
+.container .holdings .row.data-v-2db44495:last-child {
   box-shadow: none;
   /* 隐藏最后一个列表项的细线 */
 }
