@@ -1,7 +1,7 @@
 package com.swak.ai.invest.web.api.controller;
 
 import com.swak.ai.invest.common.entity.stock.StockSearchReq;
-import com.swak.ai.invest.entity.account.StockBaseRes;
+import com.swak.ai.invest.service.stock.StockInfo;
 import com.swak.ai.invest.entity.buy.StockBuyPlanReq;
 import com.swak.ai.invest.entity.buy.StockBuyPlanResult;
 import com.swak.ai.invest.service.buy.StockBuyPlanManager;
@@ -39,13 +39,13 @@ public class StockController {
 
     @ApiOperation("搜索加仓")
     @PostMapping("/search")
-    public ApiRes<List<StockBaseRes>> search(@RequestBody StockSearchReq req) {
+    public ApiRes<List<StockInfo>> search(@RequestBody StockSearchReq req) {
         return ApiRes.success(stockBuyPlanManager.search(req));
     }
 
     @ApiOperation("搜索加仓")
     @PostMapping("/ai/recommend")
-    public ApiRes<List<StockBaseRes>> aiRecommend() {
+    public ApiRes<List<StockInfo>> aiRecommend() {
         return ApiRes.success(stockBuyPlanManager.aiRecommend());
     }
 }

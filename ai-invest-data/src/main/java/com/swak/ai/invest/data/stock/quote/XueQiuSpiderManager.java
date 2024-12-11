@@ -23,12 +23,12 @@ import java.math.BigDecimal;
  */
 @RequiredArgsConstructor
 @Service
-public class XueQuiSpiderManager implements StockQuoteSpider {
+public class XueQiuSpiderManager implements StockQuoteSpider {
 
     private final XueQiuPcTokenHandler xueQiuPcTokenHandler;
 
 
-    @Cached(name = "data:xueQiu:quote", key = "#tsCode", expire = 60, cacheType = CacheType.LOCAL)
+    @Cached(name = "xueQiu", key = "'stockQuote:spider:'+ #tsCode", expire = 60, cacheType = CacheType.LOCAL)
     @Override
     public StockQuote spider(String tsCode) throws Exception {
 

@@ -1,7 +1,8 @@
 package com.swak.ai.invest.entity.account;
 
 import com.swak.ai.invest.dao.domain.UserInvestAccountDo;
-import com.swak.ai.invest.tools.BigDecimalTools;
+import com.swak.ai.invest.common.tools.BigDecimalTools;
+import com.swak.ai.invest.service.stock.StockInfo;
 import lombok.Data;
 
 import java.util.List;
@@ -16,7 +17,7 @@ public class AccountInfoRes {
 
     private AccountInvestInfoRes account;
 
-    private List<StockBaseRes> stockList;
+    private List<StockInfo> stockList;
 
     public void setAccount(UserInvestAccountDo account) {
         this.account = new AccountInvestInfoRes();

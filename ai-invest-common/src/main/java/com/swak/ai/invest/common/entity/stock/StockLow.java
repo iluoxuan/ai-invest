@@ -1,6 +1,7 @@
 package com.swak.ai.invest.common.entity.stock;
 
 import cn.hutool.core.collection.CollectionUtil;
+import com.swak.ai.invest.common.tools.BigDecimalTools;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -37,22 +38,23 @@ public class StockLow {
 
         Collections.sort(prices);
 
-        List<BigDecimal> declinePercentages = new ArrayList<>();
-        for (int i = 0; i < prices.size() - 1; i++) {
-            BigDecimal currentPrice = prices.get(i);
-            BigDecimal nextPrice = prices.get(i + 1);
-            BigDecimal decline = currentPrice.subtract(nextPrice);
-            BigDecimal declinePercentage = decline.divide(currentPrice, 4, BigDecimal.ROUND_HALF_UP)
-                    .multiply(BigDecimal.valueOf(100));
-            declinePercentages.add(declinePercentage.setScale(2));
+        BigDecimal firstLowestPrice = prices.get(0);
+        List<BigDecimal> lossPercentages = new ArrayList<>();
+
+        for (int i = 1; i < prices.size(); i++) {
+            BigDecimal nextPrice = prices.get(i);
+            BigDecimal loss = firstLowestPrice.subtract(nextPrice);
+            BigDecimal lossPercentage = loss.divide(firstLowestPrice, 4, BigDecimal.ROUND_HALF_UP)
+                    .multiply(BigDecimalTools.HUNDRED);
+            lossPercentages.add(lossPercentage.setScale(2));
         }
 
-        return declinePercentages;
+        return lossPercentages;
     }
 
     public static void main(String[] args) {
         StockLow stockLow = new StockLow();
-        stockLow.setLow1y(new BigDecimal("80.00"));
+        stockLow.setLow1y(new BigDecimal("59.00"));
         stockLow.setLow2Y(new BigDecimal("70.00"));
         stockLow.setLow3y(new BigDecimal("65.00"));
         stockLow.setLow5y(new BigDecimal("60.00"));

@@ -10,7 +10,7 @@ import com.swak.ai.invest.dao.mapper.StockMapper;
 import com.swak.ai.invest.dao.mapper.UserInvestAccountMapper;
 import com.swak.ai.invest.entity.account.AccountInfoRes;
 import com.swak.ai.invest.entity.account.AccountInitReq;
-import com.swak.ai.invest.entity.account.StockBaseRes;
+import com.swak.ai.invest.service.stock.StockInfo;
 import com.swak.ai.invest.service.covert.StockCovertService;
 import com.swak.lib.common.tools.AssertTools;
 import com.swak.lib.common.tools.BeanTools;
@@ -64,7 +64,7 @@ public class AccountService {
             // 加缓存
             StockDo stock = stockMapper.getByTsCode(position.getTsCode());
 
-            StockBaseRes stockInfo = stockCovertService.covert(stock);
+            StockInfo stockInfo = stockCovertService.covert(stock);
             return stockInfo;
 
         }));

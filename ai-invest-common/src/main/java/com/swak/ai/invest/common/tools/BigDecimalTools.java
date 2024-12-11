@@ -1,6 +1,7 @@
-package com.swak.ai.invest.tools;
+package com.swak.ai.invest.common.tools;
 
-import com.swak.lib.common.tools.StringTools;
+
+import cn.hutool.core.util.StrUtil;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
@@ -11,6 +12,9 @@ import java.util.Objects;
  * @date: 2024/11/22
  */
 public class BigDecimalTools {
+
+
+    public final static BigDecimal HUNDRED = new BigDecimal(100);
 
     public final static BigDecimal TEN_THOUSAND = new BigDecimal(10000);
 
@@ -23,7 +27,7 @@ public class BigDecimalTools {
 
     public static String format(BigDecimal value) {
         if (Objects.isNull(value)) {
-            return StringTools.EMPTY;
+            return StrUtil.EMPTY;
         }
         DecimalFormat df = new DecimalFormat("#,##0.00");
         return df.format(value);

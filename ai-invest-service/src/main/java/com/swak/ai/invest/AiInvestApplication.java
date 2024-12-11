@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Import;
  * @date: 2024/10/24
  */
 @Import(DataConfig.class)
-@EnableMethodCache(basePackages = "com.swak.ai.invest.service")
+@EnableMethodCache(basePackages = "com.swak.ai.invest", proxyTargetClass = true)
 @SpringBootApplication
 public class AiInvestApplication {
 

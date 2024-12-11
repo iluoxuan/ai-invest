@@ -28,7 +28,7 @@ public class XueQiuPcTokenHandler {
     private final WebDriver webDriver;
 
 
-    @Cached(name = "data:getToken", key = "xueQiu", expire = 60, timeUnit = TimeUnit.MINUTES, cacheType = CacheType.LOCAL)
+    @Cached(name = "xueQiuGetToken", expire = 60, timeUnit = TimeUnit.MINUTES, cacheType = CacheType.LOCAL)
     public XueQiuPcToken getToken() throws Exception {
 
         try {

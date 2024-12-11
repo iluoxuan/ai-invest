@@ -5,7 +5,7 @@ import com.swak.ai.invest.dao.domain.StockDailyBasicDo;
 import com.swak.ai.invest.dao.domain.StockDo;
 import com.swak.ai.invest.dao.mapper.StockDailyBasicMapper;
 import com.swak.ai.invest.data.stock.quote.DefaultStockQuoteSpider;
-import com.swak.ai.invest.entity.account.StockBaseRes;
+import com.swak.ai.invest.service.stock.StockInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -24,9 +24,9 @@ public class StockCovertService {
     private final DefaultStockQuoteSpider defaultStockQuoteSpider;
 
 
-    public StockBaseRes covert(StockDo stock) {
+    public StockInfo covert(StockDo stock) {
 
-        StockBaseRes stockInfo = new StockBaseRes();
+        StockInfo stockInfo = new StockInfo();
 
         stockInfo.setTsCode(stock.getTsCode());
         StockDailyBasicDo dailyBasic = stockDailyBasicMapper.getByTsCode(stock.getTsCode());

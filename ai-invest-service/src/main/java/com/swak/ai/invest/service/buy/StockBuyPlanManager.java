@@ -4,7 +4,7 @@ import com.swak.ai.invest.common.entity.stock.StockSearchReq;
 import com.swak.ai.invest.context.UserContext;
 import com.swak.ai.invest.dao.domain.StockDo;
 import com.swak.ai.invest.dao.mapper.StockMapper;
-import com.swak.ai.invest.entity.account.StockBaseRes;
+import com.swak.ai.invest.service.stock.StockInfo;
 import com.swak.ai.invest.entity.buy.StockBuyContext;
 import com.swak.ai.invest.entity.buy.StockBuyPlanReq;
 import com.swak.ai.invest.entity.buy.StockBuyPlanResult;
@@ -46,7 +46,7 @@ public class StockBuyPlanManager {
         throw SwakBizException.argumentError("未找到加仓计划");
     }
 
-    public List<StockBaseRes> search(StockSearchReq req) {
+    public List<StockInfo> search(StockSearchReq req) {
 
         req.setLimit(searchByStock);
         List<StockDo> stockList = stockMapper.search(req);
@@ -54,7 +54,7 @@ public class StockBuyPlanManager {
         return BeanTools.copyList(stockList, stockDo -> stockCovertService.covert(stockDo));
     }
 
-    public List<StockBaseRes> aiRecommend() {
+    public List<StockInfo> aiRecommend() {
         return null;
     }
 

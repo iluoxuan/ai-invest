@@ -1,11 +1,10 @@
 package com.swak.ai.invest.entity.buy;
 
-import cn.binarywang.wx.miniapp.bean.shop.WxMaShopCouponInfo;
 import com.swak.ai.invest.dao.domain.AccountStockPositionDo;
+import com.swak.ai.invest.dao.domain.StockDo;
 import com.swak.ai.invest.entity.account.AccountInvestInfoRes;
 import lombok.Data;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +19,7 @@ public class StockBuyPlanResult {
 
     private AccountInvestInfoRes account;
     private AccountStockPositionDo position;
+    private StockDo stock;
 
     private List<StockBuyPlanUnit> buyPlanUnits = new ArrayList<>();
 

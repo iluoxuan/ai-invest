@@ -1,5 +1,7 @@
 package com.swak.ai.invest.data.stock.quote;
 
+import com.alicp.jetcache.anno.CacheType;
+import com.alicp.jetcache.anno.Cached;
 import com.swak.ai.invest.common.entity.stock.StockQuote;
 import com.swak.lib.client.exception.SwakBizException;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +21,11 @@ public class DefaultStockQuoteSpider implements StockQuoteSpider {
 
     private final List<StockQuoteSpider> stockQuoteSpiders;
 
+
+    /**
+     * 实时数据，加本地缓存
+     */
+    @Cached(name = "stockQuote", key = "'spider:' + #tsCode", expire = 120, cacheType = CacheType.LOCAL)
     @Override
     public StockQuote spider(String tsCode) {
 

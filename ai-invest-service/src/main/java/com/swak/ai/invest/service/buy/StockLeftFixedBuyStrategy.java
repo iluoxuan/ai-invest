@@ -4,6 +4,7 @@ import cn.hutool.core.lang.Assert;
 import com.swak.ai.invest.common.entity.stock.StockQuote;
 import com.swak.ai.invest.context.UserContext;
 import com.swak.ai.invest.dao.domain.AccountStockPositionDo;
+import com.swak.ai.invest.dao.domain.StockDo;
 import com.swak.ai.invest.dao.domain.UserInvestAccountDo;
 import com.swak.ai.invest.dao.mapper.AccountStockPositionMapper;
 import com.swak.ai.invest.dao.mapper.StockMapper;
@@ -50,6 +51,9 @@ public class StockLeftFixedBuyStrategy implements StockBuyStrategyPlan {
         UserInvestAccountDo account = userInvestAccountMapper.getByUserId(UserContext.userId());
         AssertTools.notNull(account, "帐户还没初始化");
         context.setAccountId(account.getAccountId());
+
+        StockDo stock = stockMapper.getByTsCode(context.getTsCode());
+        planResult.setStock(stock);
 
         // 没跌1%的仓位 左侧加仓计划
         AccountStockPositionDo stockPosition = accountStockPositionMapper.getBy(context.getAccountId(), context.getTsCode());
