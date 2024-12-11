@@ -1,11 +1,13 @@
 package com.swak.ai.invest.service.account;
 
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
+import com.swak.ai.invest.common.entity.stock.StockLow;
 import com.swak.ai.invest.context.UserContext;
 import com.swak.ai.invest.dao.domain.AccountStockPositionDo;
 import com.swak.ai.invest.dao.domain.StockDo;
 import com.swak.ai.invest.dao.domain.UserInvestAccountDo;
 import com.swak.ai.invest.dao.mapper.AccountStockPositionMapper;
+import com.swak.ai.invest.dao.mapper.StockDailyLineMapper;
 import com.swak.ai.invest.dao.mapper.StockMapper;
 import com.swak.ai.invest.dao.mapper.UserInvestAccountMapper;
 import com.swak.ai.invest.entity.account.AccountInfoRes;
@@ -34,6 +36,7 @@ public class AccountService {
     private final AccountStockPositionMapper accountStockPositionMapper;
     private final StockMapper stockMapper;
     private final StockCovertService stockCovertService;
+    private final StockDailyLineMapper stockDailyLineMapper;
 
     public void init(AccountInitReq req) {
 
@@ -61,10 +64,11 @@ public class AccountService {
         // 持仓数量最多不超过30个
         List<AccountStockPositionDo> positionList = accountStockPositionMapper.getByAccountId(account.getAccountId());
         infoRes.setStockList(BeanTools.copyList(positionList, position -> {
+
             // 加缓存
             StockDo stock = stockMapper.getByTsCode(position.getTsCode());
-
             StockInfo stockInfo = stockCovertService.covert(stock);
+
             return stockInfo;
 
         }));

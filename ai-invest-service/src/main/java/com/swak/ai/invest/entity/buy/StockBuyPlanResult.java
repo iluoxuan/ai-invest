@@ -3,6 +3,7 @@ package com.swak.ai.invest.entity.buy;
 import com.swak.ai.invest.dao.domain.AccountStockPositionDo;
 import com.swak.ai.invest.dao.domain.StockDo;
 import com.swak.ai.invest.entity.account.AccountInvestInfoRes;
+import com.swak.ai.invest.service.stock.StockInfo;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ public class StockBuyPlanResult {
 
     private AccountInvestInfoRes account;
     private AccountStockPositionDo position;
-    private StockDo stock;
+    private StockInfo stockInfo;
 
     private List<StockBuyPlanUnit> buyPlanUnits = new ArrayList<>();
 

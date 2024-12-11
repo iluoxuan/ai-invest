@@ -30,7 +30,7 @@ public class StockInfo {
     /**
      * 股票中文名
      */
-    private String stockCnName;
+    private String cnName;
 
     private BigDecimal price;
 

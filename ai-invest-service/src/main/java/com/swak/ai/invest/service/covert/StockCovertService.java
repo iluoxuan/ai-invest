@@ -1,5 +1,6 @@
 package com.swak.ai.invest.service.covert;
 
+import com.swak.ai.invest.common.entity.stock.StockLow;
 import com.swak.ai.invest.common.entity.stock.StockQuote;
 import com.swak.ai.invest.dao.domain.StockDailyBasicDo;
 import com.swak.ai.invest.dao.domain.StockDo;
@@ -26,12 +27,18 @@ public class StockCovertService {
 
     public StockInfo covert(StockDo stock) {
 
+        return covert(stock, null);
+    }
+
+    public StockInfo covert(StockDo stock, StockLow stockLow) {
+
         StockInfo stockInfo = new StockInfo();
 
         stockInfo.setTsCode(stock.getTsCode());
+        stockInfo.setSymbol(stock.getSymbol());
         StockDailyBasicDo dailyBasic = stockDailyBasicMapper.getByTsCode(stock.getTsCode());
         stockInfo.setTotalMv(dailyBasic.getTotalMv());
-        stockInfo.setStockCnName(stock.getName());
+        stockInfo.setCnName(stock.getName());
 
         // 实时股价
         StockQuote stockQuote = defaultStockQuoteSpider.spider(stock.getTsCode());
@@ -39,6 +46,12 @@ public class StockCovertService {
             stockInfo.setPe(stockQuote.getPe());
             stockInfo.setPrice(stockQuote.getCurrentPrice());
         }
+
+        if (Objects.nonNull(stockLow)) {
+            stockInfo.setLow1y(stockLow.getLow1y());
+            stockInfo.setLow10y(stockLow.getLow10y());
+        }
+
         return stockInfo;
     }
 }

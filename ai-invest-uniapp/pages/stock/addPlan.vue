@@ -12,7 +12,7 @@
 
 		<view class="stock">
 
-			<view class="title">阿里巴巴(1688)</view>
+			<view class="title">{{ stockInfo.cnName }}({{ stockInfo.symbol }})</view>
 			<view class="card">
 
 				<view class="header">
@@ -22,10 +22,10 @@
 					<text class="column-title">股息率</text>
 				</view>
 				<view class="row">
-					<text class="column-value">16</text>
-					<text class="column-value">80</text>
-					<text class="column-value">1.5万亿</text>
-					<text class="column-value">3.5%</text>
+					<text class="column-value">{{ stockInfo.pe }}</text>
+					<text class="column-value">{{ stockInfo.price }}</text>
+					<text class="column-value">{{ stockInfo.totalMv }}</text>
+					<text class="column-value">{{ }}</text>
 				</view>
 
 			</view>
@@ -35,12 +35,12 @@
 					<text class="column-title">52周最低</text>
 					<text class="column-title">历史最低</text>
 					<text class="column-title">历史最高</text>
-					<text class="column-title">当前热度</text>
+					<text class="column-title">热度</text>
 				</view>
 				<view class="row">
-					<text class="column-value">16</text>
-					<text class="column-value">80</text>
-					<text class="column-value">1.5万亿</text>
+					<text class="column-value">{{ stockInfo.low1y }}</text>
+					<text class="column-value">{{ stockInfo.low10y }}</text>
+					<text class="column-value">100</text>
 					<text class="column-value">3.5%</text>
 				</view>
 
@@ -84,6 +84,7 @@
 			return {
 				account: {},
 				position: {},
+				stockInfo: {},
 				holdings: []
 			};
 		},
@@ -142,6 +143,7 @@
 					this.holdings = res.data.data.buyPlanUnits;
 					this.accout = res.data.data.account;
 					this.position = res.data.data.position;
+					this.stockInfo = res.data.data.stockInfo;
 
 				} catch (error) {
 					console.error('请求失败:', error.message);

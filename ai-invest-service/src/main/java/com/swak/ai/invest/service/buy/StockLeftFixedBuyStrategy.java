@@ -1,12 +1,14 @@
 package com.swak.ai.invest.service.buy;
 
 import cn.hutool.core.lang.Assert;
+import com.swak.ai.invest.common.entity.stock.StockLow;
 import com.swak.ai.invest.common.entity.stock.StockQuote;
 import com.swak.ai.invest.context.UserContext;
 import com.swak.ai.invest.dao.domain.AccountStockPositionDo;
 import com.swak.ai.invest.dao.domain.StockDo;
 import com.swak.ai.invest.dao.domain.UserInvestAccountDo;
 import com.swak.ai.invest.dao.mapper.AccountStockPositionMapper;
+import com.swak.ai.invest.dao.mapper.StockDailyLineMapper;
 import com.swak.ai.invest.dao.mapper.StockMapper;
 import com.swak.ai.invest.dao.mapper.UserInvestAccountMapper;
 import com.swak.ai.invest.data.stock.quote.DefaultStockQuoteSpider;
@@ -14,6 +16,8 @@ import com.swak.ai.invest.entity.buy.StockBuyContext;
 import com.swak.ai.invest.entity.buy.StockBuyPlanName;
 import com.swak.ai.invest.entity.buy.StockBuyPlanResult;
 import com.swak.ai.invest.entity.buy.StockBuyPlanUnit;
+import com.swak.ai.invest.service.covert.StockCovertService;
+import com.swak.ai.invest.service.stock.StockInfo;
 import com.swak.lib.common.number.BigNumber;
 import com.swak.lib.common.tools.AssertTools;
 import lombok.RequiredArgsConstructor;
@@ -41,6 +45,8 @@ public class StockLeftFixedBuyStrategy implements StockBuyStrategyPlan {
     private final UserInvestAccountMapper userInvestAccountMapper;
     private final StockBuyAmountService stockBuyAmountService;
     private final StockMapper stockMapper;
+    private final StockDailyLineMapper stockDailyLineMapper;
+    private final StockCovertService stockCovertService;
 
     @Override
     public StockBuyPlanResult buyPlan(StockBuyContext context) {
@@ -53,7 +59,11 @@ public class StockLeftFixedBuyStrategy implements StockBuyStrategyPlan {
         context.setAccountId(account.getAccountId());
 
         StockDo stock = stockMapper.getByTsCode(context.getTsCode());
-        planResult.setStock(stock);
+
+        // 加缓存
+        StockLow stockLow = stockDailyLineMapper.getLow(context.getTsCode());
+        StockInfo stockInfo = stockCovertService.covert(stock, stockLow);
+        planResult.setStockInfo(stockInfo);
 
         // 没跌1%的仓位 左侧加仓计划
         AccountStockPositionDo stockPosition = accountStockPositionMapper.getBy(context.getAccountId(), context.getTsCode());
