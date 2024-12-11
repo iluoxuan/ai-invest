@@ -23,7 +23,7 @@
 				<text class="column-title">现价</text>
 			</view>
 			<view class="row" v-for="(holding, index) in holdings" :key="index" @click="addPlan(holding, index)">
-				<text class="column-value"> {{ holding.stockCnName }}</text>
+				<text class="column-value"> {{ holding.cnName }}</text>
 				<text class="column-value">{{ holding.pe }}</text>
 				<text class="column-value">{{ holding.totalMv }}</text>
 				<text class="column-value">{{ holding.holdings }}</text>

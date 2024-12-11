@@ -5,14 +5,14 @@
 			<view class="tip">您当前账户剩余资金{{ position.planAmount}}</view>
 			<view class="tip">AI推荐加仓金额{{ position.availableAmount }}</view>
 			<view class="value">
-				<input type="text" placeholder="输入计划加仓金额" />
+				<input type="text" placeholder="输入计划加仓金额" v-model="planAmount" @blur="leftBuy" />
 			</view>
 
 		</view>
 
 		<view class="stock">
 
-			<view class="title">{{ stockInfo.cnName }}({{ stockInfo.symbol }})</view>
+			<view class="title">{{ stockInfo.cnName }}( {{ stockInfo.symbol }})</view>
 			<view class="card">
 
 				<view class="header">
@@ -58,16 +58,16 @@
 				<text class="column-title">股价</text>
 				<text class="column-title">均价</text>
 				<text class="column-title">总金额/亏损</text>
+				<text class="column-title">总买入</text>
 				<text class="column-title">PE</text>
-				<text class="column-title">市值</text>
 			</view>
 			<view class="row" v-for="(holding, index) in holdings" :key="index">
 				<text class="column-value">-{{ toPercentage(holding.fallRate) }}</text>
 				<text class="column-value">{{ holding.currentPrice }}</text>
 				<text class="column-value">{{ holding.buyAvgPrice }}</text>
 				<text class="column-value">{{ holding.totalLoss }}</text>
+				<text class="column-value">{{ holding.totalBuyAmount }}</text>
 				<text class="column-value">{{ holding.pe }}</text>
-				<text class="column-value">{{ holding.currentTotalMv }}</text>
 			</view>
 		</view>
 
@@ -82,6 +82,8 @@
 	export default {
 		data() {
 			return {
+				tsCode: '',
+				planAmount: '',
 				account: {},
 				position: {},
 				stockInfo: {},
@@ -91,7 +93,8 @@
 
 		onLoad(options) {
 			console.log("options", JSON.stringify(options));
-			this.leftBuy(options.tsCode);
+			this.tsCode = options.tsCode;
+			this.leftBuy();
 		},
 
 		methods: {
@@ -112,7 +115,7 @@
 				});
 			},
 
-			async leftBuy(tsCode) {
+			async leftBuy() {
 				// 调用搜索接口
 				try {
 
@@ -123,7 +126,8 @@
 							'content-type': 'application/json'
 						},
 						data: {
-							'tsCode': tsCode
+							'tsCode': this.tsCode,
+							'planAmount': this.planAmount
 						},
 						complete: (res) => {
 							console.log('请求完成:', res); // 打印请求完成的信息
