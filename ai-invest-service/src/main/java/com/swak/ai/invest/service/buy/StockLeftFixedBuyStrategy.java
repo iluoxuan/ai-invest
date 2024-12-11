@@ -110,7 +110,7 @@ public class StockLeftFixedBuyStrategy implements StockBuyStrategyPlan {
 
     private BigDecimal getPlanMinPrice(StockQuote stockQuote) {
 
-        // TODO 计算最低加仓位置 默认取52周最低
+        // TODO 计算最低加仓位置 默认取52周最低11111
 
         return stockQuote.getLow52w();
     }
