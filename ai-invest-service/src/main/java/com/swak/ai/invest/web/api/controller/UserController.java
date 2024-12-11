@@ -32,8 +32,6 @@ public class UserController {
     @ApiOperation("用户信息")
     @PostMapping("/info")
     public ApiRes<UserInfoRes> info() {
-
-        UserContext.getInstance().setUserId("12334455556666677");
         return ApiRes.success(userService.info());
     }
 

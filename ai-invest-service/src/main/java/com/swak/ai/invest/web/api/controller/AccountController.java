@@ -32,9 +32,6 @@ public class AccountController {
     @ApiOperation("初始化账户信息")
     @PostMapping("/init")
     public ApiRes<Void> init(@Valid @RequestBody AccountInitReq req) {
-
-        UserContext.getInstance().setUserId("12334455556666677");
-
         accountService.init(req);
         return ApiRes.success();
     }
@@ -42,7 +39,6 @@ public class AccountController {
     @ApiOperation("账户信息")
     @PostMapping("/info")
     public ApiRes<AccountInfoRes> info() {
-        UserContext.getInstance().setUserId("12334455556666677");
         return ApiRes.success(accountService.info());
     }
 }
