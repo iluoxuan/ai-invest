@@ -2,7 +2,7 @@ package com.swak.ai.invest.dao.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.swak.ai.inverst.common.entity.stock.StockSearchReq;
+import com.swak.ai.invest.common.entity.stock.StockSearchReq;
 import com.swak.ai.invest.dao.domain.StockDo;
 import com.swak.lib.dao.mybatis.plus.ext.LimitSql;
 import org.apache.ibatis.annotations.Mapper;

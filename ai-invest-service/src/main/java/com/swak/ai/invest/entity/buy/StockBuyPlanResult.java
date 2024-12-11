@@ -1,5 +1,6 @@
 package com.swak.ai.invest.entity.buy;
 
+import cn.binarywang.wx.miniapp.bean.shop.WxMaShopCouponInfo;
 import com.swak.ai.invest.dao.domain.AccountStockPositionDo;
 import com.swak.ai.invest.entity.account.AccountInvestInfoRes;
 import lombok.Data;

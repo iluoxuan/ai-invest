@@ -1,11 +1,12 @@
 package com.swak.ai.invest.service.buy;
 
 import cn.hutool.core.lang.Assert;
-import com.swak.ai.inverst.common.entity.stock.StockQuote;
+import com.swak.ai.invest.common.entity.stock.StockQuote;
 import com.swak.ai.invest.context.UserContext;
 import com.swak.ai.invest.dao.domain.AccountStockPositionDo;
 import com.swak.ai.invest.dao.domain.UserInvestAccountDo;
 import com.swak.ai.invest.dao.mapper.AccountStockPositionMapper;
+import com.swak.ai.invest.dao.mapper.StockMapper;
 import com.swak.ai.invest.dao.mapper.UserInvestAccountMapper;
 import com.swak.ai.invest.data.stock.quote.DefaultStockQuoteSpider;
 import com.swak.ai.invest.entity.buy.StockBuyContext;
@@ -38,11 +39,13 @@ public class StockLeftFixedBuyStrategy implements StockBuyStrategyPlan {
     private final DefaultStockQuoteSpider defaultStockQuoteSpider;
     private final UserInvestAccountMapper userInvestAccountMapper;
     private final StockBuyAmountService stockBuyAmountService;
+    private final StockMapper stockMapper;
 
     @Override
     public StockBuyPlanResult buyPlan(StockBuyContext context) {
 
         StockBuyPlanResult planResult = new StockBuyPlanResult();
+
 
         UserInvestAccountDo account = userInvestAccountMapper.getByUserId(UserContext.userId());
         AssertTools.notNull(account, "帐户还没初始化");

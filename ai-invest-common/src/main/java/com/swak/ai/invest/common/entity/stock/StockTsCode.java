@@ -1,4 +1,4 @@
-package com.swak.ai.inverst.common.entity.stock;
+package com.swak.ai.invest.common.entity.stock;
 
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.StrUtil;

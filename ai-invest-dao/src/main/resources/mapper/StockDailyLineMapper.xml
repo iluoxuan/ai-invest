@@ -25,4 +25,19 @@
         id, ts_code, trade_date, `open`, high, low, `close`, pre_close, `change`, pct_chg, vol, amount, create_time, update_time
     </sql>
 
+
+    <select id="getLow" resultType="com.swak.ai.invest.common.entity.stock.StockLow">
+
+        SELECT
+            ts_code AS tsCode,
+               MIN(CASE WHEN trade_date >= DATE_SUB(CURDATE(), INTERVAL 1 YEAR) THEN low END)  AS low1y,
+               MIN(CASE WHEN trade_date >= DATE_SUB(CURDATE(), INTERVAL 2 YEAR) THEN low END)  AS low2y,
+               MIN(CASE WHEN trade_date >= DATE_SUB(CURDATE(), INTERVAL 3 YEAR) THEN low END)  AS low3y,
+               MIN(CASE WHEN trade_date >= DATE_SUB(CURDATE(), INTERVAL 5 YEAR) THEN low END)  AS low5y,
+               MIN(CASE WHEN trade_date >= DATE_SUB(CURDATE(), INTERVAL 10 YEAR) THEN low END) AS low10y
+        FROM stock_daily_line
+        WHERE ts_code = #{tsCode};
+
+    </select>
+
 </mapper>

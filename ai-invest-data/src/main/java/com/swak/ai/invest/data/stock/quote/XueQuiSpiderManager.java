@@ -5,7 +5,7 @@ import cn.hutool.core.util.NumberUtil;
 import com.alibaba.fastjson2.JSONPath;
 import com.alicp.jetcache.anno.CacheType;
 import com.alicp.jetcache.anno.Cached;
-import com.swak.ai.inverst.common.entity.stock.StockQuote;
+import com.swak.ai.invest.common.entity.stock.StockQuote;
 import com.swak.ai.invest.data.config.SpiderUrl;
 import com.swak.ai.invest.data.third.XueQiuPcToken;
 import com.swak.ai.invest.data.third.XueQiuPcTokenHandler;

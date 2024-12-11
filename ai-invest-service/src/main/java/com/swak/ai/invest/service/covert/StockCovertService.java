@@ -1,10 +1,9 @@
 package com.swak.ai.invest.service.covert;
 
-import com.swak.ai.inverst.common.entity.stock.StockQuote;
+import com.swak.ai.invest.common.entity.stock.StockQuote;
 import com.swak.ai.invest.dao.domain.StockDailyBasicDo;
 import com.swak.ai.invest.dao.domain.StockDo;
 import com.swak.ai.invest.dao.mapper.StockDailyBasicMapper;
-import com.swak.ai.invest.dao.mapper.StockMapper;
 import com.swak.ai.invest.data.stock.quote.DefaultStockQuoteSpider;
 import com.swak.ai.invest.entity.account.StockBaseRes;
 import lombok.RequiredArgsConstructor;

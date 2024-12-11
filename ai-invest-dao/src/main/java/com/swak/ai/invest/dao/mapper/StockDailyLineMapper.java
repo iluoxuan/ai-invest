@@ -2,8 +2,10 @@ package com.swak.ai.invest.dao.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.swak.ai.invest.common.entity.stock.StockLow;
 import com.swak.ai.invest.dao.domain.StockDailyLineDo;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.Date;
 
@@ -23,4 +25,6 @@ public interface StockDailyLineMapper extends BaseMapper<StockDailyLineDo> {
                 .eq(StockDailyLineDo::getTsCode, tsCode)
                 .eq(StockDailyLineDo::getTradeDate, tradeDate));
     }
+
+     StockLow getLow(@Param("tsCode") String tsCode);
 }

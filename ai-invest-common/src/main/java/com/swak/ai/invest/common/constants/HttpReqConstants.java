@@ -1,4 +1,4 @@
-package com.swak.ai.inverst.common.constants;
+package com.swak.ai.invest.common.constants;
 
 /**
  * @author: ljq

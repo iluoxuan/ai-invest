@@ -1,6 +1,6 @@
 package com.swak.ai.invest.service.buy;
 
-import com.swak.ai.inverst.common.entity.stock.StockSearchReq;
+import com.swak.ai.invest.common.entity.stock.StockSearchReq;
 import com.swak.ai.invest.context.UserContext;
 import com.swak.ai.invest.dao.domain.StockDo;
 import com.swak.ai.invest.dao.mapper.StockMapper;

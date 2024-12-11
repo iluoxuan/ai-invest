@@ -1,4 +1,4 @@
-package com.swak.ai.inverst.common.entity.stock;
+package com.swak.ai.invest.common.entity.stock;
 
 import lombok.Data;
 

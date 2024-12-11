@@ -1,6 +1,6 @@
 package com.swak.ai.invest.data.stock.quote;
 
-import com.swak.ai.inverst.common.entity.stock.StockQuote;
+import com.swak.ai.invest.common.entity.stock.StockQuote;
 
 /**
  * @author: ljq

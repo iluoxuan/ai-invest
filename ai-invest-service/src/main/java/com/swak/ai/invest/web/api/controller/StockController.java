@@ -1,6 +1,6 @@
 package com.swak.ai.invest.web.api.controller;
 
-import com.swak.ai.inverst.common.entity.stock.StockSearchReq;
+import com.swak.ai.invest.common.entity.stock.StockSearchReq;
 import com.swak.ai.invest.entity.account.StockBaseRes;
 import com.swak.ai.invest.entity.buy.StockBuyPlanReq;
 import com.swak.ai.invest.entity.buy.StockBuyPlanResult;
