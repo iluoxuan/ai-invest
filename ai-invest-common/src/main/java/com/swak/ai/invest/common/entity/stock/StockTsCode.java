@@ -2,6 +2,7 @@ package com.swak.ai.invest.common.entity.stock;
 
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.StrUtil;
+import com.swak.ai.invest.common.entity.MarketEnum;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,8 +20,8 @@ public class StockTsCode {
 
     private String symbol;
 
-    public boolean isHk(){
-        return "HK".equals(this.market);
+    public boolean isHk() {
+        return MarketEnum.HK.isMe(this.market);
     }
 
     public static StockTsCode create(String tsCode) {

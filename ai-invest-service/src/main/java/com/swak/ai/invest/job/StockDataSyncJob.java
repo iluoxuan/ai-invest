@@ -11,8 +11,8 @@ import com.swak.ai.invest.dao.mapper.StockDailyBasicMapper;
 import com.swak.ai.invest.dao.mapper.StockDailyLineMapper;
 import com.swak.ai.invest.dao.mapper.StockMapper;
 import com.swak.ai.invest.data.context.SpiderContext;
-import com.swak.ai.invest.data.stock.daily.DefaultStockDailyBasicSpider;
-import com.swak.ai.invest.data.xueqiu.XueQiuStockQuote;
+import com.swak.ai.invest.data.stock.base.StockDataSpiderManager;
+import com.swak.ai.invest.data.stock.xueqiu.XueQiuStockQuote;
 import com.swak.lib.common.log.Logs;
 import com.swak.lib.common.tools.BeanTools;
 import com.swak.lib.common.tools.DateTools;
@@ -54,7 +54,7 @@ public class StockDataSyncJob {
 
     private final StockDailyBasicMapper stockDailyBasicMapper;
 
-    private final DefaultStockDailyBasicSpider stockDailyBasicSpider;
+    private final StockDataSpiderManager stockDataSpiderManager;
 
     public void syncStockBasicList() {
 
@@ -93,7 +93,7 @@ public class StockDataSyncJob {
             }
 
             // 通过雪球同步
-            StockDailyBasic stockDailyBasic = stockDailyBasicSpider.spider(tsCode);
+            StockDailyBasic stockDailyBasic = stockDataSpiderManager.dailyBasic(tsCode);
             if (Objects.nonNull(stockDailyBasic)) {
                 dailyBasic = BeanTools.copy(stockDailyBasic, StockDailyBasicDo.class);
                 Date tradeDate = DateTools.parseWithEmpty(stockDailyBasic.getTradeDate(), NORM_DATE_PATTERN);
@@ -126,6 +126,12 @@ public class StockDataSyncJob {
 
     private void syncDailyLIne(String tsCode, TradeReq req) {
         List<StockTradeLine> dailyTrades = tradeDataApi.daily(req);
+        //
+        if(CollectionUtil.isEmpty(dailyTrades)){
+            //
+        }
+
+
         batchSave(dailyTrades, stockTradeLine -> {
             try {
 

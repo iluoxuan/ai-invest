@@ -1,11 +1,9 @@
-package com.swak.ai.invest.data.xueqiu;
+package com.swak.ai.invest.data.stock.xueqiu;
 
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONPath;
+import com.swak.ai.invest.common.exception.SpiderDataException;
 import com.swak.ai.invest.data.config.SpiderUrl;
-import com.swak.ai.invest.data.stock.quote.XueQiuTools;
-import com.swak.ai.invest.data.third.XueQiuPcToken;
-import com.swak.ai.invest.data.third.XueQiuPcTokenHandler;
 import lombok.RequiredArgsConstructor;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
@@ -22,22 +20,27 @@ public class XueQuiStockManager {
 
     private final XueQiuPcTokenHandler xueQiuPcTokenHandler;
 
-    public XueQiuStockQuote getStockQuote(String tsCode) throws Exception {
+    public XueQiuStockQuote getStockQuote(String tsCode) {
 
-        XueQiuPcToken xueQiuPcToken = xueQiuPcTokenHandler.getToken();
+        try {
 
-        String symbol = XueQiuTools.symbol(tsCode);
+            XueQiuPcToken xueQiuPcToken = xueQiuPcTokenHandler.getToken();
 
-        // 抓取实时数据
-        String url = UriComponentsBuilder.fromHttpUrl(SpiderUrl.xueQiuDomain).path(SpiderUrl.quotePath)
-                .queryParam("symbol", symbol)
-                .queryParam("extend", "detail").build().toUriString();
-        String quoteJson = Jsoup.connect(url).cookies(xueQiuPcToken.getCookies())
-                .ignoreContentType(true)
-                .method(Connection.Method.GET)
-                .execute().body();
-        Object quote = JSONPath.eval(quoteJson, "$.data.quote");
-        return JSON.parseObject(quote.toString(), XueQiuStockQuote.class);
+            String symbol = XueQiuTools.symbol(tsCode);
+
+            // 抓取实时数据
+            String url = UriComponentsBuilder.fromHttpUrl(SpiderUrl.xueQiuDomain).path(SpiderUrl.quotePath)
+                    .queryParam("symbol", symbol)
+                    .queryParam("extend", "detail").build().toUriString();
+            String quoteJson = Jsoup.connect(url).cookies(xueQiuPcToken.getCookies())
+                    .ignoreContentType(true)
+                    .method(Connection.Method.GET)
+                    .execute().body();
+            Object quote = JSONPath.eval(quoteJson, "$.data.quote");
+            return JSON.parseObject(quote.toString(), XueQiuStockQuote.class);
+        } catch (Exception e) {
+            throw new SpiderDataException(e);
+        }
     }
 
     public static void main(String[] args) {

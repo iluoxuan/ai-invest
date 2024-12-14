@@ -1,4 +1,4 @@
-package com.swak.ai.invest.data.third;
+package com.swak.ai.invest.data.stock.xueqiu;
 
 import lombok.Data;
 

@@ -1,4 +1,4 @@
-package com.swak.ai.invest.data.xueqiu;
+package com.swak.ai.invest.data.stock.xueqiu;
 
 import com.alibaba.fastjson2.annotation.JSONField;
 import lombok.Data;

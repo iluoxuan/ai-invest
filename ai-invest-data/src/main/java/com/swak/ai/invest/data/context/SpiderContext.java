@@ -1,6 +1,6 @@
 package com.swak.ai.invest.data.context;
 
-import com.swak.ai.invest.data.xueqiu.XueQiuStockQuote;
+import com.swak.ai.invest.data.stock.xueqiu.XueQiuStockQuote;
 import lombok.Getter;
 import lombok.Setter;
 

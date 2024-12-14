@@ -11,7 +11,7 @@ import com.swak.ai.invest.dao.mapper.AccountStockPositionMapper;
 import com.swak.ai.invest.dao.mapper.StockDailyLineMapper;
 import com.swak.ai.invest.dao.mapper.StockMapper;
 import com.swak.ai.invest.dao.mapper.UserInvestAccountMapper;
-import com.swak.ai.invest.data.stock.quote.DefaultStockQuoteSpider;
+import com.swak.ai.invest.data.stock.base.StockDataSpiderManager;
 import com.swak.ai.invest.entity.buy.StockBuyContext;
 import com.swak.ai.invest.entity.buy.StockBuyPlanName;
 import com.swak.ai.invest.entity.buy.StockBuyPlanResult;
@@ -41,7 +41,7 @@ public class StockLeftFixedBuyStrategy implements StockBuyStrategyPlan {
 
 
     private final AccountStockPositionMapper accountStockPositionMapper;
-    private final DefaultStockQuoteSpider defaultStockQuoteSpider;
+    private final StockDataSpiderManager stockDataSpiderManager;
     private final UserInvestAccountMapper userInvestAccountMapper;
     private final StockBuyAmountService stockBuyAmountService;
     private final StockMapper stockMapper;
@@ -86,7 +86,7 @@ public class StockLeftFixedBuyStrategy implements StockBuyStrategyPlan {
         }
         planResult.setPosition(stockPosition);
 
-        StockQuote stockQuote = defaultStockQuoteSpider.spider(context.getTsCode());
+        StockQuote stockQuote = stockDataSpiderManager.quote(context.getTsCode());
         Assert.isFalse(stockQuote.isEmpty(), "实时股票信息获取失败");
 
         // 预计最低可能的股价

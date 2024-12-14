@@ -1,7 +1,8 @@
-package com.swak.ai.invest.data.third;
+package com.swak.ai.invest.data.stock.xueqiu;
 
 import com.alicp.jetcache.anno.CacheType;
 import com.alicp.jetcache.anno.Cached;
+import com.swak.ai.invest.common.exception.SpiderDataException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Connection;
@@ -29,7 +30,7 @@ public class XueQiuPcTokenHandler {
 
 
     @Cached(name = "xueQiuGetToken", expire = 60, timeUnit = TimeUnit.MINUTES, cacheType = CacheType.LOCAL)
-    public XueQiuPcToken getToken() throws Exception {
+    public XueQiuPcToken getToken() {
 
         try {
             XueQiuPcToken xueQiuPcToken = new XueQiuPcToken();
@@ -42,6 +43,8 @@ public class XueQiuPcTokenHandler {
             xueQiuPcToken.setCookies(cookies);
 
             return xueQiuPcToken;
+        } catch (Exception e) {
+            throw new SpiderDataException(e);
         } finally {
             webDriver.quit();
         }

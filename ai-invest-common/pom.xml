@@ -30,6 +30,10 @@
             <groupId>jakarta.validation</groupId>
             <artifactId>jakarta.validation-api</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.swak</groupId>
+            <artifactId>swak-client</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

@@ -1,4 +1,4 @@
-package com.swak.ai.invest.data.stock.quote;
+package com.swak.ai.invest.data.stock.xueqiu;
 
 import com.swak.ai.invest.common.entity.stock.StockTsCode;
 
