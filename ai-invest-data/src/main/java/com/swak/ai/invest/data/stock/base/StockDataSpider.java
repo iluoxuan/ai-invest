@@ -1,6 +1,8 @@
 package com.swak.ai.invest.data.stock.base;
 
+import com.swak.ai.invest.common.entity.MarketEnum;
 import com.swak.ai.invest.common.entity.stock.StockQuote;
+import com.swak.tushar.entity.basic.Stock;
 import com.swak.tushar.entity.trade.StockDailyBasic;
 import com.swak.tushar.entity.trade.StockTradeLine;
 
@@ -14,6 +16,8 @@ import java.util.List;
  */
 public interface StockDataSpider {
 
+    List<Stock> basic(MarketEnum market);
+
     /**
      * 实时数据
      *
@@ -24,7 +28,7 @@ public interface StockDataSpider {
     /**
      * dailyLine数据
      */
-    List<StockTradeLine> dailyLine(String tsCode) ;
+    List<StockTradeLine> dailyLine(String tsCode);
 
     /**
      * dailyBasic数据

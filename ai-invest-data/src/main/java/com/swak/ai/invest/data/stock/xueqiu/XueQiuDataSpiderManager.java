@@ -1,11 +1,11 @@
 package com.swak.ai.invest.data.stock.xueqiu;
 
 import cn.hutool.core.date.DateTime;
-import cn.hutool.core.util.NumberUtil;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONPath;
 import com.alicp.jetcache.anno.CacheType;
 import com.alicp.jetcache.anno.Cached;
+import com.swak.ai.invest.common.entity.MarketEnum;
 import com.swak.ai.invest.common.entity.stock.StockQuote;
 import com.swak.ai.invest.common.exception.SpiderDataException;
 import com.swak.ai.invest.data.config.SpiderUrl;
@@ -14,6 +14,7 @@ import com.swak.lib.common.tools.AssertTools;
 import com.swak.lib.common.tools.BeanTools;
 import com.swak.lib.common.tools.DateTools;
 import com.swak.lib.common.tools.StringTools;
+import com.swak.tushar.entity.basic.Stock;
 import com.swak.tushar.entity.trade.StockDailyBasic;
 import com.swak.tushar.entity.trade.StockTradeLine;
 import lombok.RequiredArgsConstructor;
@@ -39,6 +40,33 @@ public class XueQiuDataSpiderManager implements StockDataSpider {
 
     private final XueQuiStockManager xueQuiStockManager;
     private final XueQiuPcTokenHandler xueQiuPcTokenHandler;
+
+    /**
+     * https://stock.xueqiu.com/v5/stock/screener/quote/list.json?
+     * page=1&size=30&order=desc&order_by=percent&market=HK&type=hk
+     * &is_delay=true&md5__1632=n4RxBDuD9ii%3DDQe0%3DD%2FzWiQbeGKQhwhdhYTD
+     *
+     * @param market
+     * @return
+     */
+    @Override
+    public List<Stock> basic(MarketEnum market) {
+
+        // 获取某个市场的股票
+        XueQiuPcToken xueQiuPcToken = xueQiuPcTokenHandler.getToken();
+        // 抓取实时数据
+        String url = UriComponentsBuilder.fromHttpUrl(SpiderUrl.xueQiuDomain).path(SpiderUrl.klinePath)
+                .queryParam("page", 1)
+                .queryParam("size", 90)
+                .queryParam("order", "desc")
+                .queryParam("order_by", "market_capital")
+                .queryParam("type", market.name())
+                .queryParam("market", market.name())
+                .queryParam("is_delay", true)
+                .build().toUriString();
+        return null;
+
+    }
 
     @Cached(name = "xueQiu", key = "'quote:'+ #tsCode", expire = 60, cacheType = CacheType.LOCAL)
     @Override
