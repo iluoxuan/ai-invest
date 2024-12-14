@@ -34,7 +34,7 @@
 ## [数据来源](doc/md/数据来源.md)
 
 
-## [ai-agent方案](doc/md/ai-agent方案.md)
+## [ai-agent方案](doc/md/dify/ai-agent方案.md)
 
 
 ## [小程序端](doc/md/小程序端.md)
