@@ -1,4 +1,6 @@
 # 数据收集
+* 参考：https://github.com/Duxiaoman-DI/XuanYuan/issues/20  【度小满金融大模型】
+* 参考：https://github.com/MetaGLM/FinGLM 【智谱开源的金融大模型】
 
 * 有开源的，但是有些接口也需要付费
 * 抓取数据
