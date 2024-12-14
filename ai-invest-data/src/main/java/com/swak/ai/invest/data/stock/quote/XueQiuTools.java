@@ -11,6 +11,9 @@ public class XueQiuTools {
     public static String symbol(String tsCode) {
         // 转化为雪球的symbol
         StockTsCode stockTsCode = StockTsCode.create(tsCode);
+        if(stockTsCode.isHk()){
+            return stockTsCode.getSymbol();
+        }
         return stockTsCode.getMarket().toUpperCase() + stockTsCode.getSymbol();
 
     }

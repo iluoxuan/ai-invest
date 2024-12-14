@@ -19,6 +19,10 @@ public class StockTsCode {
 
     private String symbol;
 
+    public boolean isHk(){
+        return "HK".equals(this.market);
+    }
+
     public static StockTsCode create(String tsCode) {
         String[] strings = StrUtil.splitToArray(tsCode, '.');
         Assert.isTrue(strings.length == 2, "tsCode格式不正确");

@@ -3,13 +3,16 @@ package com.swak.ai.invest.job;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.date.DateTime;
 import cn.hutool.core.thread.ThreadUtil;
+import com.swak.ai.invest.common.entity.stock.StockTsCode;
 import com.swak.ai.invest.dao.domain.StockDailyBasicDo;
 import com.swak.ai.invest.dao.domain.StockDailyLineDo;
 import com.swak.ai.invest.dao.domain.StockDo;
 import com.swak.ai.invest.dao.mapper.StockDailyBasicMapper;
 import com.swak.ai.invest.dao.mapper.StockDailyLineMapper;
 import com.swak.ai.invest.dao.mapper.StockMapper;
+import com.swak.ai.invest.data.context.SpiderContext;
 import com.swak.ai.invest.data.stock.daily.DefaultStockDailyBasicSpider;
+import com.swak.ai.invest.data.xueqiu.XueQiuStockQuote;
 import com.swak.lib.common.log.Logs;
 import com.swak.lib.common.tools.BeanTools;
 import com.swak.lib.common.tools.DateTools;
@@ -98,6 +101,23 @@ public class StockDataSyncJob {
                 dailyBasic.setCreateTime(new Date());
                 dailyBasic.setUpdateTime(new Date());
                 stockDailyBasicMapper.insert(dailyBasic);
+
+                // 保存股票基本信息 测试先用
+                StockDo stockDo = stockMapper.getByTsCode(tsCode);
+                if (Objects.isNull(stockDo)) {
+
+                    XueQiuStockQuote quote = SpiderContext.getInstance().getXueQiuStockQuote();
+                    StockTsCode stockTsCode = StockTsCode.create(tsCode);
+                    stockDo.setCreateTime(new Date());
+                    stockDo.setTsCode(tsCode);
+                    stockDo.setMarket(stockTsCode.getMarket());
+                    stockDo.setSymbol(stockTsCode.getSymbol());
+                    stockDo.setName(quote.getName());
+                    stockDo.setExchange(quote.getExchange());
+                    stockMapper.insert(stockDo);
+
+                }
+
             }
 
         } catch (Exception e) {

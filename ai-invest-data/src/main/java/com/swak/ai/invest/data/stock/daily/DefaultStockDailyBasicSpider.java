@@ -1,7 +1,7 @@
 package com.swak.ai.invest.data.stock.daily;
 
 import cn.hutool.core.date.DateTime;
-import cn.hutool.core.util.NumberUtil;
+import com.swak.ai.invest.data.context.SpiderContext;
 import com.swak.ai.invest.data.xueqiu.XueQiuStockQuote;
 import com.swak.ai.invest.data.xueqiu.XueQuiStockManager;
 import com.swak.lib.common.tools.AssertTools;
@@ -26,6 +26,7 @@ public class DefaultStockDailyBasicSpider implements StockDailyBasicSpider {
 
         XueQiuStockQuote quote = xueQuiStockManager.getStockQuote(tsCode);
         AssertTools.notNull(quote, "获取当日股票信息为空");
+        SpiderContext.getInstance().setXueQiuStockQuote(quote);
 
         StockDailyBasic dailyBasic = BeanTools.copy(quote, StockDailyBasic.class);
         dailyBasic.setTsCode(tsCode);
