@@ -47,13 +47,10 @@ public class XueQiuDataSpiderManager implements StockDataSpider {
         XueQiuStockQuote quote = xueQuiStockManager.getStockQuote(tsCode);
 
         // 获取价格
-        StockQuote stockQuote = new StockQuote();
+        StockQuote stockQuote = BeanTools.copy(quote, StockQuote.class);
         stockQuote.setTsCode(tsCode);
         stockQuote.setCurrentPrice(quote.getCurrent());
         stockQuote.setPe(quote.getPeTtm());
-        stockQuote.setPercent(quote.getPercent());
-        stockQuote.setLow52w(quote.getLow52w());
-        stockQuote.setHigh52w(quote.getHigh52w());
         return stockQuote;
     }
 

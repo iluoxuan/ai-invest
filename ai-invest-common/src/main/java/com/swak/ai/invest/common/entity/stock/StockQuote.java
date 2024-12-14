@@ -31,6 +31,24 @@ public class StockQuote {
     // 涨跌幅
     private BigDecimal percent;
 
+    // 股票名称
+    private String name;
+
+    // 交易单位 手数
+    private int lotSize;
+
+    /**
+     * 交易所代码。
+     * 表示股票所在的交易所代码，如 "SZ" 表示深圳证券交易所，"SH" 表示上海证券交易所。
+     */
+    private String exchange;
+
+    /**
+     * 股息。
+     * 表示股票的股息。
+     */
+    private BigDecimal dividend;
+
     public boolean isEmpty() {
         return ObjectUtil.hasEmpty(currentPrice, pe);
     }

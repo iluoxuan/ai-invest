@@ -10,9 +10,7 @@ import com.swak.ai.invest.dao.domain.StockDo;
 import com.swak.ai.invest.dao.mapper.StockDailyBasicMapper;
 import com.swak.ai.invest.dao.mapper.StockDailyLineMapper;
 import com.swak.ai.invest.dao.mapper.StockMapper;
-import com.swak.ai.invest.data.context.SpiderContext;
 import com.swak.ai.invest.data.stock.base.StockDataSpiderManager;
-import com.swak.ai.invest.data.stock.xueqiu.XueQiuStockQuote;
 import com.swak.lib.common.log.Logs;
 import com.swak.lib.common.tools.BeanTools;
 import com.swak.lib.common.tools.DateTools;
@@ -101,21 +99,19 @@ public class StockDataSyncJob {
                 dailyBasic.setCreateTime(new Date());
                 dailyBasic.setUpdateTime(new Date());
                 stockDailyBasicMapper.insert(dailyBasic);
-
             }
 
             // 保存股票基本信息 测试先用
             StockDo stockDo = stockMapper.getByTsCode(tsCode);
             if (Objects.isNull(stockDo)) {
                 stockDo = new StockDo();
-                XueQiuStockQuote quote = SpiderContext.getInstance().getXueQiuStockQuote();
                 StockTsCode stockTsCode = StockTsCode.create(tsCode);
                 stockDo.setCreateTime(new Date());
                 stockDo.setTsCode(tsCode);
                 stockDo.setMarket(stockTsCode.getMarket());
                 stockDo.setSymbol(stockTsCode.getSymbol());
-                stockDo.setName(quote.getName());
-                stockDo.setExchange(quote.getExchange());
+                stockDo.setName(stockDailyBasic.getName());
+                stockDo.setExchange(stockTsCode.getMarket());
                 stockMapper.insert(stockDo);
             }
 
