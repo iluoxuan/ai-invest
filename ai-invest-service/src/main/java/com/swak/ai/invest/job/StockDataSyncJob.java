@@ -127,10 +127,9 @@ public class StockDataSyncJob {
     private void syncDailyLIne(String tsCode, TradeReq req) {
         List<StockTradeLine> dailyTrades = tradeDataApi.daily(req);
         //
-        if(CollectionUtil.isEmpty(dailyTrades)){
-            //
+        if (CollectionUtil.isEmpty(dailyTrades)) {
+            dailyTrades = stockDataSpiderManager.dailyLine(tsCode);
         }
-
 
         batchSave(dailyTrades, stockTradeLine -> {
             try {

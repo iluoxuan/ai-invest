@@ -4,6 +4,8 @@ import com.swak.ai.invest.common.entity.stock.StockQuote;
 import com.swak.tushar.entity.trade.StockDailyBasic;
 import com.swak.tushar.entity.trade.StockTradeLine;
 
+import java.util.List;
+
 /**
  * 数据爬虫接口
  *
@@ -22,7 +24,7 @@ public interface StockDataSpider {
     /**
      * dailyLine数据
      */
-    StockTradeLine dailyLine(String tsCode) ;
+    List<StockTradeLine> dailyLine(String tsCode) ;
 
     /**
      * dailyBasic数据

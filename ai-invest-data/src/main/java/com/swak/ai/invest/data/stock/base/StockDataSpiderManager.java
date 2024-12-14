@@ -36,8 +36,8 @@ public class StockDataSpiderManager implements StockDataSpider {
     }
 
     @Override
-    public StockTradeLine dailyLine(String tsCode) {
-        return null;
+    public List<StockTradeLine> dailyLine(String tsCode) {
+        return callSpider(tsCode, spider -> spider.dailyLine(tsCode));
     }
 
     @Override
@@ -45,7 +45,7 @@ public class StockDataSpiderManager implements StockDataSpider {
         return callSpider(tsCode, spider -> spider.dailyBasic(tsCode));
     }
 
-    public <T> T callSpider(String tsCode, Function<StockDataSpider, T> spiderFunction) {
+    private <T> T callSpider(String tsCode, Function<StockDataSpider, T> spiderFunction) {
         for (StockDataSpider spider : stockDataSpiders) {
             try {
                 return spiderFunction.apply(spider);
