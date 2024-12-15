@@ -14,7 +14,7 @@
 				</view>
 			</view>
 			<view class="value">
-				<input type="text" placeholder="计划加仓金额" v-model="planAmount" @blur="leftBuy" />
+				<input type="text" placeholder="调整加仓金额" v-model="planAmount" @blur="leftBuy" />
 			</view>
 
 		</view>
