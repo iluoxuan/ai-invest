@@ -5,14 +5,14 @@
 			<view class="tip">您当前账户剩余资金{{ position.planAmount}}</view>
 			<view class="tip">AI推荐加仓金额{{ position.availableAmount }}</view>
 			<view class="value">
-				<input type="text" placeholder="输入计划加仓金额" v-model="planAmount" @blur="leftBuy" />
+				<input type="text" placeholder="计划加仓金额" v-model="planAmount" @blur="leftBuy" />
 			</view>
 
 		</view>
 
 		<view class="stock">
 
-			<view class="title">{{ stockInfo.cnName }}( {{ stockInfo.symbol }})</view>
+			<view class="title">{{ stockInfo.cnName }}({{ stockInfo.symbol }})</view>
 			<view class="card">
 
 				<view class="header">
@@ -60,8 +60,8 @@
 				<text class="column-title">PE\n市值</text>
 			</view>
 			<view class="row" v-for="(holding, index) in holdings" :key="index">
-				<text class="column-value total-loss-container"> 
-				   <text class="total-loss-green">-{{ toPercentage(holding.fallRate) }}</text>
+				<text class="column-value total-loss-container">
+					<text class="total-loss-green">-{{ toPercentage(holding.fallRate) }}</text>
 				</text>
 				<text class="column-value">{{ holding.currentPrice }} \n {{ holding.buyAvgPrice }}</text>
 				<text class="column-value total-loss-container">
@@ -175,11 +175,11 @@
 	.container {
 		display: flex;
 		flex-direction: column;
-		background-color: #fcfcfc;
+		background-color: #ffffff;
 		height: 100vh;
 
 		.account {
-			background-color: #f9f9f9;
+			background-color: #ffffff;
 			border-radius: 10rpx;
 			padding: 20rpx;
 			margin-bottom: 20rpx;
@@ -219,33 +219,46 @@
 				font-size: 32rpx;
 				font-weight: bold;
 				margin-bottom: 20rpx;
+				font-family: 'Microsoft YaHei', sans-serif;
 			}
 
 			.card {
 				background-color: #fff;
-				border-radius: 10rpx;
-				box-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.1);
-				margin-bottom: 20rpx;
+				border-radius: 5rpx;
+				box-shadow: 0 1rpx 4rpx rgba(0, 0, 0, 0.1);
+				margin-bottom: 1rpx;
 				padding: 20rpx;
 
 				.header {
 					display: flex;
 					justify-content: space-between;
+					text-align: center;
+					align-items: center;
 					margin-bottom: 10rpx;
 
 					.column-title {
+						flex: 1;
+						/* 让每个标题占据相等的空间 */
 						font-size: 28rpx;
-						color: #333;
+						color: #8c8488;
+						min-width: 80rpx;
+						/* 设置最小宽度，防止内容过短时占位不足 */
 					}
 				}
 
 				.row {
 					display: flex;
 					justify-content: space-between;
+					text-align: center;
+					align-items: center;
 
 					.column-value {
-						font-size: 24rpx;
-						color: #666;
+						flex: 1;
+						/* 让每个值占据相等的空间 */
+						font-size: 26rpx;
+						color: #181928;
+						min-width: 80rpx;
+						/* 设置最小宽度，防止内容过短时占位不足 */
 					}
 				}
 			}
