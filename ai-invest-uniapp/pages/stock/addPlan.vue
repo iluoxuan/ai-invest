@@ -6,11 +6,11 @@
 			<view class="info-box">
 				<view class="info-item">
 					<text class="info-label">账户剩余资金： </text>
-					<text class="info-value">{{ position.planAmount }}</text>
+					<text class="info-value">{{ position.availableAmount }}</text>
 				</view>
 				<view class="info-item">
 					<text class="info-label">推荐加仓金额： </text>
-					<text class="info-value">{{ position.availableAmount }}</text>
+					<text class="info-value">{{ position.planAmount }}</text>
 				</view>
 			</view>
 			<view class="value">
