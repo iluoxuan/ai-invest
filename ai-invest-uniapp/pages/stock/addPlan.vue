@@ -2,8 +2,17 @@
 	<view class="container">
 
 		<view class="account">
-			<view class="tip">您当前账户剩余资金{{ position.planAmount}}</view>
-			<view class="tip">AI推荐加仓金额{{ position.availableAmount }}</view>
+
+			<view class="info-box">
+				<view class="info-item">
+					<text class="info-label">账户剩余资金： </text>
+					<text class="info-value">{{ position.planAmount }}</text>
+				</view>
+				<view class="info-item">
+					<text class="info-label">推荐加仓金额： </text>
+					<text class="info-value">{{ position.availableAmount }}</text>
+				</view>
+			</view>
 			<view class="value">
 				<input type="text" placeholder="计划加仓金额" v-model="planAmount" @blur="leftBuy" />
 			</view>
@@ -181,22 +190,36 @@
 		.account {
 			background-color: #ffffff;
 			border-radius: 10rpx;
-			padding: 20rpx;
+			padding: 10rpx;
 			margin-bottom: 20rpx;
 
-			.tip {
-				font-size: 28rpx;
-				color: #333;
-				margin-top: 10rpx;
-				margin-bottom: 10rpx;
-				margin-left: 10rpx;
-			}
+			.info-box {
+			    padding: 10rpx;
+			    background-color: #fcebe3;
+			  }
+			
+			  .info-item {
+			    display: flex;
+			    justify-content: flex-start;
+			    align-items: center;
+			    padding: 10rpx 0;
+			  }
+			  .info-label {
+			    font-size: 28rpx;
+			    color: #333;
+			  }
+			
+			  .info-value {
+			    font-size: 28rpx;
+			    color: #ee2e0e;
+			    font-weight: bold;
+			  }
 
 			.value {
 				display: flex;
 				align-items: center;
 				border-radius: 1rpx;
-				margin-top: 10rpx;
+				margin-top: 20rpx;
 				margin-left: 10rpx;
 				margin-bottom: 10rpx;
 				border-bottom: 1px solid #fcebe3;
@@ -213,7 +236,7 @@
 		}
 
 		.stock {
-			padding: 20rpx;
+			padding: 10rpx;
 
 			.title {
 				font-size: 32rpx;
@@ -239,7 +262,7 @@
 					.column-title {
 						flex: 1;
 						/* 让每个标题占据相等的空间 */
-						font-size: 28rpx;
+						font-size: 26rpx;
 						color: #8c8488;
 						min-width: 80rpx;
 						/* 设置最小宽度，防止内容过短时占位不足 */
@@ -265,7 +288,7 @@
 		}
 
 		.holdings {
-			margin-top: 10rpx;
+			margin: 10rpx;
 			margin-bottom: 25rpx;
 			background-color: #ffffff;
 
@@ -273,13 +296,13 @@
 				display: flex;
 				justify-content: space-between;
 				background-color: #fcebe3;
-				padding: 10rpx 0;
+				padding: 10rpx 2rpx;
 
 				.column-title {
 					flex: 1;
 					text-align: center;
-					font-size: 28rpx;
-					color: #181928;
+					font-size: 26rpx;
+					color: #8c8488;
 				}
 			}
 
