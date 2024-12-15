@@ -3,6 +3,7 @@ package com.swak.ai.invest.service.buy;
 import cn.hutool.core.lang.Assert;
 import com.swak.ai.invest.common.entity.stock.StockLow;
 import com.swak.ai.invest.common.entity.stock.StockQuote;
+import com.swak.ai.invest.common.tools.BigDecimalTools;
 import com.swak.ai.invest.context.UserContext;
 import com.swak.ai.invest.dao.domain.AccountStockPositionDo;
 import com.swak.ai.invest.dao.domain.StockDo;
@@ -103,6 +104,7 @@ public class StockLeftFixedBuyStrategy implements StockBuyStrategyPlan {
         BigNumber totalBuyAmount = BigNumber.ZERO;
         int totalShares = 0;
         planResult.setBuyCnt(maxBuyCnt);
+        BigNumber totalMv = BigNumber.of(stockQuote.getMarketCapital());
 
         for (int i = 1; i <= maxBuyCnt; i++) {
 
@@ -110,7 +112,7 @@ public class StockLeftFixedBuyStrategy implements StockBuyStrategyPlan {
             int minShares = (int) Math.ceil(eachBuyAmount.divScale2(currentPrice).doubleValue() / 100) * 100;
 
             StockBuyPlanUnit planUnit = new StockBuyPlanUnit();
-            StockChange stockChange = new StockChange(stockQuote.getPe(), currentPrice, fallRate);
+            StockChange stockChange = new StockChange(stockQuote.getPe(), totalMv, currentPrice, fallRate);
             planUnit.setFallRate(fallRate.getValue());
 
             fallRate = fallRate.add(context.getFallRate());
@@ -124,6 +126,7 @@ public class StockLeftFixedBuyStrategy implements StockBuyStrategyPlan {
             // 计算当前持仓总亏损
             BigNumber currentLoss = stockChange.getPrice().sub(averageCost).mul(totalShares).round2HalfUp();
 
+            planUnit.setCurrentTotalMv(BigDecimalTools.formatMarketMv(stockChange.getTotalMv().getValue()));
             planUnit.setBuyAvgPrice(averageCost.getValue());
             planUnit.setPe(stockChange.getPe());
             planUnit.setCurrentPrice(stockChange.getPrice().getValue());

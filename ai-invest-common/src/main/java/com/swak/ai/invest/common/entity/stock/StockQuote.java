@@ -43,6 +43,8 @@ public class StockQuote {
      */
     private String exchange;
 
+    private BigDecimal marketCapital;
+
     /**
      * 股息。
      * 表示股票的股息。

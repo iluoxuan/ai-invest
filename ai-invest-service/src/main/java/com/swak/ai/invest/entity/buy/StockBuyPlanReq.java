@@ -18,7 +18,7 @@ public class StockBuyPlanReq {
     private String tsCode;
 
     @ApiModelProperty("涨跌幅度")
-    private Double fallRate = 0.02;
+    private Double fallRate = 0.01;
 
     @ApiModelProperty("计划加仓金额")
     private BigDecimal planAmount;

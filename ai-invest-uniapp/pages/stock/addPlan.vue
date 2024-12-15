@@ -54,20 +54,21 @@
 		<!-- 持仓分时 -->
 		<view class="holdings">
 			<view class="header">
-				<text class="column-title">跌幅</text>
-				<text class="column-title">股价</text>
-				<text class="column-title">均价</text>
-				<text class="column-title">总金额/亏损</text>
-				<text class="column-title">总买入</text>
-				<text class="column-title">PE</text>
+				<text class="column-title">总跌幅</text>
+				<text class="column-title">当前股价 \n 买入均价</text>
+				<text class="column-title">总买入\n总亏损</text>
+				<text class="column-title">PE\n市值</text>
 			</view>
 			<view class="row" v-for="(holding, index) in holdings" :key="index">
-				<text class="column-value">-{{ toPercentage(holding.fallRate) }}</text>
-				<text class="column-value">{{ holding.currentPrice }}</text>
-				<text class="column-value">{{ holding.buyAvgPrice }}</text>
-				<text class="column-value">{{ holding.totalLoss }}</text>
-				<text class="column-value">{{ holding.totalBuyAmount }}</text>
-				<text class="column-value">{{ holding.pe }}</text>
+				<text class="column-value total-loss-container"> 
+				   <text class="total-loss-green">-{{ toPercentage(holding.fallRate) }}</text>
+				</text>
+				<text class="column-value">{{ holding.currentPrice }} \n {{ holding.buyAvgPrice }}</text>
+				<text class="column-value total-loss-container">
+					<text>{{ holding.totalBuyAmount }}</text><br />
+					<text class="total-loss-green">{{ holding.totalLoss }}</text>
+				</text>
+				<text class="column-value">{{ holding.pe }} \n {{ holding.currentTotalMv }}</text>
 			</view>
 		</view>
 
@@ -101,7 +102,7 @@
 
 			toPercentage(value) {
 				if (!value) return '0%';
-				return (value * 100).toFixed(2) + '%';
+				return (value * 100).toFixed(0) + '%';
 			},
 
 			// 定义一个包装函数，返回 Promise
@@ -265,7 +266,7 @@
 					flex: 1;
 					text-align: center;
 					font-size: 28rpx;
-					color: rgba(0, 0, 0, 0.6);
+					color: #181928;
 				}
 			}
 
@@ -282,8 +283,22 @@
 					flex: 1;
 					text-align: center;
 					font-size: 28rpx;
-					color: #ea3538;
+					color: #181928;
+					font-family: 'Microsoft YaHei', sans-serif;
 				}
+
+				.total-loss-container {
+					text-align: center;
+					font-size: 28rpx;
+				}
+
+				.total-loss-green {
+					color: green;
+					display: block;
+					/* 确保换行生效 */
+				}
+
+
 
 				&:last-child {
 					box-shadow: none;

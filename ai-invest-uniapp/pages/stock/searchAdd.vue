@@ -190,7 +190,8 @@
 					flex: 1;
 					text-align: center;
 					font-size: 28rpx;
-					color: #ea3538;
+					color: #181928;
+					font-family: 'Microsoft YaHei', sans-serif;
 				}
 
 				&:last-child {

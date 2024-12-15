@@ -33,7 +33,7 @@ public class StockBuyPlanUnit {
     private BigDecimal currentPrice;
 
     // 当前公司总市值
-    private BigDecimal currentTotalMv;
+    private String currentTotalMv;
 
     // 买入股数
     private int shares;

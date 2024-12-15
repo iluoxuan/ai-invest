@@ -2,6 +2,7 @@ package com.swak.ai.invest.service.covert;
 
 import com.swak.ai.invest.common.entity.stock.StockLow;
 import com.swak.ai.invest.common.entity.stock.StockQuote;
+import com.swak.ai.invest.common.tools.BigDecimalTools;
 import com.swak.ai.invest.dao.domain.StockDailyBasicDo;
 import com.swak.ai.invest.dao.domain.StockDo;
 import com.swak.ai.invest.dao.mapper.StockDailyBasicMapper;
@@ -37,7 +38,7 @@ public class StockCovertService {
         stockInfo.setTsCode(stock.getTsCode());
         stockInfo.setSymbol(stock.getSymbol());
         StockDailyBasicDo dailyBasic = stockDailyBasicMapper.getByTsCode(stock.getTsCode());
-        stockInfo.setTotalMv(dailyBasic.getTotalMv());
+        stockInfo.setTotalMv(BigDecimalTools.formatMarketMv(dailyBasic.getTotalMv()));
         stockInfo.setCnName(stock.getName());
 
         // 实时股价

@@ -1,6 +1,7 @@
 package com.swak.ai.invest.common.tools;
 
 
+import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.StrUtil;
 
 import java.math.BigDecimal;
@@ -31,6 +32,27 @@ public class BigDecimalTools {
         }
         DecimalFormat df = new DecimalFormat("#,##0.00");
         return df.format(value);
+    }
+
+    /**
+     * 设置单位是 亿
+     */
+    public static String formatMarketMv(BigDecimal totalMv) {
+        if (Objects.isNull(totalMv)) {
+            return StrUtil.EMPTY;
+        }
+
+        if (NumberUtil.isGreater(totalMv, BigDecimalTools.TRILLION)) {
+            BigDecimal value = NumberUtil.div(totalMv, BigDecimalTools.TRILLION, 3);
+            return BigDecimalTools.format(value) + "万亿";
+
+        }
+        if (NumberUtil.isGreater(totalMv, BigDecimalTools.BILLION)) {
+            BigDecimal value = NumberUtil.div(totalMv, BigDecimalTools.BILLION, 3);
+            return BigDecimalTools.format(value) + "亿";
+
+        }
+        return "1亿内";
     }
 
     public static void main(String[] args) {

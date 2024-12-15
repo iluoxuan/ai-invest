@@ -1,98 +1,96 @@
 <template>
-	<view class="page">
-		<view class="prompt-container">
-			<view class="prompt-text">
-				如果你是中长线投资，三个月以上
-			</view>
-			<view class="prompt-text">
-
-			</view>
-
-		</view>
-		<view class="prompt-text">
-			请点击开始盘点大概家庭资产
-		</view>
-		<view class="item" @click="handleClick('盘点')">
-			<view class="content">
-				<text class="title">盘点</text>
-			</view>
-		</view>
-	</view>
+  <view class="stock - container">
+    <view class="stock - header">
+      <text>名称</text>
+      <text>代码</text>
+      <text>价格</text>
+      <text>涨跌幅(%)</text>
+      <text>涨跌值</text>
+    </view>
+    <view class="stock - item" v - for="(stock, index) in stockList" :key="index">
+      <text class="stock - name">{{stock.name}}</text>
+      <text class="stock - code">{{stock.code}}</text>
+      <text :class="['stock - price', stock.change > 0? 'stock - up' : 'stock - down']">{{stock.price}}</text>
+      <text :class="['stock - change - percent', stock.change > 0? 'stock - up' : 'stock - down']">{{stock.changePercent}}%</text>
+      <text :class="['stock - change - value', stock.change > 0? 'stock - up' : 'stock - down']">{{stock.changeValue}}</text>
+    </view>
+  </view>
 </template>
 
 <script>
-	export default {
-		data() {
-			return {};
-		},
-		methods: {
-			handleClick(item) {
-				console.log(`点击了 ${item}`);
-				uni.navigateTo({
-					url: '/pages/start/stepTwo'
-				});
-			}
-		}
-	};
+export default {
+  data() {
+    return {
+      stockList: [
+        {
+          name: "南方恒生科技",
+          code: "HK3033",
+          price: "4.378",
+          change: - 3.06,
+          changePercent: - 3.06,
+          changeValue: - 0.138
+        },
+        {
+          name: "标普500ETF",
+          code: "513500",
+          price: "2.244",
+          change: 0.54,
+          changePercent: 0.54,
+          changeValue: 0.012
+        },
+        // 在此处添加其他股票数据，按照图片中的格式依次添加
+      ]
+    }
+  }
+}
 </script>
 
-<style lang="scss" scoped>
-	.page {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		min-height: 95vh;
-		background-color: #fcfcfc;
-		/* 设置背景颜色 */
-		position: relative;
-		/* 使 prompt-container 能够相对于 page 定位 */
-	}
+<style scoped>
+.stock - container {
+  display: flex;
+  flex - direction: column;
+}
 
-	.prompt-container {
-		width: 80%;
-		/* 控制提示框的宽度 */
-		margin-bottom: 120rpx;
-		text-align: left;
-		/* 文本左对齐 */
-	}
+.stock - header {
+  display: flex;
+  justify - content: space - between;
+  background - color: #f2f2f2;
+  padding: 10px;
+  margin - bottom: 10px;
+}
 
-	.prompt-text {
-		font-size: 36rpx;
-		color: #dca476;
-		/* 设置文字颜色 */
-		margin-bottom: 10rpx;
-		/* 段落之间间距 */
-	}
+.stock - item {
+  display: flex;
+  justify - content: space - between;
+  padding: 10px;
+  border - bottom: 1px solid #ccc;
+}
 
-	.item {
-		width: 45%;
-		height: 150rpx;
-		background-color: #fcebe3;
-		/* 参考图片中的背景色 */
-		border-radius: 10rpx;
-		overflow: hidden;
-		display: flex;
-		align-items: center;
-		/* 垂直居中 */
-		justify-content: center;
-		/* 水平居中 */
+.stock - name {
+  width: 150px;
+}
 
-		.content {
-			text-align: center;
-			/* 文字水平居中 */
-			padding: 20rpx;
-			box-sizing: border-box;
+.stock - code {
+  width: 100px;
+}
 
-			.title {
-				font-size: 45rpx;
-				color: #dca476;
-				/* 参考图片中的文字颜色 */
-				line-height: 1.2;
-				/* 控制行高 */
-				font-weight: bold;
-				/* 字体加粗 */
-			}
-		}
-	}
+.stock - price {
+  width: 100px;
+}
+
+.stock - change - percent {
+  width: 100px;
+}
+
+.stock - change - value {
+  width: 100px;
+}
+
+.stock - up {
+  color: red;
+}
+
+.stock - down {
+  color: green;
+}
 </style>

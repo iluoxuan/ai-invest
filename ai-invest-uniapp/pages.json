@@ -51,7 +51,7 @@
 		{
 			"path": "pages/stock/addPlan",
 			"style": {
-				"navigationBarTitleText": "加仓计划"
+				"navigationBarTitleText": "左侧加仓计划"
 			}
 		}
 	],

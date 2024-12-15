@@ -23,13 +23,16 @@ public class StockChange {
     // 涨跌幅
     private BigNumber pctChg;
 
+    // 当前总市值
+    private BigNumber totalMv;
+
     // 计算每股收益（EPS）
     private BigDecimal esp;
 
     // 1 涨 2 跌
     private int up = 2;
 
-    public StockChange(BigDecimal pe, BigNumber price, BigNumber pctChg) {
+    public StockChange(BigDecimal pe, BigNumber price, BigNumber totalMv, BigNumber pctChg) {
 
         this.pe = pe;
         this.price = price;
@@ -41,6 +44,11 @@ public class StockChange {
             changePrice();
             this.pe = this.price.divScale2(esp).getValue();
         }
+
+        // 计算当前总市值
+        // 直接使用跌幅计算新的总市值
+        this.totalMv = this.totalMv.mul(BigNumber.ONE.add(pctChg)).round2HalfUp();
+
 
     }
 
