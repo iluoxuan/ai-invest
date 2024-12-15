@@ -112,7 +112,7 @@ public class StockLeftFixedBuyStrategy implements StockBuyStrategyPlan {
             int minShares = (int) Math.ceil(eachBuyAmount.divScale2(currentPrice).doubleValue() / 100) * 100;
 
             StockBuyPlanUnit planUnit = new StockBuyPlanUnit();
-            StockChange stockChange = new StockChange(stockQuote.getPe(), totalMv, currentPrice, fallRate);
+            StockChange stockChange = new StockChange(stockQuote.getPe(), currentPrice, totalMv, fallRate);
             planUnit.setFallRate(fallRate.getValue());
 
             fallRate = fallRate.add(context.getFallRate());

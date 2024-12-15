@@ -38,17 +38,16 @@ public class StockChange {
         this.price = price;
         this.pctChg = pctChg;
         this.esp = price.divScale2(pe).getValue();
+        this.totalMv = totalMv;
 
         // 有涨跌幅重新计算
         if (BigNumber.ZERO.compareTo(pctChg) != 0) {
             changePrice();
             this.pe = this.price.divScale2(esp).getValue();
+            // 计算当前总市值
+            // 直接使用跌幅计算新的总市值
+            this.totalMv = this.totalMv.mul(BigNumber.ONE.sub(pctChg)).round2HalfUp();
         }
-
-        // 计算当前总市值
-        // 直接使用跌幅计算新的总市值
-        this.totalMv = this.totalMv.mul(BigNumber.ONE.add(pctChg)).round2HalfUp();
-
 
     }
 
