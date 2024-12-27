@@ -19,6 +19,7 @@
         <module>ai-invest-data</module>
         <module>tushare-java-sdk</module>
         <module>ai-invest-common</module>
+        <module>ai-invest-agent</module>
     </modules>
 
     <properties>
