@@ -9,5 +9,6 @@
 * 解析结果
 
 ## langChain4j 文档&教程
+* 提示词工程教程： https://www.promptingguide.ai/zh
 * https://juejin.cn/post/7386960505960972303
 
