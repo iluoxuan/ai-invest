@@ -68,3 +68,9 @@ jetcache:
       keyConvertor: fastjson2 #other choose：fastjson/jackson
       limit: 10000
 
+langchain4j:
+  ollama:
+    chat-model:
+      base-url: http://localhost:11434
+      model-name: qwen:7b
+

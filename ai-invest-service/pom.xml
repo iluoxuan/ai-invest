@@ -32,6 +32,10 @@
             <groupId>com.swak.ai.invest</groupId>
             <artifactId>ai-invest-data</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.swak.ai.invest</groupId>
+            <artifactId>ai-invest-agent</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>com.github.binarywang</groupId>

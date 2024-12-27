@@ -35,7 +35,13 @@
     <dependencyManagement>
 
         <dependencies>
-
+            <dependency>
+                <groupId>dev.langchain4j</groupId>
+                <artifactId>langchain4j-bom</artifactId>
+                <version>1.0.0-alpha1</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
             <dependency>
                 <groupId>com.swak.ai.invest</groupId>
                 <artifactId>ai-invest-dao</artifactId>
@@ -54,6 +60,11 @@
             <dependency>
                 <groupId>com.swak.ai.invest</groupId>
                 <artifactId>ai-invest-data</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.swak.ai.invest</groupId>
+                <artifactId>ai-invest-agent</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
