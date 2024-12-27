@@ -8,7 +8,9 @@
 * 转换提示词---> 大模型
 * 解析结果
 
+## 提示词教程
+* https://learnprompting.org/zh-Hans/docs/introduction
+
 ## langChain4j 文档&教程
-* 提示词工程教程： https://www.promptingguide.ai/zh
 * https://juejin.cn/post/7386960505960972303
 
