@@ -32,7 +32,7 @@ public interface StockMapper extends BaseMapper<StockDo> {
 
     default List<StockDo> search(StockSearchReq req) {
         return selectList(Wrappers.lambdaQuery(StockDo.class)
-                .like(StockDo::getTsCode, req.getKeyWord()).or().like(StockDo::getCnSpell, req.getKeyWord())
+                .like(StockDo::getTsCode, req.getKeyWord()).or().eq(StockDo::getCnSpell, req.getKeyWord())
                 .last(LimitSql.of(req.getLimit()).toStr())
         );
     }
