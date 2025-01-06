@@ -15,3 +15,7 @@
 ## langChain4j 文档&教程
 * https://juejin.cn/post/7386960505960972303
 
+
+## langChain springboot
+* 目前只是支持spring3.2以后
+

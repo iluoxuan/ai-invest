@@ -33,6 +33,6 @@ public class StockDataSyncJobTest {
 
     @Test
     public void testSyncDailyByTsCode() {
-        stockDataSyncJob.syncDailyByTsCode("09988.HK");
+        stockDataSyncJob.syncDailyByTsCode("01024.HK");
     }
 }

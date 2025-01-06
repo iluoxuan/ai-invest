@@ -3,7 +3,9 @@ package com.swak.ai.invest.job;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.date.DateTime;
 import cn.hutool.core.thread.ThreadUtil;
+import com.github.promeg.pinyinhelper.Pinyin;
 import com.swak.ai.invest.common.entity.stock.StockTsCode;
+import com.swak.ai.invest.common.tools.PinyinTools;
 import com.swak.ai.invest.dao.domain.StockDailyBasicDo;
 import com.swak.ai.invest.dao.domain.StockDailyLineDo;
 import com.swak.ai.invest.dao.domain.StockDo;
@@ -112,12 +114,20 @@ public class StockDataSyncJob {
                 stockDo.setSymbol(stockTsCode.getSymbol());
                 stockDo.setName(stockDailyBasic.getName());
                 stockDo.setExchange(stockTsCode.getMarket());
+                stockDo.setCnSpell(PinyinTools.toCnSpell(stockDailyBasic.getName()));
                 stockMapper.insert(stockDo);
             }
 
         } catch (Exception e) {
             Logs.error("syncDailyByTsCode", e, tsCode);
         }
+    }
+
+    public static void main(String[] args) {
+        String test = Pinyin.toPinyin("快手-w", "#");
+
+
+        System.out.println(test);
     }
 
     private void syncDailyLIne(String tsCode, TradeReq req) {
