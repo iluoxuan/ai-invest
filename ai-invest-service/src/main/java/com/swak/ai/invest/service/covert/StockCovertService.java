@@ -38,7 +38,9 @@ public class StockCovertService {
         stockInfo.setTsCode(stock.getTsCode());
         stockInfo.setSymbol(stock.getSymbol());
         StockDailyBasicDo dailyBasic = stockDailyBasicMapper.getByTsCode(stock.getTsCode());
-        stockInfo.setTotalMv(BigDecimalTools.formatMarketMv(dailyBasic.getTotalMv()));
+        if(Objects.nonNull(dailyBasic)){
+            stockInfo.setTotalMv(BigDecimalTools.formatMarketMv(dailyBasic.getTotalMv()));
+        }
         stockInfo.setCnName(stock.getName());
 
         // 实时股价
